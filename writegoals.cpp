@@ -6,6 +6,8 @@
 #include<iostream.h>
 #include<fstream.h>
 
+//added a comment!
+
 
 struct Goaldata
 {
