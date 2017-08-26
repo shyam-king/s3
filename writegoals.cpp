@@ -1,3 +1,5 @@
+/* THIS FILE IS TO WRITE TO GOALDATA.DAT
+*/
 #include<conio.h>
 #include<iomanip.h>
 #include<stdio.h>
