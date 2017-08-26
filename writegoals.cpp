@@ -1,4 +1,5 @@
 #include<conio.h>
+#include<iomanip.h>
 #include<stdio.h>
 #include<string.h>
 #include<ctype.h>
@@ -80,7 +81,7 @@ void printAllGoals()
 	ifstream file("GOALDATA.DAT");
 	Goaldata g;
 	clrscr();
-	while(file.read((char*)&g sizeof(g)))
+	while(file.read((char*)&g , sizeof(g)))
 	{
 		clrscr();
 		puts(g.title);
@@ -138,6 +139,7 @@ void main()
 				cin >> i;
 
 				insertGoalToFile(g, i);
+				break;
 			case 3: 
 				cin >> i;
 				g = viewGoalFromFile(i);
