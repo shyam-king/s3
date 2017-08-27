@@ -912,10 +912,6 @@ void House::houseInteract(House *houses, int n, char k)
 
 			sprintf(tsstr, "%d %d", houses[i].x, houses[i].y);
 
-			setcolor(YELLOW);
-			setfillstyle(SOLID_FILL, YELLOW);
-			drawtline(originX + houses[i].x - 150 , 50 + originY + houses[i].y, originX + houses[i].x, 50+originY + houses[i].y + 150, 8);
-			drawtline(originX + houses[i].x + 150 , 50 + originY + houses[i].y, originX + houses[i].x, 50+originY + houses[i].y + 150, 8);
 
 		}
 		population += houses[i].population;
@@ -1436,12 +1432,8 @@ void plotter(int x,int y,int d,int c,int woc,int goc,int wic,int pic,int gic,int
 	}
 }
 
-void House :: buildHouse(House houses)
+void House :: buildHouse(House &h)
 {
-	House h;
-
-
-	h = houses;
 	plotter(originX + h.x, originY + h.y + 50, h.direction, h.c, h.woc, h.goc, h.wic, h.pic, h.gic, h.wfill, h.pfill, h.gfill);
 
 	int i;
@@ -1451,6 +1443,12 @@ void House :: buildHouse(House houses)
 	}
 	if  (i) plotter(originX + h.x, originY + h.y + 50 - (50 * (i)), 10, 100, WHITE, h.goc, h.color2, h.color1, h.gic, h.wfill, INTERLEAVE_FILL, h.gfill);
 
+	if (EDITMODE == MOVE_MODE && MovingHouse == &h)
+	{
+		setfillstyle(SOLID_FILL, YELLOW);
+		drawtline(originX + h.x - 150 , 50 + originY + h.y, originX + h.x, 50+originY + h.y + 150, 8);
+		drawtline(originX + h.x + 150 , 50 + originY + h.y, originX + h.x, 50+originY + h.y + 150, 8);
+	}
 
 }
 
