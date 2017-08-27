@@ -4,7 +4,57 @@ class  FILE_OPERATIONS
 {
 	fstream  f;
 	public :
-	void updation (PLAYER a,House b[30],Tree c[30])
+
+	PLAYER loadPlayer(int n)
+	{
+		f.open("Player.dat", ios::ate|ios::in);
+		f.seekg(n * sizeof(PLAYER));
+		PLAYER a;
+		f.read((char*)&a, sizeof(PLAYER));
+		f.close();
+		return a;
+	}
+
+	void loadHouse (House h[30], int n)
+	{
+		f.open("House.dat", ios::in | ios::ate);
+		f.seekg(n * sizeof(h));
+		f.read((char*)h, sizeof(h));
+		f.close();
+	}
+
+	int loadGoalIndex(int n)
+	{
+		f.open("goals.dat", ios::in );
+		f.seekg(sizeof(n) * n);
+		f.read((char*)&n, sizeof(n));
+		f.close();
+		return n;
+	}
+
+	void loadTrees (Tree t[30], int n)
+	{
+		f.open("Tree.dat", ios::in | ios::ate);
+		f.seekg(n * sizeof(t));
+		f.read((char*)t, sizeof(t));
+		f.close();
+	}
+
+	int noOfPlayers()
+	{
+		f.open("Player.dat", ios::in | ios::ate);
+		f.seekg(0, ios::end);
+		int n = f.tellg() / sizeof(PLAYER);
+		ofstream f1;
+		f1.open("ts.dat", ios::out);
+		f1 << f.tellg() << endl;
+		f1 << sizeof(PLAYER);
+		f1.close();
+		f.close();
+
+		return n;
+	}
+	void updation (PLAYER a,House b[30],Tree c[30], int n)
 	{
 		f.open("Player.dat",ios::binary|ios::out|ios::ate);
 		f.seekp(a.show_ID()*sizeof(PLAYER));
@@ -18,14 +68,18 @@ class  FILE_OPERATIONS
 		f.seekp(a.show_ID()*sizeof(Tree)*30);
 		f.write((char *)&c,sizeof(Tree)*30);
 		f.close();
+		f.open("goals.dat", ios::binary | ios::in | ios::ate);
+		f.seekp(a.show_ID() * sizeof(n));
+		f.write((char*)&n, sizeof(n));
+		f.close();
 	}
-	int New_Player (PLAYER &a,House b[30],Tree c[30])
+	void New_Player (PLAYER &a,House b[30],Tree c[30])
 	{
 		//calculating the id of the player
 		f.open("Player.dat", ios::out | ios::ate);
 		int id = f.tellp();
 		id = id / sizeof(PLAYER);
-		a.setif(id);
+		a.setid(id);
 		f.close();
 		f.open("Player.dat",ios::binary|ios::out|ios::app);
 		f.write((char *)&a,sizeof(PLAYER));
@@ -36,7 +90,10 @@ class  FILE_OPERATIONS
 		f.open("Tree.dat",ios::binary|ios::out|ios::app);
 		f.write((char *)c,sizeof(Tree)*30);
 		f.close();
-
+		f.open("goals.dat", ios::binary | ios::app);
+		int n = 0;
+		f.write((char*)&n, sizeof(n));
+		f.close();
 	}
 	void Delete (int ID)
 	{
