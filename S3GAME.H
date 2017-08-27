@@ -18,12 +18,12 @@
 
 ///prototypes
 /*
-	 class Road;
-	 class House;
-	 class customPalette;
-	 class goals;
-	 class Well;
-	 */
+	class Road;
+	class House;
+	class customPalette;
+	class goals;
+	class Well;
+	*/
 ///definitions
 
 ///////////////GLOBAL VARIABLES////////////////////////
@@ -308,7 +308,7 @@ class PLAYER
 
 	int show_ID();
 
- 
+
 }player;
 
 int PLAYER::show_ID()
@@ -489,7 +489,7 @@ class House{
 		return population;
 	}
 	void drawHouse ( int  , int  , int  , int  , int  , int  );
-	void buildHouse(House houses); // full house, all floors with roof and 'wall'
+	void buildHouse(House &houses); // full house, all floors with roof and 'wall'
 	void houseInteract(House *houses, int n, char); // to select a house
 
 }obj;
@@ -667,7 +667,7 @@ House map_houses[20] = {
 			0,
 			0,0,0
 			,0,0
-			),
+		  ),
 
 	House(
 			180- 150, -3000/2 + 280+ 150, DOWN_LEFT,
@@ -678,7 +678,7 @@ House map_houses[20] = {
 			0,
 			0,0,0
 			,0,0
-			),
+		  ),
 
 	House(
 			360- 150, -3000/2 + 100 + 360+ 150, DOWN_LEFT,
@@ -689,7 +689,7 @@ House map_houses[20] = {
 			0,
 			0,0,0
 			,0,0
-			),
+		  ),
 
 	House(
 			540- 150, -3000/2 + 100 +540+ 150, DOWN_LEFT,
@@ -700,7 +700,7 @@ House map_houses[20] = {
 			0,
 			0,0,0
 			,0,0
-			),
+		  ),
 
 	House(
 			720- 150, -3000/2 + 100 + 150+720, DOWN_LEFT,
@@ -711,7 +711,7 @@ House map_houses[20] = {
 			0,
 			0,0,0
 			,0,0
-			),
+		  ),
 	House(
 			900- 150, -3000/2+900+100+ 150, DOWN_LEFT,
 			150,BROWN,WHITE,DARKGRAY,BROWN,WHITE,SOLID_FILL,SLASH_FILL,SLASH_FILL,
@@ -721,7 +721,7 @@ House map_houses[20] = {
 			0,
 			0,0,0
 			,0,0
-			),
+		  ),
 	House(
 			1080- 150, -3000/2+1080+ 150+100, DOWN_LEFT,
 			150,BROWN,WHITE,DARKGRAY,BROWN,WHITE,SOLID_FILL,SLASH_FILL,SLASH_FILL,
@@ -731,7 +731,7 @@ House map_houses[20] = {
 			0,
 			0,0,0
 			,0,0
-			)
+		  )
 		,
 	House(
 			1260- 150, -3000/2+1260+100+ 150, DOWN_LEFT,
@@ -742,7 +742,7 @@ House map_houses[20] = {
 			0,
 			0,0,0
 			,0,0
-			)
+		  )
 };
 
 ///////////////FUNCTION DEFINITIONS////////////////////
