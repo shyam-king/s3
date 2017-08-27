@@ -3,6 +3,8 @@
 #ifndef S3GOALC_H
 #define S3GOALC_H
 
+#include "S3goalma.h"
+
 void log(char* t)
 {
 	ofstream fout("log.txt", ios::app);

@@ -1,7 +1,5 @@
-#include<iostream.h>
-#include<conio.h>
-#include<string.h>
-#include<stdio.h>
+#ifndef S3GOALMA_H
+#define S3GOALMA_H
 class  FILE_OPERATIONS 
 {
 	fstream  f("Player.dat",ios::binary|ios::in|ios::out);
@@ -31,7 +29,7 @@ class  FILE_OPERATIONS
 	{
 		PLAYER s;
 		ofstream fout("Temp.dat",ios::binary)
-		int flag=0;
+			int flag=0;
 		while(f.read((char*)&s,sizeof(s)))
 		{
 			if(ID==s.show_ID())
@@ -50,31 +48,33 @@ class  FILE_OPERATIONS
 		//House
 		House b[30];
 		fout.open("Temp.dat",ios::binary)
-		int flag=0;
+			int flag=0;
 		while(f_h.read((char*)&b,sizeof(b)*30))
 		{
 			if(ID!=s.show_ID())
-				fout.write(char*)&s,sizeof(c)*30);
+				fout.write((char*)&s,sizeof(c)*30);
 		}
 		fout.close();
 		f_h.close();
 		remove("House.dat");
 		rename("Temp.dat","House.dat");
-		
+
 		//Tree
-		
+
 		Tree c[30];
 		fout.open("Temp.dat",ios::binary)
-		int flag=0;
+			int flag=0;
 		while(f_t.read((char*)&c,sizeof(b)*30))
 		{
 			if(ID!=s.show_ID())
-				fout.write(char*)&c,sizeof(c)*30);
+				fout.write((char*)&c,sizeof(c)*30);
 		}
 		fout.close();
 		f_t.close();
 		remove("Tree.dat");
 		rename("Temp.dat","Tree.dat");
 	}
-	
+
 };
+
+#endif
