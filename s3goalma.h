@@ -54,19 +54,19 @@ class  FILE_OPERATIONS
 
 		return n;
 	}
-	void updation (PLAYER a,House b[30],Tree c[30], int n)
+	void updation (PLAYER &a,House b[30],Tree c[30], int n)
 	{
-		f.open("Player.dat",ios::binary|ios::out|ios::ate);
+		f.open("Player.dat",ios::binary|ios::out);
 		f.seekp(a.show_ID()*sizeof(PLAYER));
 		f.write((char *)&a,sizeof(PLAYER));
 		f.close();
-		f.open("House.dat",ios::binary|ios::out|ios::ate);
+		f.open("House.dat",ios::binary|ios::out);
 		f.seekp(a.show_ID()*sizeof(House)*30);
-		f.write((char *)&b,sizeof(House)*30);
+		f.write((char *)b,sizeof(House)*30);
 		f.close();
-		f.open("Tree.dat",ios::binary|ios::out|ios::ate);
+		f.open("Tree.dat",ios::binary|ios::out);
 		f.seekp(a.show_ID()*sizeof(Tree)*30);
-		f.write((char *)&c,sizeof(Tree)*30);
+		f.write((char *)c,sizeof(Tree)*30);
 		f.close();
 		f.open("goals.dat", ios::binary | ios::in | ios::ate);
 		f.seekp(a.show_ID() * sizeof(n));
@@ -80,6 +80,7 @@ class  FILE_OPERATIONS
 		int id = f.tellp();
 		id = id / sizeof(PLAYER);
 		a.setid(id);
+
 		f.close();
 		f.open("Player.dat",ios::binary|ios::out|ios::app);
 		f.write((char *)&a,sizeof(PLAYER));

@@ -657,7 +657,7 @@ void tsprint();
 
 Road mainRoad[4];
 
-House map_houses[20] = {
+House map_houses[30] = {
 	House(
 			0 - 150, -3000/2 + 100 + 150, DOWN_LEFT,
 			150,BROWN,WHITE,DARKGRAY,BROWN,WHITE,SOLID_FILL,SLASH_FILL,SLASH_FILL,
@@ -1464,7 +1464,6 @@ void gameNew()
 	struct palettetype pal;
 	getpalette(&pal);
 
-	// GETTING USERNAME AS INPUT
 	gameLoop = 1;
 	mousereset();
 	closegraph();
