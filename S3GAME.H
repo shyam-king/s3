@@ -770,6 +770,7 @@ void House::houseInteract(House *houses, int n, char k)
 					MovingHouse = houses + i;
 					x = originX;
 					y = originY;
+					animate = 1;
 				}
 			}
 			else if (mc == 1 && mmc !=1 && EDITMODE == CREATE_MODE)
