@@ -1087,13 +1087,14 @@ void PLAYER::accept()
 
 
 				delay(100);
-				mmx = mx;
-				mmy = my;
-				mmc = mc;
 			}
+			mmx = mx;
+			mmy = my;
+			mmc = mc;
 		}
 	}
 }
+
 
 void Industry::industryInteract()
 {
@@ -3567,6 +3568,61 @@ int gameload()
 		fileop.loadHouse(map_houses, sel);
 		fileop.loadTrees(map_trees, sel);
 		goal.setGoalIndex(fileop.loadGoalIndex(sel));
+
+		//roads
+
+		mainRoad[0].setProperties(
+				-300+150-150,-3000/2+300-75+150,
+				150,
+				terrH/150,
+				DOWN_RIGHT,
+				EMPTY_FILL,
+				WHITE,
+				CLOSE_DOT_FILL,
+				BROWN,
+				DOTTED_LINE,
+				SOLID_LINE
+				);
+
+		mainRoad[1].setProperties(
+				+ 3000/4 - 150*3 + 75 - 75 - 150,-3000/4 + 75 + 150,
+				150,
+				terrH/150 - 5,
+				DOWN_LEFT,
+				SOLID_FILL,
+				WHITE,
+				CLOSE_DOT_FILL,
+				DARKGRAY,
+				DOTTED_LINE,
+				SOLID_LINE
+				);
+
+		mainRoad[2].setProperties(
+				industry.industry_x - 150-75-20-30,industry.industry_y +150,
+				150,
+				6,
+				DOWN_RIGHT,
+				SOLID_FILL,
+				WHITE,
+				CLOSE_DOT_FILL,
+				DARKGRAY,
+				DOTTED_LINE,
+				SOLID_LINE
+				);
+
+		mainRoad[3].setProperties(
+				well.access(1) - 300,well.access(2) - 225,
+				150,
+				3,
+				DOWN_RIGHT,
+				EMPTY_FILL,
+				WHITE,
+				CLOSE_DOT_FILL,
+				BROWN,
+				DOTTED_LINE,
+				SOLID_LINE
+				);
+
 
 		if (n)
 			outtextxy(10, getmaxy() - 5, "Game loaded. Press any key to continue...");
