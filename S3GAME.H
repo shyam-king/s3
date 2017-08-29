@@ -3070,6 +3070,8 @@ int displayMenu()
 						TRANSITION_MODE = 0;
 						MENU_MODE = 1;
 						key = 0;
+						mc = 0;
+						mmc = 0;
 					}
 
 					break;
@@ -3090,6 +3092,8 @@ int displayMenu()
 						TRANSITION_MODE = 0;
 						MENU_MODE = 1;
 						key = 0;
+						mc = 0;
+						mmc = 0;
 					}
 					break;
 

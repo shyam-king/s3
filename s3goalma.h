@@ -7,7 +7,7 @@ class  FILE_OPERATIONS
 
 	PLAYER loadPlayer(int n)
 	{
-		f.open("Player.dat", ios::in);
+		f.open("Player.dat", ios::binary | ios::in);
 		f.seekg(n * sizeof(PLAYER));
 		PLAYER a;
 		f.read((char*)&a, sizeof(PLAYER));
@@ -17,15 +17,15 @@ class  FILE_OPERATIONS
 
 	void loadHouse (House h[30], int n)
 	{
-		f.open("House.dat", ios::in  );
-		f.seekg(n * sizeof(h));
-		f.read((char*)h, sizeof(h));
+		f.open("House.dat", ios::binary | ios::in  );
+		f.seekg(n * sizeof(House) * 30);
+		f.read((char*)h, sizeof(House) * 30);
 		f.close();
 	}
 
 	int loadGoalIndex(int n)
 	{
-		f.open("goals.dat", ios::in );
+		f.open("goals.dat", ios::binary | ios::in );
 		f.seekg(sizeof(n) * n);
 		f.read((char*)&n, sizeof(n));
 		f.close();
@@ -34,15 +34,15 @@ class  FILE_OPERATIONS
 
 	void loadTrees (Tree t[30], int n)
 	{
-		f.open("Tree.dat", ios::in );
-		f.seekg(n * sizeof(t));
-		f.read((char*)t, sizeof(t));
+		f.open("Tree.dat", ios::binary | ios::in );
+		f.seekg(n * sizeof(Tree) * 30);
+		f.read((char*)t, sizeof(Tree) * 30);
 		f.close();
 	}
 
 	int noOfPlayers()
 	{
-		f.open("Player.dat", ios::in);
+		f.open("Player.dat", ios::binary | ios::in);
 		f.seekg(0, ios::end);
 		int n = f.tellg() / sizeof(PLAYER);
 		f.close();
