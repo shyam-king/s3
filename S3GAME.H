@@ -3065,10 +3065,11 @@ int displayMenu()
 					{
 						strcpy(text, "");
 						gameReset();
-						fileop.New_Player(player , map_houses, map_trees);
+						fileop.New_Player(&player , map_houses, map_trees);
 						gameNew();
 						TRANSITION_MODE = 0;
 						MENU_MODE = 1;
+						key = 0;
 					}
 
 					break;
@@ -3088,6 +3089,7 @@ int displayMenu()
 							gameNew();
 						TRANSITION_MODE = 0;
 						MENU_MODE = 1;
+						key = 0;
 					}
 					break;
 
@@ -3516,7 +3518,7 @@ void tsprint()
 void gamesave()
 {
 	//saving all the details
-	fileop.updation(player, map_houses, map_trees, goal.currentGoalIndex());
+	fileop.updation(&player, map_houses, map_trees, goal.currentGoalIndex());
 }
 
 int gameload()

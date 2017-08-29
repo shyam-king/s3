@@ -7,7 +7,7 @@ class  FILE_OPERATIONS
 
 	PLAYER loadPlayer(int n)
 	{
-		f.open("Player.dat", |ios::in);
+		f.open("Player.dat", ios::in);
 		f.seekg(n * sizeof(PLAYER));
 		PLAYER a;
 		f.read((char*)&a, sizeof(PLAYER));
@@ -45,45 +45,40 @@ class  FILE_OPERATIONS
 		f.open("Player.dat", ios::in);
 		f.seekg(0, ios::end);
 		int n = f.tellg() / sizeof(PLAYER);
-		ofstream f1;
-		f1.open("ts.dat", ios::out);
-		f1 << f.tellg() << endl;
-		f1 << sizeof(PLAYER);
-		f1.close();
 		f.close();
 
 		return n;
 	}
-	void updation (PLAYER &a,House b[30],Tree c[30], int n)
+	void updation (PLAYER *a,House b[30],Tree c[30], int n)
 	{
 		f.open("Player.dat",ios::binary|ios::out|ios::in);
-		f.seekp(a.show_ID()*sizeof(PLAYER));
-		f.write((char *)&a,sizeof(PLAYER));
+		f.seekp(a->show_ID()*sizeof(PLAYER));
+		f.write((char *)a,sizeof(PLAYER));
 		f.close();
 		f.open("House.dat",ios::binary|ios::out|ios::in);
-		f.seekp(a.show_ID()*sizeof(House)*30);
+		f.seekp(a->show_ID()*sizeof(House)*30);
 		f.write((char *)b,sizeof(House)*30);
 		f.close();
-		f.open("Tree.dat",ios::binary|ios::out);
-		f.seekp(a.show_ID()*sizeof(Tree)*30);
+		f.open("Tree.dat",ios::binary|ios::out|ios::in);
+		f.seekp(a->show_ID()*sizeof(Tree)*30);
 		f.write((char *)c,sizeof(Tree)*30);
 		f.close();
 		f.open("goals.dat", ios::binary | ios::in | ios::out);
-		f.seekp(a.show_ID() * sizeof(n));
+		f.seekp(a->show_ID() * sizeof(n));
 		f.write((char*)&n, sizeof(n));
 		f.close();
 	}
-	void New_Player (PLAYER &a,House b[30],Tree c[30])
+	void New_Player (PLAYER *a,House b[30],Tree c[30])
 	{
 		//calculating the id of the player
 		f.open("Player.dat", ios::out | ios::in);
 		int id = f.tellp();
 		id = id / sizeof(PLAYER);
-		a.setid(id);
+		a->setid(id);
 
 		f.close();
 		f.open("Player.dat",ios::binary|ios::out|ios::app);
-		f.write((char *)&a,sizeof(PLAYER));
+		f.write((char *)a,sizeof(PLAYER));
 		f.close();
 		f.open("House.dat",ios::binary|ios::out|ios::app);
 		f.write((char *)b,sizeof(House)*30);
