@@ -161,8 +161,9 @@ void Goal::goalcheck()
 			break;
 		case 14:
 			if (goaldisplayed) {
-				originX = industry.industry_x;
-				originY = industry.industry_y;
+				originX = +200 -industry.industry_x;
+				originY = +200 -industry.industry_y;
+
 				nextGoal();         
 
 				strcpy(tsstr, "Goal passed from panning!");
@@ -197,8 +198,8 @@ void Goal::goalcheck()
 			//panning towards the boat
 			{
 				if (goaldisplayed) {
-					originX = boat.boat_x;
-					originY = boat.boat_y;
+					originX = +200-boat.boat_x;
+					originY = +200 -boat.boat_y;
 					nextGoal();
 
 				} // next part

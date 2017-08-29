@@ -1491,8 +1491,8 @@ void gameNew()
 		//else if (tolower(k) == 'e') exit(0);
 		//else if (tolower(k) == 'h') goaldisplayed = 0, animate = 1;
 		else if (tolower(k) == 'j') player.setcurrXp(10);
-		else if (tolower(k) == 'i') {originX = industry.industry_x; originY = industry.industry_y; animate = 1;}
-		else if (tolower(k) == 'b') {originX = boat.boat_x; originY = boat.boat_y; animate = 1;}
+		else if (tolower(k) == 'i') {originX = +200 -industry.industry_x; originY = +200 -industry.industry_y; animate = 1;}
+		else if (tolower(k) == 'b') {originX = +200 -boat.boat_x; originY = +200 -boat.boat_y; animate = 1;}
 
 
 		if (animate)
