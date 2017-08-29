@@ -3072,7 +3072,7 @@ int displayMenu()
 						key = 0;
 						mc = 0;
 						mmc = 0;
-						menu_selection = -1;
+						menu_selection = 3;
 					}
 
 					break;
@@ -3095,7 +3095,7 @@ int displayMenu()
 						key = 0;
 						mc = 0;
 						mmc = 0;
-						menu_selection = -1;
+						menu_selection = 3;
 					}
 					break;
 
