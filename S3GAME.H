@@ -642,7 +642,7 @@ void gameNew(); // when the user starts a new game
 void drag(char); // to drag around the terrain
 void setDetailDisplay (char a[], char b[]);
 void gamesave();
-void gameload();
+int gameload();
 
 //interact
 
@@ -657,7 +657,7 @@ void tsprint();
 
 Road mainRoad[4];
 
-House map_houses[20] = {
+House map_houses[30] = {
 	House(
 			0 - 150, -3000/2 + 100 + 150, DOWN_LEFT,
 			150,BROWN,WHITE,DARKGRAY,BROWN,WHITE,SOLID_FILL,SLASH_FILL,SLASH_FILL,
@@ -944,8 +944,6 @@ void PLAYER::accept()
 			{
 				if (strlen(userName) > 0)
 					eraseLastChar(userName);
-				//else
-				//strcpy(userName, "");
 			}
 			else
 				if (k != NOKEY) sprintf(userName, "%s%c", edit,k);
@@ -954,7 +952,9 @@ void PLAYER::accept()
 			settextstyle(7, HORIZ_DIR, 3);
 			setcolor(WHITE);
 			outtextxy(200,SCREEN_H/2 - 100, "ENTER YOUR NAME:");
-			setcolor(LIGHTMAGENTA);
+			setcolor(YELLOW); 
+			// changed from LIGHTMAGENTA to YELLOW 
+			// because LIGHTMAGENTA is changed during the game.
 			settextstyle(7, HORIZ_DIR, 2);
 
 			moveto(SCREEN_W/2 - textwidth(userName)/2,SCREEN_H/2);
@@ -986,7 +986,7 @@ void PLAYER::accept()
 		int polydet2[8] = {100,400,100,470,160,470,160,400};
 		int polyerase[8] = {200,400,200,470,260,470,260,400};
 		int polyaccept[8] = {300,400,300,470,360,470,360,400};
-		int i, w, h, j, mx, my,  mc, mmc; // mmx, mmy,
+		int i, w, h, j, mx, my,  mc, mmc; 
 		int bg = WHITE, fg = BLACK;
 		int animate = 1;
 		int posx, posy;
@@ -1094,6 +1094,7 @@ void PLAYER::accept()
 		}
 	}
 }
+
 
 void Industry::industryInteract()
 {
@@ -1463,7 +1464,6 @@ void gameNew()
 	struct palettetype pal;
 	getpalette(&pal);
 
-	// GETTING USERNAME AS INPUT
 	gameLoop = 1;
 	mousereset();
 	closegraph();
@@ -1491,6 +1491,8 @@ void gameNew()
 		//else if (tolower(k) == 'e') exit(0);
 		//else if (tolower(k) == 'h') goaldisplayed = 0, animate = 1;
 		else if (tolower(k) == 'j') player.setcurrXp(10);
+		else if (tolower(k) == 'i') {originX = +200 -industry.industry_x; originY = +200 -industry.industry_y; animate = 1;}
+		else if (tolower(k) == 'b') {originX = +200 -boat.boat_x; originY = +200 -boat.boat_y; animate = 1;}
 
 
 		if (animate)
@@ -3002,7 +3004,7 @@ int displayMenu()
 				menu_selection = 3;
 			}
 
-			if (menu_selection == 0 ) setcolor(LIGHTBLUE);
+			if (menu_selection == 0  || menu_selection == -1) setcolor(LIGHTBLUE);
 			else setcolor(YELLOW);
 
 			settextstyle(1, HORIZ_DIR, 2);
@@ -3065,9 +3067,14 @@ int displayMenu()
 					{
 						strcpy(text, "");
 						gameReset();
+						fileop.New_Player(&player , map_houses, map_trees);
 						gameNew();
 						TRANSITION_MODE = 0;
 						MENU_MODE = 1;
+						key = 0;
+						mc = 0;
+						mmc = 0;
+						menu_selection = 3;
 					}
 
 					break;
@@ -3075,32 +3082,23 @@ int displayMenu()
 				case 1:
 					setcolor(LIGHTBLUE);
 					outtextxy(SCREEN_W/2 - 60, SCREEN_H/2  - 60, "Continue");
-					ifstream file1("player.dat"), file4("goals.dat"), file2("houses.dat"), file3("trees.dat");
-					if (file1 && file2 && file3 && file4)
+					if (tr < 200)
 					{
-						if (tr < 200)
-						{
-							tr += trSpeed;
-							trSpeed += trAcc;
-						}
-
-						else
-						{
-							gameload();
-							gameNew();
-							TRANSITION_MODE = 0;
-							MENU_MODE = 1;
-						}
+						tr += trSpeed;
+						trSpeed += trAcc;
 					}
+
 					else
 					{
-						strcpy(text, "No old game exists! Try New Game.");
-						TRANSITION_MODE  =0;
+						if (gameload())
+							gameNew();
+						TRANSITION_MODE = 0;
 						MENU_MODE = 1;
+						key = 0;
+						mc = 0;
+						mmc = 0;
+						menu_selection = 3;
 					}
-					file1.close();
-					file2.close();
-					file3.close();
 					break;
 
 				case 2:
@@ -3527,115 +3525,131 @@ void tsprint()
 
 void gamesave()
 {
-	cleardevice();
-	setcolor(GREEN);
-	outtextxy(10,10, "Saving game...");
-	char *s = (char*)&player;
-	ofstream file("player.dat", ios::binary);
-	file.write(s, sizeof(player));
-	file.close();
-	file.open("houses.dat", ios::binary);
-	s = (char*)map_houses;
-	file.write(s, sizeof(map_houses));
-	file.close();
-	file.open("trees.dat", ios::binary);
-	s = (char*)map_trees;
-	file.write(s, sizeof(map_trees));
-	file.close();
-	file.open("goals.dat");
-	file << goal.currentGoalIndex(); 
-	outtextxy(10,50, "Game saved! press any key to continue..");
-	file.close();
-	getch();
+	//saving all the details
+	fileop.updation(&player, map_houses, map_trees, goal.currentGoalIndex());
+	originY = 0;
+	originX = 0;
 }
 
-void gameload()
+int gameload()
 {
 	cleardevice();
-	outtextxy(10,10,"Loading game...");
-	char *s = (char*)&player;
-	ifstream file("player.dat", ios::binary);
-	for(int i = 0; i < sizeof(PLAYER); i++)
-	{file.get(*s);
-		s++;
-	}
-	file.close();
-	file.open("houses.dat", ios::binary);
-	s = (char*)map_houses;
-	for(i = 0; i < sizeof(map_houses); i++)
+	originY = 0;
+	originX = 0;
+	int n = fileop.noOfPlayers();
+	//allocating memory to store the names of all the players
+	char *names = new char[80 * n];
+
+	if (!n)
+		outtextxy(10,10, "No saves exist! Please start a new game!");
+	else
 	{
-		file.get(*s);
-		s++;
+		//copy all the names into the array
+		for(int i = 0; i < n; i++)
+			strcpy(names + 80*i, (fileop.loadPlayer(i)).getuserName());
+
+		//display the array
+		setcolor(YELLOW);
+		for(i = 0; i < n; i++)
+			outtextxy(10, 100 + 20 *  i, names + 80 * i);
+		outtextxy(10, 100 + 20 *  i, "BACK");
+
+
+		//selection process
+		int sel = 0; // selection variable
+		char  k = NOKEY;
+		int flag = 1;
+		while (flag)
+		{
+			setcolor(GREEN);
+			rectangle(5, 100 + 20 * sel - 5, getmaxy() - 5, 100 + 20 * sel + 20);
+			k = getch();
+			setcolor(BLACK);
+			rectangle(5, 100 + 20 * sel - 5, getmaxy() - 5, 100 + 20 * sel + 20);
+			if (k == '\r' || k == '\n')
+				flag  = 0;
+			else if (k == UP || tolower(k) == 'w')
+				sel = (sel == 0) ? n : sel-1;
+			else if (k == DOWN || tolower(k) == 's')
+				sel = (sel == n) ? 0 : sel + 1;
+		}
+		if (sel == n)
+			return 0;
+
+		//loading up the player
+		player = fileop.loadPlayer(sel);
+		fileop.loadHouse(map_houses, sel);
+		fileop.loadTrees(map_trees, sel);
+		goal.setGoalIndex(fileop.loadGoalIndex(sel));
+
+		//roads
+
+		mainRoad[0].setProperties(
+				-300+150-150,-3000/2+300-75+150,
+				150,
+				terrH/150,
+				DOWN_RIGHT,
+				EMPTY_FILL,
+				WHITE,
+				CLOSE_DOT_FILL,
+				BROWN,
+				DOTTED_LINE,
+				SOLID_LINE
+				);
+
+		mainRoad[1].setProperties(
+				+ 3000/4 - 150*3 + 75 - 75 - 150,-3000/4 + 75 + 150,
+				150,
+				terrH/150 - 5,
+				DOWN_LEFT,
+				SOLID_FILL,
+				WHITE,
+				CLOSE_DOT_FILL,
+				DARKGRAY,
+				DOTTED_LINE,
+				SOLID_LINE
+				);
+
+		mainRoad[2].setProperties(
+				industry.industry_x - 150-75-20-30,industry.industry_y +150,
+				150,
+				6,
+				DOWN_RIGHT,
+				SOLID_FILL,
+				WHITE,
+				CLOSE_DOT_FILL,
+				DARKGRAY,
+				DOTTED_LINE,
+				SOLID_LINE
+				);
+
+		mainRoad[3].setProperties(
+				well.access(1) - 300,well.access(2) - 225,
+				150,
+				3,
+				DOWN_RIGHT,
+				EMPTY_FILL,
+				WHITE,
+				CLOSE_DOT_FILL,
+				BROWN,
+				DOTTED_LINE,
+				SOLID_LINE
+				);
+
+
+		if (n)
+			outtextxy(10, getmaxy() - 5, "Game loaded. Press any key to continue...");
+
 	}
-	file.close();
-	file.open("trees.dat", ios::binary);
 
-	s = (char*)map_trees;
-	for (i =0; i < sizeof(map_trees); i++)
-	{
-		file.get(*s);
-		s++;
-	}
-	file.close();
-	file.open("goals.dat");
-	int n;
-	file >> n;
-	goal.setGoalIndex(n);
-	goaldisplayed = 0;
-	file.close();
-	mainRoad[0].setProperties(
-			-300+150-150,-3000/2+300-75+150,
-			150,
-			terrH/150,
-			DOWN_RIGHT,
-			EMPTY_FILL,
-			WHITE,
-			CLOSE_DOT_FILL,
-			BROWN,
-			DOTTED_LINE,
-			SOLID_LINE
-			);
-
-	mainRoad[1].setProperties(
-			+ 3000/4 - 150*3 + 75 - 75 - 150,-3000/4 + 75 + 150,
-			150,
-			terrH/150 - 5,
-			DOWN_LEFT,
-			SOLID_FILL,
-			WHITE,
-			CLOSE_DOT_FILL,
-			DARKGRAY,
-			DOTTED_LINE,
-			SOLID_LINE
-			);
-
-	mainRoad[2].setProperties(
-			industry.industry_x - 150-75-20-30,industry.industry_y +150,
-			150,
-			6,
-			DOWN_RIGHT,
-			SOLID_FILL,
-			WHITE,
-			CLOSE_DOT_FILL,
-			DARKGRAY,
-			DOTTED_LINE,
-			SOLID_LINE
-			);
-
-	mainRoad[3].setProperties(
-			well.access(1) - 300,well.access(2) - 225,
-			150,
-			3,
-			DOWN_RIGHT,
-			EMPTY_FILL,
-			WHITE,
-			CLOSE_DOT_FILL,
-			BROWN,
-			DOTTED_LINE,
-			SOLID_LINE
-			);
-	outtextxy(10,50, "Game loaded. Press any key to continue..");
 	getch();
+	if (n) 
+		return 1;
+	else 
+		return 0;
+
+
+	delete names;
 }
 
 #endif

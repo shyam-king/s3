@@ -3,6 +3,8 @@
 #ifndef S3GOALC_H
 #define S3GOALC_H
 
+#include "S3goalma.h"
+
 void log(char* t)
 {
 	ofstream fout("log.txt", ios::app);
@@ -119,7 +121,6 @@ void Goal::nextGoal()
 void Goal::goalcheck()
 {
 	int i;
-	int f1, f2;
 	static int tf;
 	switch (currgoalindex)
 	{
@@ -155,22 +156,14 @@ void Goal::goalcheck()
 			if (treeCutCount - tf >= 1)
 			{
 				nextGoal();             
-				f1 = f2 = 0 ;
 			}
 
 			break;
 		case 14:
 			if (goaldisplayed) {
-				if (originX + industry.industry_x > SCREEN_W-200) {originX -= 100; animate = 1;}
-				else if (originX + industry.industry_x < 200) {originX += 100;animate = 1;}
-				else f1 = 1;
+				originX = +200 -industry.industry_x;
+				originY = +200 -industry.industry_y;
 
-				if (originY + industry.industry_y > SCREEN_H-200) {originY -= 100; animate = 1;}
-				else if (originY + industry.industry_y < 200) {originY += 100; animate = 1;}
-				else f2 = 1;
-			}
-			if (f2 && f1) 
-			{
 				nextGoal();         
 
 				strcpy(tsstr, "Goal passed from panning!");
@@ -204,19 +197,9 @@ void Goal::goalcheck()
 		case 18:
 			//panning towards the boat
 			{
-				int f1, f2;
-				f1 = f2 = 0;
 				if (goaldisplayed) {
-					if (originX + boat.boat_x > SCREEN_W-200) {originX -= 100; animate = 1;}
-					else if (originX + boat.boat_x < 200) {originX += 100;animate = 1;}
-					else f1 = 1;
-
-					if (originY + boat.boat_y > SCREEN_H-200) {originY -= 100; animate = 1;}
-					else if (originY + boat.boat_y < 200) {originY += 100; animate = 1;}
-					else f2 = 1;
-				}
-				if (f2 && f1 && goaldisplayed)
-				{
+					originX = +200-boat.boat_x;
+					originY = +200 -boat.boat_y;
 					nextGoal();
 
 				} // next part
