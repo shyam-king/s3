@@ -15,7 +15,7 @@ class  FILE_OPERATIONS
 		return a;
 	}
 
-	void loadHouse (House h[30], int n)
+	void loadHouse (House *h, int n)
 	{
 		f.open("House.dat", ios::binary | ios::in  );
 		f.seekg(n * sizeof(House) * 30);
@@ -32,7 +32,7 @@ class  FILE_OPERATIONS
 		return n;
 	}
 
-	void loadTrees (Tree t[30], int n)
+	void loadTrees (Tree *t, int n)
 	{
 		f.open("Tree.dat", ios::binary | ios::in );
 		f.seekg(n * sizeof(Tree) * 30);
@@ -49,7 +49,7 @@ class  FILE_OPERATIONS
 
 		return n;
 	}
-	void updation (PLAYER *a,House b[30],Tree c[30], int n)
+	void updation (PLAYER *a,House *b, Tree *c, int n)
 	{
 		f.open("Player.dat",ios::binary|ios::out|ios::in);
 		f.seekp(a->show_ID()*sizeof(PLAYER));
@@ -68,7 +68,7 @@ class  FILE_OPERATIONS
 		f.write((char*)&n, sizeof(n));
 		f.close();
 	}
-	void New_Player (PLAYER *a,House b[30],Tree c[30])
+	void New_Player (PLAYER *a,House *b, Tree *c)
 	{
 		//calculating the id of the player
 		f.open("Player.dat", ios::out | ios::in);
