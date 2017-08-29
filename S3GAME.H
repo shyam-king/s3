@@ -944,8 +944,6 @@ void PLAYER::accept()
 			{
 				if (strlen(userName) > 0)
 					eraseLastChar(userName);
-				//else
-				//strcpy(userName, "");
 			}
 			else
 				if (k != NOKEY) sprintf(userName, "%s%c", edit,k);
@@ -954,7 +952,9 @@ void PLAYER::accept()
 			settextstyle(7, HORIZ_DIR, 3);
 			setcolor(WHITE);
 			outtextxy(200,SCREEN_H/2 - 100, "ENTER YOUR NAME:");
-			setcolor(LIGHTMAGENTA);
+			setcolor(YELLOW); 
+			// changed from LIGHTMAGENTA to YELLOW 
+			// because LIGHTMAGENTA is changed during the game.
 			settextstyle(7, HORIZ_DIR, 2);
 
 			moveto(SCREEN_W/2 - textwidth(userName)/2,SCREEN_H/2);
@@ -986,7 +986,7 @@ void PLAYER::accept()
 		int polydet2[8] = {100,400,100,470,160,470,160,400};
 		int polyerase[8] = {200,400,200,470,260,470,260,400};
 		int polyaccept[8] = {300,400,300,470,360,470,360,400};
-		int i, w, h, j, mx, my,  mc, mmc; // mmx, mmy,
+		int i, w, h, j, mx, my,  mc, mmc; 
 		int bg = WHITE, fg = BLACK;
 		int animate = 1;
 		int posx, posy;
@@ -1491,6 +1491,8 @@ void gameNew()
 		//else if (tolower(k) == 'e') exit(0);
 		//else if (tolower(k) == 'h') goaldisplayed = 0, animate = 1;
 		else if (tolower(k) == 'j') player.setcurrXp(10);
+		else if (tolower(k) == 'i') {originX = industry.industry_x; originY = industry.industry_y; animate = 1;}
+		else if (tolower(k) == 'b') {originX = boat.boat_x; originY = boat.boat_y; animate = 1;}
 
 
 		if (animate)
@@ -3525,11 +3527,15 @@ void gamesave()
 {
 	//saving all the details
 	fileop.updation(&player, map_houses, map_trees, goal.currentGoalIndex());
+	originY = 0;
+	originX = 0;
 }
 
 int gameload()
 {
 	cleardevice();
+	originY = 0;
+	originX = 0;
 	int n = fileop.noOfPlayers();
 	//allocating memory to store the names of all the players
 	char *names = new char[80 * n];
