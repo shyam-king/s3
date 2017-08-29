@@ -3002,7 +3002,7 @@ int displayMenu()
 				menu_selection = 3;
 			}
 
-			if (menu_selection == 0 ) setcolor(LIGHTBLUE);
+			if (menu_selection == 0  || menu_selection == -1) setcolor(LIGHTBLUE);
 			else setcolor(YELLOW);
 
 			settextstyle(1, HORIZ_DIR, 2);
@@ -3072,6 +3072,7 @@ int displayMenu()
 						key = 0;
 						mc = 0;
 						mmc = 0;
+						menu_selection = -1;
 					}
 
 					break;
@@ -3094,6 +3095,7 @@ int displayMenu()
 						key = 0;
 						mc = 0;
 						mmc = 0;
+						menu_selection = -1;
 					}
 					break;
 
