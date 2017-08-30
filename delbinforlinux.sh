@@ -1,5 +1,5 @@
 #!/bin/bash
-rm ../player.dat
-rm ../goals.dat
-rm ../house.dat
-rm ../tree.dat
+rm ../PLAYER.DAT
+rm ../GOALS.DAT
+rm ../HOUSE.DAT
+rm ../TREE.DAT
