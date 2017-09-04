@@ -3,3 +3,4 @@ rm ../PLAYER.DAT
 rm ../GOALS.DAT
 rm ../HOUSE.DAT
 rm ../TREE.DAT
+rm ../ROADS.DAT

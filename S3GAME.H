@@ -372,7 +372,7 @@ class Tree{
 	int gety();
 	int getCutStatus();
 	void setCutStatus(int);
-} map_trees[20];
+} map_trees[30];
 
 void Tree::draw(int ox, int oy)
 {
@@ -655,7 +655,7 @@ void tsprint();
 
 ////////////////GAME MAP//////
 
-Road mainRoad[4];
+Road mainRoad[10];
 
 House map_houses[30] = {
 	House(
@@ -1745,6 +1745,8 @@ void drag(char l)
 {
 
 	int dg = 250;
+	if (EDITMODE == MOVE_MODE)
+		dg = 50;
 	if (l == UP || tolower(l) == 'w') originY += dg, animate = 1;
 	else if (l == DOWN|| tolower(l) == 's') originY -= dg, animate = 1;
 	else  if (l == RIGHT|| tolower(l) == 'd') originX -= dg, animate = 1;
@@ -3067,7 +3069,7 @@ int displayMenu()
 					{
 						strcpy(text, "");
 						gameReset();
-						fileop.New_Player(&player , map_houses, map_trees);
+						fileop.New_Player(&player , map_houses, map_trees, mainRoad);
 						gameNew();
 						TRANSITION_MODE = 0;
 						MENU_MODE = 1;
@@ -3186,13 +3188,19 @@ void gameReset()
 {
 	player=PLAYER();
 
-	// reset houses
+	//loadup a random layout
+	int nlayouts = 3;
+	int li = random(nlayouts);
+	fileop.loadLayout(map_houses, mainRoad, map_trees,li);
+
+	// reset houses level
 	for (int i = 0; i < nhouses; i++)
 	{
 		map_houses[i].rlevel() = 0;
 		map_houses[i].rpopulation() = 0;
 	}
 
+	//reset the tree cut statuses
 	for ( i = 0; i < ntrees; i++)
 		map_trees[i].setCutStatus(0);
 
@@ -3216,6 +3224,7 @@ void gameReset()
 			SOLID_LINE
 			);
 
+	/*
 	mainRoad[1].setProperties(
 			+ 3000/4 - 150*3 + 75 - 75 - 150,-3000/4 + 75 + 150,
 			150,
@@ -3270,6 +3279,8 @@ void gameReset()
 	map_trees[12].setPositions(-1000, 250);
 	map_trees[13].setPositions(industry.industry_x, industry.industry_y - 450);
 	map_trees[14].setPositions(industry.industry_x - 100, industry.industry_y - 350);
+	*/
+	//the above lines are commented out to check if the random layout load up is working
 
 	cleardevice();
 	player.accept();
@@ -3526,9 +3537,10 @@ void tsprint()
 void gamesave()
 {
 	//saving all the details
-	fileop.updation(&player, map_houses, map_trees, goal.currentGoalIndex());
+	fileop.updation(&player, map_houses, map_trees, mainRoad, goal.currentGoalIndex());
 	originY = 0;
 	originX = 0;
+	
 }
 
 int gameload()
@@ -3576,66 +3588,12 @@ int gameload()
 		if (sel == n)
 			return 0;
 
-		//loading up the player
+		//loading up the player and the layout
 		player = fileop.loadPlayer(sel);
 		fileop.loadHouse(map_houses, sel);
 		fileop.loadTrees(map_trees, sel);
+		fileop.loadRoad(mainRoad, sel);
 		goal.setGoalIndex(fileop.loadGoalIndex(sel));
-
-		//roads
-
-		mainRoad[0].setProperties(
-				-300+150-150,-3000/2+300-75+150,
-				150,
-				terrH/150,
-				DOWN_RIGHT,
-				EMPTY_FILL,
-				WHITE,
-				CLOSE_DOT_FILL,
-				BROWN,
-				DOTTED_LINE,
-				SOLID_LINE
-				);
-
-		mainRoad[1].setProperties(
-				+ 3000/4 - 150*3 + 75 - 75 - 150,-3000/4 + 75 + 150,
-				150,
-				terrH/150 - 5,
-				DOWN_LEFT,
-				SOLID_FILL,
-				WHITE,
-				CLOSE_DOT_FILL,
-				DARKGRAY,
-				DOTTED_LINE,
-				SOLID_LINE
-				);
-
-		mainRoad[2].setProperties(
-				industry.industry_x - 150-75-20-30,industry.industry_y +150,
-				150,
-				6,
-				DOWN_RIGHT,
-				SOLID_FILL,
-				WHITE,
-				CLOSE_DOT_FILL,
-				DARKGRAY,
-				DOTTED_LINE,
-				SOLID_LINE
-				);
-
-		mainRoad[3].setProperties(
-				well.access(1) - 300,well.access(2) - 225,
-				150,
-				3,
-				DOWN_RIGHT,
-				EMPTY_FILL,
-				WHITE,
-				CLOSE_DOT_FILL,
-				BROWN,
-				DOTTED_LINE,
-				SOLID_LINE
-				);
-
 
 		if (n)
 			outtextxy(10, getmaxy() - 5, "Game loaded. Press any key to continue...");
