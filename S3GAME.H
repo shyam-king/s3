@@ -1535,7 +1535,7 @@ void gameNew()
 			// houses 
 			for(int i = 0; i < nhouses; i++)
 				obj.buildHouse(map_houses[i]);
-			
+
 			map_trees[0].draw(originX, originY);
 
 
@@ -1719,13 +1719,13 @@ void gameNew()
 				map_houses[nhouses].setPositions(-originX + 200, -originY + 200);
 				map_houses[nhouses].rlevel() = 0;
 				map_houses[nhouses].rpopulation() = 0;
-				
+
 				MovingHouse = map_houses + nhouses;
 				moveflag = 0;
-				
+
 				EDITMODE = MOVE_MODE;
 				animate = 1;
-				
+
 				//increment the nhouses variable
 				nhouses ++;
 			}
@@ -1782,10 +1782,34 @@ void drag(char l)
 	int dg = 250;
 	if (EDITMODE == MOVE_MODE)
 		dg = 50;
-	if (l == UP || tolower(l) == 'w') originY += dg, animate = 1;
-	else if (l == DOWN|| tolower(l) == 's') originY -= dg, animate = 1;
-	else  if (l == RIGHT|| tolower(l) == 'd') originX -= dg, animate = 1;
-	else if (l == LEFT|| tolower(l) == 'a') originX += dg, animate = 1;
+	if (EDITMODE == MOVE_MODE)
+	{
+		//normal dragging when moving around normally
+		if (l == UP || tolower(l) == 'w') originY += dg, animate = 1;
+		else if (l == DOWN|| tolower(l) == 's') originY -= dg, animate = 1;
+		else  if (l == RIGHT|| tolower(l) == 'd') originX -= dg, animate = 1;
+		else if (l == LEFT|| tolower(l) == 'a') originX += dg, animate = 1;
+	}
+	else
+	{
+		//special dragging controls while moving around things
+		if (l == UP)
+			originY += dg * 5;
+		else if (l == 'w' || l == 'W')
+			originY += dg;
+		else if (l == DOWN)
+			originY -= dg * 5;
+		else if (l == 's' || l == 'S')
+			originY -= dg;
+		else if (l == LEFT)
+			originX += dg * 5;
+		else if (l == 'a' || l == 'A')
+			originX += dg;
+		else if (l == RIGHT)
+			originX -= dg * 5;
+		else if (l == 'd' || l == 'D')
+			originX -= dg;
+	}
 
 }
 
@@ -1891,12 +1915,12 @@ void drawDetails()
 		{
 			drawMoveIcon(218 + 86, getmaxy() - 43, 2, 2);
 		}
-		
+
 		if (EDITMODE == VIEW_MODE)
 		{
 			drawAddIcon(218 + 86 + 43, getmaxy() - 43, 2, 2);
 		}
-		
+
 		drawBackIcon(218 + 43, getmaxy()-43, 2,2);
 	}
 
