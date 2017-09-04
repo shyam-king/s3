@@ -18,12 +18,12 @@
 
 ///prototypes
 /*
-	 class Road;
-	 class House;
-	 class customPalette;
-	 class goals;
-	 class Well;
-	 */
+	class Road;
+	class House;
+	class customPalette;
+	class goals;
+	class Well;
+	*/
 ///definitions
 
 ///////////////GLOBAL VARIABLES////////////////////////
@@ -667,7 +667,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-			),
+		  ),
 
 	House(
 			180- 150, -3000/2 + 280+ 150, DOWN_LEFT,
@@ -678,7 +678,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-			),
+		  ),
 
 	House(
 			360- 150, -3000/2 + 100 + 360+ 150, DOWN_LEFT,
@@ -689,7 +689,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-			),
+		  ),
 
 	House(
 			540- 150, -3000/2 + 100 +540+ 150, DOWN_LEFT,
@@ -700,7 +700,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-			),
+		  ),
 
 	House(
 			720- 150, -3000/2 + 100 + 150+720, DOWN_LEFT,
@@ -711,7 +711,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-			),
+		  ),
 	House(
 			900- 150, -3000/2+900+100+ 150, DOWN_LEFT,
 			150,BROWN,WHITE,DARKGRAY,BROWN,WHITE,SOLID_FILL,SLASH_FILL,SLASH_FILL,
@@ -721,7 +721,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-			),
+		  ),
 	House(
 			1080- 150, -3000/2+1080+ 150+100, DOWN_LEFT,
 			150,BROWN,WHITE,DARKGRAY,BROWN,WHITE,SOLID_FILL,SLASH_FILL,SLASH_FILL,
@@ -731,7 +731,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-			)
+		  )
 		,
 	House(
 			1260- 150, -3000/2+1260+100+ 150, DOWN_LEFT,
@@ -742,7 +742,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-			)
+		  )
 };
 
 ///////////////FUNCTION DEFINITIONS////////////////////
@@ -3225,61 +3225,61 @@ void gameReset()
 			);
 
 	/*
-	mainRoad[1].setProperties(
-			+ 3000/4 - 150*3 + 75 - 75 - 150,-3000/4 + 75 + 150,
-			150,
-			terrH/150 - 5,
-			DOWN_LEFT,
-			SOLID_FILL,
-			WHITE,
-			CLOSE_DOT_FILL,
-			DARKGRAY,
-			DOTTED_LINE,
-			SOLID_LINE
-			);
+		mainRoad[1].setProperties(
+		+ 3000/4 - 150*3 + 75 - 75 - 150,-3000/4 + 75 + 150,
+		150,
+		terrH/150 - 5,
+		DOWN_LEFT,
+		SOLID_FILL,
+		WHITE,
+		CLOSE_DOT_FILL,
+		DARKGRAY,
+		DOTTED_LINE,
+		SOLID_LINE
+		);
 
-	mainRoad[2].setProperties(
-			industry.industry_x - 150-75-20-30,industry.industry_y +150,
-			150,
-			6,
-			DOWN_RIGHT,
-			SOLID_FILL,
-			WHITE,
-			CLOSE_DOT_FILL,
-			DARKGRAY,
-			DOTTED_LINE,
-			SOLID_LINE
-			);
+		mainRoad[2].setProperties(
+		industry.industry_x - 150-75-20-30,industry.industry_y +150,
+		150,
+		6,
+		DOWN_RIGHT,
+		SOLID_FILL,
+		WHITE,
+		CLOSE_DOT_FILL,
+		DARKGRAY,
+		DOTTED_LINE,
+		SOLID_LINE
+		);
 
-	mainRoad[3].setProperties(
-			well.access(1) - 300,well.access(2) - 225,
-			150,
-			3,
-			DOWN_RIGHT,
-			EMPTY_FILL,
-			WHITE,
-			CLOSE_DOT_FILL,
-			BROWN,
-			DOTTED_LINE,
-			SOLID_LINE
-			);
+		mainRoad[3].setProperties(
+		well.access(1) - 300,well.access(2) - 225,
+		150,
+		3,
+		DOWN_RIGHT,
+		EMPTY_FILL,
+		WHITE,
+		CLOSE_DOT_FILL,
+		BROWN,
+		DOTTED_LINE,
+		SOLID_LINE
+		);
 
-	map_trees[0].setPositions(150 - 20,-3000/2 + 100+ 80);
-	map_trees[1].setPositions(150 - 60 - 20+150,-3000/2 + 100+ 80+150);
-	map_trees[2].setPositions(150 - 40+150+150-25,-3000/2 +150+ 100+ 80+150);
-	map_trees[3].setPositions( + 150 - 100+150+150+150 - 5,-3000/2 +150+150+ 100+ 80+150);
-	map_trees[4].setPositions(+ 150 - 50+150+150+150+150-15,-3000/2 +150+ 100+ 80+150+150+150);
-	map_trees[5].setPositions(+ 150 - 150+150+150+150+150+150-30,-3000/2 +150+ 100+ 80+150+150+150+150);
-	map_trees[6].setPositions(+600+ 150 - 20+150+150,-3000/2 +150+ 100+600+ 80+150);
-	map_trees[7].setPositions(+ 150 -80+150+150+600+150-30,-3000/2 +150+ 100+ 80+150+600+150);
-	map_trees[8].setPositions( - 100,0);
-	map_trees[9].setPositions(-1000, 10);
-	map_trees[10].setPositions(-1300, -25);
-	map_trees[11].setPositions(-750, 60);
-	map_trees[12].setPositions(-1000, 250);
-	map_trees[13].setPositions(industry.industry_x, industry.industry_y - 450);
-	map_trees[14].setPositions(industry.industry_x - 100, industry.industry_y - 350);
-	*/
+		map_trees[0].setPositions(150 - 20,-3000/2 + 100+ 80);
+		map_trees[1].setPositions(150 - 60 - 20+150,-3000/2 + 100+ 80+150);
+		map_trees[2].setPositions(150 - 40+150+150-25,-3000/2 +150+ 100+ 80+150);
+		map_trees[3].setPositions( + 150 - 100+150+150+150 - 5,-3000/2 +150+150+ 100+ 80+150);
+		map_trees[4].setPositions(+ 150 - 50+150+150+150+150-15,-3000/2 +150+ 100+ 80+150+150+150);
+		map_trees[5].setPositions(+ 150 - 150+150+150+150+150+150-30,-3000/2 +150+ 100+ 80+150+150+150+150);
+		map_trees[6].setPositions(+600+ 150 - 20+150+150,-3000/2 +150+ 100+600+ 80+150);
+		map_trees[7].setPositions(+ 150 -80+150+150+600+150-30,-3000/2 +150+ 100+ 80+150+600+150);
+		map_trees[8].setPositions( - 100,0);
+		map_trees[9].setPositions(-1000, 10);
+		map_trees[10].setPositions(-1300, -25);
+		map_trees[11].setPositions(-750, 60);
+		map_trees[12].setPositions(-1000, 250);
+		map_trees[13].setPositions(industry.industry_x, industry.industry_y - 450);
+		map_trees[14].setPositions(industry.industry_x - 100, industry.industry_y - 350);
+		*/
 	//the above lines are commented out to check if the random layout load up is working
 
 	cleardevice();
@@ -3540,7 +3540,7 @@ void gamesave()
 	fileop.updation(&player, map_houses, map_trees, mainRoad, goal.currentGoalIndex());
 	originY = 0;
 	originX = 0;
-	
+
 }
 
 int gameload()
