@@ -74,6 +74,9 @@ int houseBuiltCount;
 char  rlist[20][15]={"POSIEDON","ZEUS","HADES","APHRODITE","ATHENA","HEPHAESTUS","DIONISUS","APOLLO","ARTEMIS","ARES","HERMES","HERA","GAIA","KRONOS","ORANOUS","ATLAS","CHAOS","LOKI","THOR","ODIN"};
 char  clist[20][15]={"POSIEDON","ZEUS","HADES","APHRODITE","ATHENA","HEPHAESTUS","DIONISUS","APOLLO","ARTEMIS","ARES","HERMES","HERA","GAIA","KRONOS","ORANOUS","ATLAS","CHAOS","LOKI","THOR","ODIN"};
 
+//misc flags
+int moveflag = 0;
+
 //troubleshooting purposes
 char tsstr[80] = "Troubleshooting test";
 int tsval=0;
@@ -225,7 +228,7 @@ class PLAYER
 	char userName[80];
 	unsigned long money,wood,produce,water;
 	int maxXp;
-	int index;
+	int nhouses;
 	public:
 	PLAYER ()
 	{
@@ -237,6 +240,7 @@ class PLAYER
 		wood=700;
 		water=0;
 		produce=0;
+		nhouses = 8;
 	}
 	//Accesor functions
 	int getplayerLevel()
@@ -294,8 +298,8 @@ class PLAYER
 		if(currXp>maxXp)
 		{
 			playerLevel++;
-			currXp=0;
-			maxXp=playerLevel*100;
+			currXp = 0;
+			maxXp = playerLevel*100;
 			animate=1;
 		}
 	}
@@ -304,6 +308,14 @@ class PLAYER
 	void setid(int i)
 	{
 		id  = i;
+	}
+	void setnhouses(int i)
+	{
+		nhouses = i;
+	}
+	int getnhouses()
+	{
+		return nhouses;
 	}
 
 	int show_ID();
@@ -491,7 +503,11 @@ class House{
 	void drawHouse ( int  , int  , int  , int  , int  , int  );
 	void buildHouse(House &houses); // full house, all floors with roof and 'wall'
 	void houseInteract(House *houses, int n, char); // to select a house
-
+	void setPositions(int xx, int yy)
+	{
+		x = xx;
+		y = yy;
+	}
 }obj;
 
 House *MovingHouse = NULL;
@@ -632,7 +648,7 @@ void drawProduceIcon(int x, int y, int xscale, int yscale);
 void drawDropIcon(int x, int y, int xscale, int yscale);
 void drawScrambleIcon(int, int ,int, int);
 void drawMoveIcon(int x, int y, int xscale, int yscale);
-
+void drawAddIcon(int x, int y, int xscale, int yscale);
 
 //game management fucntions
 void goals_display();
@@ -771,6 +787,7 @@ void House::houseInteract(House *houses, int n, char k)
 					x = originX;
 					y = originY;
 					animate = 1;
+					moveflag = 1;
 				}
 			}
 			else if (mc == 1 && mmc !=1 && EDITMODE == CREATE_MODE)
@@ -855,6 +872,12 @@ void House::houseInteract(House *houses, int n, char k)
 		}
 		if (MovingHouse == houses + i && EDITMODE == MOVE_MODE)
 		{
+			if (!moveflag)
+			{
+				x = originX;
+				y = originY;
+				moveflag = 1;
+			}
 			houses[i].x -= originX - x;
 			houses[i].y -= originY - y;
 			x = originX;
@@ -911,7 +934,7 @@ void House::houseInteract(House *houses, int n, char k)
 				}
 			}
 
-			sprintf(tsstr, "%d %d", houses[i].x, houses[i].y);
+			sprintf(tsstr, "%d %d %d %d", houses[i].x, houses[i].y, originX, originY);
 
 
 		}
@@ -1509,40 +1532,35 @@ void gameNew()
 			mainRoad[2].build(originX, originY);
 			mainRoad[3].build(originX, originY);
 
-			// houses along with decorative trees
-			obj.buildHouse(map_houses[0]);
+			// houses 
+			for(int i = 0; i < nhouses; i++)
+				obj.buildHouse(map_houses[i]);
+			
 			map_trees[0].draw(originX, originY);
 
 
 			//
-			obj.buildHouse(map_houses[1]);
 			map_trees[1].draw(originX, originY);
 
 			//
-			obj.buildHouse(map_houses[2]);
 			map_trees[2].draw(originX, originY);
 
 
 			////
-			obj.buildHouse(map_houses[3]);
 			map_trees[3].draw(originX, originY);
 
 			//
-			obj.buildHouse(map_houses[4]);
 			map_trees[4].draw(originX, originY);
 
 			//
-			obj.buildHouse(map_houses[5]);
 			map_trees[5].draw(originX, originY);
 
 
 			//
-			obj.buildHouse(map_houses[6]);
 			map_trees[6].draw(originX, originY);
 
 
 			//
-			obj.buildHouse(map_houses[7]);
 			map_trees[7].draw(originX, originY);
 
 			//industry
@@ -1693,6 +1711,23 @@ void gameNew()
 				EDITMODE = MOVE_MODE;
 				MovingHouse = NULL;
 				animate = 1;
+			}
+			else if(mx >= 218 + 86 +43 && mx <= 258 + 86 +86&& my >= getmaxy()-43 && my <= getmaxy() && mc == 1 && mmc != 1 && EDITMODE == VIEW_MODE )
+			{
+				//adding a new house to the array
+				map_houses[nhouses] = map_houses[0];
+				map_houses[nhouses].setPositions(-originX + 200, -originY + 200);
+				map_houses[nhouses].rlevel() = 0;
+				map_houses[nhouses].rpopulation() = 0;
+				
+				MovingHouse = map_houses + nhouses;
+				moveflag = 0;
+				
+				EDITMODE = MOVE_MODE;
+				animate = 1;
+				
+				//increment the nhouses variable
+				nhouses ++;
 			}
 		}
 
@@ -1856,7 +1891,12 @@ void drawDetails()
 		{
 			drawMoveIcon(218 + 86, getmaxy() - 43, 2, 2);
 		}
-
+		
+		if (EDITMODE == VIEW_MODE)
+		{
+			drawAddIcon(218 + 86 + 43, getmaxy() - 43, 2, 2);
+		}
+		
 		drawBackIcon(218 + 43, getmaxy()-43, 2,2);
 	}
 
@@ -2192,6 +2232,48 @@ void Boat::drawBoat(int x, int y)
 
 }
 
+void drawAddIcon(int x, int y, int xscale, int yscale)
+{
+	int picture[20][20] = {15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
+		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15
+	};
+
+	int poly[8]	;
+	for (int i = 0; i < 20; i++)
+		for (int j = 0; j < 20; j++)
+		{
+			if (picture[i][j] == 14)
+				picture[i][j] = RED;
+			setfillstyle(SOLID_FILL, picture[i][j]);
+			poly[0] = poly[2] = x + i*(xscale);
+			poly[1] = poly[7] = y + j*(yscale);
+			poly[3] = poly[5] = y + (j+1) * yscale;
+			poly[4] = poly[6] = x + (i+1) * xscale;
+			if (picture[i][j] != WHITE) fillpoly(4, poly);
+		}
+
+	setcolor(WHITE)	;
+	rectangle(x,y, x +  40, y + 40);
+
+}
 
 void drawMoneyIcon(int x, int y, int xscale, int yscale)
 {
@@ -3187,6 +3269,8 @@ int displayMenu()
 void gameReset()
 {
 	player=PLAYER();
+	//getting the number of houses in the default layout (8 probably)
+	nhouses = player.getnhouses();
 
 	//loadup a random layout
 	int nlayouts = 3;
@@ -3537,6 +3621,8 @@ void tsprint()
 void gamesave()
 {
 	//saving all the details
+	//updating the number of houses to the player
+	player.setnhouses(nhouses);
 	fileop.updation(&player, map_houses, map_trees, mainRoad, goal.currentGoalIndex());
 	originY = 0;
 	originX = 0;
@@ -3594,6 +3680,7 @@ int gameload()
 		fileop.loadTrees(map_trees, sel);
 		fileop.loadRoad(mainRoad, sel);
 		goal.setGoalIndex(fileop.loadGoalIndex(sel));
+		nhouses = player.getnhouses();
 
 		if (n)
 			outtextxy(10, getmaxy() - 5, "Game loaded. Press any key to continue...");
