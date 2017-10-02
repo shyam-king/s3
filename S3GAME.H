@@ -766,7 +766,7 @@ House map_houses[30] = {
 void House::houseInteract(House *houses, int n, char k)
 {
 	House h;
-	static int x, y;
+	static int xx, yy;
 
 	population = 0;
 
@@ -784,8 +784,8 @@ void House::houseInteract(House *houses, int n, char k)
 				if (MovingHouse == NULL)
 				{
 					MovingHouse = houses + i;
-					x = originX;
-					y = originY;
+					xx = originX;
+					yy = originY;
 					animate = 1;
 					moveflag = 1;
 				}
@@ -862,7 +862,6 @@ void House::houseInteract(House *houses, int n, char k)
 			}
 			else
 			{
-
 				// pickup icon
 				setcolor(WHITE);
 				setlinestyle(SOLID_LINE,0,1);
@@ -874,14 +873,14 @@ void House::houseInteract(House *houses, int n, char k)
 		{
 			if (!moveflag)
 			{
-				x = originX;
-				y = originY;
+				xx = originX;
+				yy = originY;
 				moveflag = 1;
 			}
-			houses[i].x -= originX - x;
-			houses[i].y -= originY - y;
-			x = originX;
-			y = originY;
+			houses[i].x -= originX - xx;
+			houses[i].y -= originY - yy;
+			xx = originX;
+			yy = originY;
 			if (tolower(k) == 'r')
 			{
 				houses[i].direction = (houses[i].direction == DOWN_LEFT)? DOWN_RIGHT: DOWN_LEFT;	
@@ -1607,6 +1606,7 @@ void gameNew()
 
 			animate = 0;
 		}
+		sprintf(tsstr, "%d,%d,%d", nhouses,  originX, originY);
 		tsprint();
 
 		if (EDITMODE == SCRAMBLE_MODE)
@@ -3726,5 +3726,3 @@ int gameload()
 }
 
 #endif
-
-//eof
