@@ -1785,14 +1785,6 @@ void drag(char l)
 	if (EDITMODE == MOVE_MODE)
 	{
 		//normal dragging when moving around normally
-		if (l == UP || tolower(l) == 'w') originY += dg, animate = 1;
-		else if (l == DOWN|| tolower(l) == 's') originY -= dg, animate = 1;
-		else  if (l == RIGHT|| tolower(l) == 'd') originX -= dg, animate = 1;
-		else if (l == LEFT|| tolower(l) == 'a') originX += dg, animate = 1;
-	}
-	else
-	{
-		//special dragging controls while moving around things
 		if (l == UP)
 			originY += dg * 5;
 		else if (l == 'w' || l == 'W')
@@ -1809,6 +1801,18 @@ void drag(char l)
 			originX -= dg * 5;
 		else if (l == 'd' || l == 'D')
 			originX -= dg;
+
+		if (l == UP || l == DOWN || l == RIGHT || l == LEFT
+				|| tolower(l) == 'w' || tolower(l) == 's' || tolower(l) == 'd' || tolower(l) == 'a')
+			animate = 1;
+	}
+	else
+	{
+		if (l == UP || tolower(l) == 'w') originY += dg * 2, animate = 1;
+		else if (l == DOWN|| tolower(l) == 's') originY -= dg* 2, animate = 1;
+		else  if (l == RIGHT|| tolower(l) == 'd') originX -= dg* 2, animate = 1;
+		else if (l == LEFT|| tolower(l) == 'a') originX += dg* 2, animate = 1;
+		//special dragging controls while moving around things
 	}
 
 }
@@ -3332,7 +3336,7 @@ void gameReset()
 			SOLID_LINE
 			);
 
-	/*
+	
 		mainRoad[1].setProperties(
 		+ 3000/4 - 150*3 + 75 - 75 - 150,-3000/4 + 75 + 150,
 		150,
@@ -3371,7 +3375,7 @@ void gameReset()
 		DOTTED_LINE,
 		SOLID_LINE
 		);
-
+	/*
 		map_trees[0].setPositions(150 - 20,-3000/2 + 100+ 80);
 		map_trees[1].setPositions(150 - 60 - 20+150,-3000/2 + 100+ 80+150);
 		map_trees[2].setPositions(150 - 40+150+150-25,-3000/2 +150+ 100+ 80+150);
@@ -3387,7 +3391,7 @@ void gameReset()
 		map_trees[12].setPositions(-1000, 250);
 		map_trees[13].setPositions(industry.industry_x, industry.industry_y - 450);
 		map_trees[14].setPositions(industry.industry_x - 100, industry.industry_y - 350);
-		*/
+	*/	
 	//the above lines are commented out to check if the random layout load up is working
 
 	cleardevice();
