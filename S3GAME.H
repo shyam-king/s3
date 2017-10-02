@@ -1607,7 +1607,7 @@ void gameNew()
 			animate = 0;
 		}
 		sprintf(tsstr, "%d,%d,%d", nhouses,  originX, originY);
-		tsprint();
+		//tsprint();
 
 		if (EDITMODE == SCRAMBLE_MODE)
 			puzzle.puzzleInteract(k);
@@ -1712,7 +1712,7 @@ void gameNew()
 				MovingHouse = NULL;
 				animate = 1;
 			}
-			else if(mx >= 218 + 86 +43 && mx <= 258 + 86 +86&& my >= getmaxy()-43 && my <= getmaxy() && mc == 1 && mmc != 1 && EDITMODE == VIEW_MODE )
+			/*else if(mx >= 218 + 86 +43 && mx <= 258 + 86 +86&& my >= getmaxy()-43 && my <= getmaxy() && mc == 1 && mmc != 1 && EDITMODE == VIEW_MODE )
 			{
 				//adding a new house to the array
 				map_houses[nhouses] = map_houses[0];
@@ -1728,7 +1728,7 @@ void gameNew()
 
 				//increment the nhouses variable
 				nhouses ++;
-			}
+			}*/ //commented out because *not working properly*
 		}
 
 		goal.goalcheck();
@@ -1920,11 +1920,11 @@ void drawDetails()
 			drawMoveIcon(218 + 86, getmaxy() - 43, 2, 2);
 		}
 
-		if (EDITMODE == VIEW_MODE)
+/*if (EDITMODE == VIEW_MODE)
 		{
 			drawAddIcon(218 + 86 + 43, getmaxy() - 43, 2, 2);
 		}
-
+*/
 		drawBackIcon(218 + 43, getmaxy()-43, 2,2);
 	}
 
