@@ -78,6 +78,33 @@ void insertGoalToFile(Goaldata g, int n)
 	rename("GOALDAT2.DAT", "GOALDATA.DAT");
 }
 
+void removeGoal(int n)
+{
+	ifstream fin;
+	ofstream fout;
+	fin.open("GOALDATA.DAT", ios::binary);
+	fout.open("temp.dat", ios::binary);
+
+	Goaldata g;
+
+	while (fin.read((char*)&g, sizeof(g)))
+	{
+		static int i = 0;
+		if (i != n)
+		{
+			fout.write((char*)&g, sizeof(g));
+		}
+		i++;
+	}
+
+	fout.close();
+	fin.close();
+
+	remove("GOALDATA.DAT");
+	rename("temp.dat", "GOALDATA.DAT");
+
+}
+
 
 //to print all the goals
 void printAllGoals()
@@ -85,15 +112,19 @@ void printAllGoals()
 	ifstream file("GOALDATA.DAT");
 	Goaldata g;
 	clrscr();
-	while(file.read((char*)&g , sizeof(g)))
+	int ind = 0;
+	char k = '0';
+	while(file.read((char*)&g , sizeof(g)) && tolower(k) != 'e')
 	{
 		clrscr();
+		cout << "Goal index = " << ind << endl;
+		ind ++;
 		puts(g.title);
 		for(int i = 0; i < g.message_length; i++)
 			puts(g.message[i]);
 		cout << g.message_length << endl;
 		cout << g.image_index;
-		getch();
+		k = getch();
 	}
 }
 
@@ -119,6 +150,7 @@ void main()
 		cout << "\t3 - VIEW A GOAL\n";
 		cout << "\t4 - LIST ALL GOALS\n";
 		cout << "\t5 - REPLACE A GOAL\n";
+		cout << "\t6 - REMOVE A GOAL\n";
 
 		uc = tolower(getch());
 		cout << endl << "Enter details:\n";
@@ -126,25 +158,35 @@ void main()
 		switch(uc - '0')
 		{
 			case 1: 
+				cout << "Enter title:";
 				gets(g.title);
+				cout << "Enter message length:";
 				cin >> g.message_length;
+				cout << "Enter message: \n";
 				for ( i =0; i < g.message_length ; i++)
 					gets(g.message[i]);
+				cout << "Enter image index:";
 				cin >> g.image_index;
 
 				addGoalToFile(g);
 				break;
 			case 2: 
+				cout << "Enter title:";
 				gets(g.title);
+				cout << "Enter message length:";
 				cin >> g.message_length;
+				cout << "Enter message: \n";
 				for ( i =0; i < g.message_length ; i++)
 					gets(g.message[i]);
+				cout << "Enter image index:";
 				cin >> g.image_index;
+				cout << "Enter position:";
 				cin >> i;
 
 				insertGoalToFile(g, i);
 				break;
 			case 3: 
+				cout << "Enter position:";
 				cin >> i;
 				g = viewGoalFromFile(i);
 				puts(g.title);
@@ -157,15 +199,34 @@ void main()
 				printAllGoals();
 				break;
 			case 5:
+				cout << "Enter position:";
+				cin >> i;
+
+				cout << "ORIGINAL ENTRY:\n";
+				g = viewGoalFromFile(i);
+				puts(g.title);
+				for(i = 0; i < g.message_length; i++)
+					puts(g.message[i]);
+				cout << g.image_index;
+				cout << endl;
+
+				cout << "Enter title:";
 				gets(g.title);
+				cout << "Enter message length:";
 				cin >> g.message_length;
+				cout << "Enter message: \n";
 				for ( i =0; i < g.message_length ; i++)
 					gets(g.message[i]);
+				cout << "Enter image index:";
 				cin >> g.image_index;
-				cin >> i;
 				replaceGoalInFile(g,  i);
 				break;
 
+			case 6:
+				cout << "Enter the goal index: ";
+				cin >> i;
+				removeGoal(i);
+				break;
 			default:
 				cout << "Invalid choice!";
 		}

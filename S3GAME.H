@@ -627,6 +627,7 @@ void drawTrunk (int x, int y); // trunk of a tree
 void drawbush ( int x , int y , int color ); // bush below the tree
 void drawtreebush ( int x , int y ); // bush above the tree
 void plotTree(Tree); // the whole tree
+void drawWall(int x, int y); // drawing the wall around the map
 void messagebox(char message[][80] , int color, int n, int image_index);
 int displayMenu();
 void drawBarHoriz(int x, int y, int w, int h, int color0, int color1, float percent);
@@ -648,7 +649,6 @@ void drawProduceIcon(int x, int y, int xscale, int yscale);
 void drawDropIcon(int x, int y, int xscale, int yscale);
 void drawScrambleIcon(int, int ,int, int);
 void drawMoveIcon(int x, int y, int xscale, int yscale);
-void drawAddIcon(int x, int y, int xscale, int yscale);
 
 //game management fucntions
 void goals_display();
@@ -1523,6 +1523,47 @@ void gameNew()
 			cleardevice();
 			//Green terrain
 			drawTerrain();
+			
+			//trial placement of a wall
+			{
+				//drawing the walls
+				drawWall(originX + 0, originY + -1648 );
+				drawWall(originX + 50, originY + -1598 );
+				drawWall(originX + 100, originY + -1548 );
+				drawWall(originX + 150, originY + -1498 );
+				drawWall(originX + 200, originY + -1448 );
+				drawWall(originX + 250, originY + -1398 );
+				drawWall(originX + 300, originY + -1348 );
+				drawWall(originX + 350, originY + -1298 );
+				drawWall(originX + 400, originY + -1248 );
+				drawWall(originX + 450, originY + -1198 );
+				drawWall(originX + 500, originY + -1148 );
+				drawWall(originX + 550, originY + -1098 );
+				drawWall(originX + 600, originY + -1048 );
+				drawWall(originX + 650, originY + -998 );
+				drawWall(originX + 700, originY + -948 );
+				drawWall(originX + 750, originY + -898 );
+				drawWall(originX + 800, originY + -848 );
+				drawWall(originX + 850, originY + -798 );
+				drawWall(originX + 900, originY + -748 );
+				drawWall(originX + 950, originY + -698 );
+				drawWall(originX + 1000, originY + -648 );
+				drawWall(originX + 1050, originY + -598 );
+				drawWall(originX + 1100, originY + -548 );
+				drawWall(originX + 1150, originY + -498 );
+				drawWall(originX + 1200, originY + -448 );
+				drawWall(originX + 1250, originY + -398 );
+				drawWall(originX + 1300, originY + -348 );
+				drawWall(originX + 1350, originY + -298 );
+				drawWall(originX + 1400, originY + -248 );
+				drawWall(originX + 1450, originY + -198 );
+				drawWall(originX + 1500, originY + -148 );
+				drawWall(originX + 1550, originY + -98 );
+				drawWall(originX + 1600, originY + -48 );
+				drawWall(originX + 1650, originY + 2 );
+			}
+
+			drawWall(getmaxx()/2, getmaxy()/2 );
 
 
 			//All the roads
@@ -1606,8 +1647,8 @@ void gameNew()
 
 			animate = 0;
 		}
-		sprintf(tsstr, "%d,%d,%d", nhouses,  originX, originY);
-		//tsprint();
+		sprintf(tsstr, "%d,%d",  getmaxx()/2 - originX, getmaxy()/2 - originY);
+		tsprint();
 
 		if (EDITMODE == SCRAMBLE_MODE)
 			puzzle.puzzleInteract(k);
@@ -1712,23 +1753,6 @@ void gameNew()
 				MovingHouse = NULL;
 				animate = 1;
 			}
-			/*else if(mx >= 218 + 86 +43 && mx <= 258 + 86 +86&& my >= getmaxy()-43 && my <= getmaxy() && mc == 1 && mmc != 1 && EDITMODE == VIEW_MODE )
-			{
-				//adding a new house to the array
-				map_houses[nhouses] = map_houses[0];
-				map_houses[nhouses].setPositions(-originX + 200, -originY + 200);
-				map_houses[nhouses].rlevel() = 0;
-				map_houses[nhouses].rpopulation() = 0;
-
-				MovingHouse = map_houses + nhouses;
-				moveflag = 0;
-
-				EDITMODE = MOVE_MODE;
-				animate = 1;
-
-				//increment the nhouses variable
-				nhouses ++;
-			}*/ //commented out because *not working properly*
 		}
 
 		goal.goalcheck();
@@ -1779,41 +1803,27 @@ void changePalette(customPalette pal)
 void drag(char l)
 {
 
-	int dg = 250;
-	if (EDITMODE == MOVE_MODE)
-		dg = 50;
-	if (EDITMODE == MOVE_MODE)
-	{
-		//normal dragging when moving around normally
-		if (l == UP)
-			originY += dg * 5;
-		else if (l == 'w' || l == 'W')
-			originY += dg;
-		else if (l == DOWN)
-			originY -= dg * 5;
-		else if (l == 's' || l == 'S')
-			originY -= dg;
-		else if (l == LEFT)
-			originX += dg * 5;
-		else if (l == 'a' || l == 'A')
-			originX += dg;
-		else if (l == RIGHT)
-			originX -= dg * 5;
-		else if (l == 'd' || l == 'D')
-			originX -= dg;
+	int dg = 50;
+	if (l == UP)
+		originY += dg * 5;
+	else if (l == 'w' || l == 'W')
+		originY += 2;
+	else if (l == DOWN)
+		originY -= dg * 5;
+	else if (l == 's' || l == 'S')
+		originY -= 2;
+	else if (l == LEFT)
+		originX += dg * 5;
+	else if (l == 'a' || l == 'A')
+		originX += 2;
+	else if (l == RIGHT)
+		originX -= dg * 5;
+	else if (l == 'd' || l == 'D')
+		originX -= 2;
 
-		if (l == UP || l == DOWN || l == RIGHT || l == LEFT
-				|| tolower(l) == 'w' || tolower(l) == 's' || tolower(l) == 'd' || tolower(l) == 'a')
-			animate = 1;
-	}
-	else
-	{
-		if (l == UP || tolower(l) == 'w') originY += dg * 2, animate = 1;
-		else if (l == DOWN|| tolower(l) == 's') originY -= dg* 2, animate = 1;
-		else  if (l == RIGHT|| tolower(l) == 'd') originX -= dg* 2, animate = 1;
-		else if (l == LEFT|| tolower(l) == 'a') originX += dg* 2, animate = 1;
-		//special dragging controls while moving around things
-	}
+	if (l == UP || l == DOWN || l == RIGHT || l == LEFT
+			|| tolower(l) == 'w' || tolower(l) == 's' || tolower(l) == 'd' || tolower(l) == 'a')
+		animate = 1;
 
 }
 
@@ -1920,11 +1930,6 @@ void drawDetails()
 			drawMoveIcon(218 + 86, getmaxy() - 43, 2, 2);
 		}
 
-/*if (EDITMODE == VIEW_MODE)
-		{
-			drawAddIcon(218 + 86 + 43, getmaxy() - 43, 2, 2);
-		}
-*/
 		drawBackIcon(218 + 43, getmaxy()-43, 2,2);
 	}
 
@@ -2260,48 +2265,6 @@ void Boat::drawBoat(int x, int y)
 
 }
 
-void drawAddIcon(int x, int y, int xscale, int yscale)
-{
-	int picture[20][20] = {15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15,
-		15,15,15,15,15,15,15,15,15,8,15,15,15,15,15,15,15,15,15,15
-	};
-
-	int poly[8]	;
-	for (int i = 0; i < 20; i++)
-		for (int j = 0; j < 20; j++)
-		{
-			if (picture[i][j] == 14)
-				picture[i][j] = RED;
-			setfillstyle(SOLID_FILL, picture[i][j]);
-			poly[0] = poly[2] = x + i*(xscale);
-			poly[1] = poly[7] = y + j*(yscale);
-			poly[3] = poly[5] = y + (j+1) * yscale;
-			poly[4] = poly[6] = x + (i+1) * xscale;
-			if (picture[i][j] != WHITE) fillpoly(4, poly);
-		}
-
-	setcolor(WHITE)	;
-	rectangle(x,y, x +  40, y + 40);
-
-}
 
 void drawMoneyIcon(int x, int y, int xscale, int yscale)
 {
@@ -3336,62 +3299,62 @@ void gameReset()
 			SOLID_LINE
 			);
 
-	
-		mainRoad[1].setProperties(
-		+ 3000/4 - 150*3 + 75 - 75 - 150,-3000/4 + 75 + 150,
-		150,
-		terrH/150 - 5,
-		DOWN_LEFT,
-		SOLID_FILL,
-		WHITE,
-		CLOSE_DOT_FILL,
-		DARKGRAY,
-		DOTTED_LINE,
-		SOLID_LINE
-		);
 
-		mainRoad[2].setProperties(
-		industry.industry_x - 150-75-20-30,industry.industry_y +150,
-		150,
-		6,
-		DOWN_RIGHT,
-		SOLID_FILL,
-		WHITE,
-		CLOSE_DOT_FILL,
-		DARKGRAY,
-		DOTTED_LINE,
-		SOLID_LINE
-		);
+	mainRoad[1].setProperties(
+			+ 3000/4 - 150*3 + 75 - 75 - 150,-3000/4 + 75 + 150,
+			150,
+			terrH/150 - 5,
+			DOWN_LEFT,
+			SOLID_FILL,
+			WHITE,
+			CLOSE_DOT_FILL,
+			DARKGRAY,
+			DOTTED_LINE,
+			SOLID_LINE
+			);
 
-		mainRoad[3].setProperties(
-		well.access(1) - 300,well.access(2) - 225,
-		150,
-		3,
-		DOWN_RIGHT,
-		EMPTY_FILL,
-		WHITE,
-		CLOSE_DOT_FILL,
-		BROWN,
-		DOTTED_LINE,
-		SOLID_LINE
-		);
+	mainRoad[2].setProperties(
+			industry.industry_x - 150-75-20-30,industry.industry_y +150,
+			150,
+			6,
+			DOWN_RIGHT,
+			SOLID_FILL,
+			WHITE,
+			CLOSE_DOT_FILL,
+			DARKGRAY,
+			DOTTED_LINE,
+			SOLID_LINE
+			);
+
+	mainRoad[3].setProperties(
+			well.access(1) - 300,well.access(2) - 225,
+			150,
+			3,
+			DOWN_RIGHT,
+			EMPTY_FILL,
+			WHITE,
+			CLOSE_DOT_FILL,
+			BROWN,
+			DOTTED_LINE,
+			SOLID_LINE
+			);
 	/*
-		map_trees[0].setPositions(150 - 20,-3000/2 + 100+ 80);
-		map_trees[1].setPositions(150 - 60 - 20+150,-3000/2 + 100+ 80+150);
-		map_trees[2].setPositions(150 - 40+150+150-25,-3000/2 +150+ 100+ 80+150);
-		map_trees[3].setPositions( + 150 - 100+150+150+150 - 5,-3000/2 +150+150+ 100+ 80+150);
-		map_trees[4].setPositions(+ 150 - 50+150+150+150+150-15,-3000/2 +150+ 100+ 80+150+150+150);
-		map_trees[5].setPositions(+ 150 - 150+150+150+150+150+150-30,-3000/2 +150+ 100+ 80+150+150+150+150);
-		map_trees[6].setPositions(+600+ 150 - 20+150+150,-3000/2 +150+ 100+600+ 80+150);
-		map_trees[7].setPositions(+ 150 -80+150+150+600+150-30,-3000/2 +150+ 100+ 80+150+600+150);
-		map_trees[8].setPositions( - 100,0);
-		map_trees[9].setPositions(-1000, 10);
-		map_trees[10].setPositions(-1300, -25);
-		map_trees[11].setPositions(-750, 60);
-		map_trees[12].setPositions(-1000, 250);
-		map_trees[13].setPositions(industry.industry_x, industry.industry_y - 450);
-		map_trees[14].setPositions(industry.industry_x - 100, industry.industry_y - 350);
-	*/	
+	   map_trees[0].setPositions(150 - 20,-3000/2 + 100+ 80);
+	   map_trees[1].setPositions(150 - 60 - 20+150,-3000/2 + 100+ 80+150);
+	   map_trees[2].setPositions(150 - 40+150+150-25,-3000/2 +150+ 100+ 80+150);
+	   map_trees[3].setPositions( + 150 - 100+150+150+150 - 5,-3000/2 +150+150+ 100+ 80+150);
+	   map_trees[4].setPositions(+ 150 - 50+150+150+150+150-15,-3000/2 +150+ 100+ 80+150+150+150);
+	   map_trees[5].setPositions(+ 150 - 150+150+150+150+150+150-30,-3000/2 +150+ 100+ 80+150+150+150+150);
+	   map_trees[6].setPositions(+600+ 150 - 20+150+150,-3000/2 +150+ 100+600+ 80+150);
+	   map_trees[7].setPositions(+ 150 -80+150+150+600+150-30,-3000/2 +150+ 100+ 80+150+600+150);
+	   map_trees[8].setPositions( - 100,0);
+	   map_trees[9].setPositions(-1000, 10);
+	   map_trees[10].setPositions(-1300, -25);
+	   map_trees[11].setPositions(-750, 60);
+	   map_trees[12].setPositions(-1000, 250);
+	   map_trees[13].setPositions(industry.industry_x, industry.industry_y - 450);
+	   map_trees[14].setPositions(industry.industry_x - 100, industry.industry_y - 350);
+	   */	
 	//the above lines are commented out to check if the random layout load up is working
 
 	cleardevice();
@@ -3706,23 +3669,154 @@ int gameload()
 		player = fileop.loadPlayer(sel);
 		fileop.loadHouse(map_houses, sel);
 		fileop.loadTrees(map_trees, sel);
-		fileop.loadRoad(mainRoad, sel);
+		fileop.loadRoad(mainRoad, sel); // doesnt seem to work properly
 		goal.setGoalIndex(fileop.loadGoalIndex(sel));
 		nhouses = player.getnhouses();
 
 		if (n)
 			outtextxy(10, getmaxy() - 5, "Game loaded. Press any key to continue...");
 
+		//roads
+		mainRoad[0].setProperties(
+				-300+150-150,-3000/2+300-75+150,
+				150,
+				terrH/150,
+				DOWN_RIGHT,
+				EMPTY_FILL,
+				WHITE,
+				CLOSE_DOT_FILL,
+				BROWN,
+				DOTTED_LINE,
+				SOLID_LINE
+				);
+
+
+		mainRoad[1].setProperties(
+				+ 3000/4 - 150*3 + 75 - 75 - 150,-3000/4 + 75 + 150,
+				150,
+				terrH/150 - 5,
+				DOWN_LEFT,
+				SOLID_FILL,
+				WHITE,
+				CLOSE_DOT_FILL,
+				DARKGRAY,
+				DOTTED_LINE,
+				SOLID_LINE
+				);
+
+		mainRoad[2].setProperties(
+				industry.industry_x - 150-75-20-30,industry.industry_y +150,
+				150,
+				6,
+				DOWN_RIGHT,
+				SOLID_FILL,
+				WHITE,
+				CLOSE_DOT_FILL,
+				DARKGRAY,
+				DOTTED_LINE,
+				SOLID_LINE
+				);
+
+		mainRoad[3].setProperties(
+				well.access(1) - 300,well.access(2) - 225,
+				150,
+				3,
+				DOWN_RIGHT,
+				EMPTY_FILL,
+				WHITE,
+				CLOSE_DOT_FILL,
+				BROWN,
+				DOTTED_LINE,
+				SOLID_LINE
+				);
+
 	}
 
-	getch();
+	delete names;
+
 	if (n) 
 		return 1;
 	else 
+	{
+		getch();
 		return 0;
+	}
 
 
-	delete names;
+}
+
+void drawWall(int x, int y)
+{
+	x -= 300;
+	y -= 350;
+
+	setcolor(DARKGRAY);
+	//OUTER RECTANGLES
+	int poly[8];
+	poly[0] = poly[2] = x + 250;
+	poly[1] =  y + 150;
+	poly[3] =  y + 350;
+	poly[4] = x + 300;
+	poly[5] = y + 400;
+	poly[6] = x + 300;
+	poly[7] = y + 200;
+	setfillstyle(SOLID_FILL, DARKGRAY);
+	fillpoly(4, poly);
+
+	poly[0] = x + 300;
+	poly[1] = y + 200;
+	poly[2] = x + 300;
+	poly[3] = y + 400;
+	poly[4] = x + 350;
+	poly[5] = y + 350;
+	poly[6] = x + 350;
+	poly[7] = y + 150;
+	setfillstyle(SOLID_FILL, DARKGRAY);
+	fillpoly(4, poly);
+
+	// THE ABOVE CONE PART ...
+	poly[0] = x + 300;
+	poly[1] = y + 100;
+	poly[2] = x + 250;
+	poly[3] = y + 150;
+	poly[4] = x + 300;
+	poly[5] = y + 200;
+	poly[6] = x + 350;
+	poly[7] = y + 150;
+	setfillstyle(SOLID_FILL, LIGHTGRAY);
+	fillpoly(4, poly);
+
+	line ( x + 305 , y + 130 , x + 300 , y + 200 ) ;
+	line ( x + 305 , y + 130 , x + 250 , y + 150 ) ;
+	line ( x + 305 , y + 130 , x + 350 , y + 150 ) ;
+	line ( x + 305 , y + 130 , x + 300 , y + 100 ) ;
+
+	// THE INNER RECTANGLE 1 ....
+	poly[0] = x + 260;
+	poly[1] = y + 180;
+	poly[2] = x + 290;
+	poly[3] = y + 210;
+	poly[4] = x + 290;
+	poly[5] = y + 370;
+	poly[6] = x + 260;
+	poly[7] = y + 340;
+	setfillstyle(SOLID_FILL, LIGHTGRAY);
+	fillpoly(4, poly);
+
+	// THE INNER RECTANGLE 2 ....
+	poly[0] = x + 310;
+	poly[1] = y + 370;
+	poly[2] = x + 340;
+	poly[3] = y + 340;
+	poly[4] = x + 340;
+	poly[5] = y + 180;
+	poly[6] = x + 310;
+	poly[7] = y + 210;
+	setfillstyle(SOLID_FILL, LIGHTGRAY);
+	fillpoly(4, poly);
+	setcolor(YELLOW);
+	line(0, getmaxy()/2, getmaxx(), getmaxy()/2);
+	line(getmaxx()/2, 0, getmaxx()/2, getmaxy());
 }
 
 #endif
