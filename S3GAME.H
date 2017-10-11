@@ -3938,6 +3938,7 @@ void disHighScores()
 		d[i].score += p.getecoMeter() * 100L;
 		d[i].score += p.getWalls() * 100L;
 		d[i].score += p.rlevel() * 1000L;
+		d[i].score += p.getnhouses() * 10;
 		i++;
 	}
 	f.close();
