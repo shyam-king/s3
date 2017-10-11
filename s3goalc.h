@@ -233,7 +233,7 @@ void Goal::goalcheck()
 			break;
 		case 22:
 
-			if (ecoMeter <= 40 || treeCutCount - tf >= 2)
+			if (player.getecoMeter() <= 40 || treeCutCount - tf >= 2)
 			{
 				nextGoal();
 			}

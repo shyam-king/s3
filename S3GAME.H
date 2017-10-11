@@ -41,7 +41,6 @@ int showDetail = 0;
 int detailCount = 0;
 char detailObject[20] = "";
 char detailObjType[20] = "";
-int ecoMeter = 100;
 long int population = 50;
 
 // flags
@@ -231,9 +230,11 @@ class PLAYER
 	int maxXp;
 	int nhouses;
 	int walls;
+	int ecoMeter;
 	public:
 	PLAYER ()
 	{
+		ecoMeter = 100;
 		maxXp=100;
 		walls = 0;
 		currXp=0;
@@ -253,10 +254,6 @@ class PLAYER
 	int getWalls()
 	{
 		return walls;
-	}
-	void setWalls(int x)
-	{
-		walls = x;
 	}
 	int getmaxXp()
 	{
@@ -286,7 +283,19 @@ class PLAYER
 	{
 		return userName;
 	}
+	int getecoMeter()
+	{
+		return ecoMeter;
+	}
 	//Setters
+	void setWalls(int x)
+	{
+		walls = x;
+	}
+	void setecoMeter(int x)
+	{
+		ecoMeter = x;
+	}
 	void setmoney(int a)
 	{
 		money=a;
@@ -1330,7 +1339,7 @@ void Tree::interact( int n)
 				t[i].cutdown = 1;
 				player.setwood(player.getwood() + 100);
 				player.setcurrXp(1);
-				if (ecoMeter > 0) ecoMeter -= 5;
+				if (player.getecoMeter() > 0) player.setecoMeter(player.getecoMeter() - 5) ;
 				animate = 1;
 				treeCutCount ++;
 
@@ -1361,7 +1370,7 @@ void Tree::interact( int n)
 					player.setcurrXp(2);
 					animate = 1;
 					player.setwater(player.getwater() - 5);
-					ecoMeter += 5;
+					player.setecoMeter(player.getecoMeter() + 5);
 					treeCutCount --;
 				}
 				else if (player.getwater() < 5)
@@ -1519,7 +1528,7 @@ void gameNew()
 		if (tolower(k) == 'r') animate = 1;
 		//else if (tolower(k) == 'b') animate = 0;
 		else if (tolower(k) == 'o') {originX = 0; originY = 0;}
-		//else if (tolower(k) == 'g') ecoMeter -= 25, animate = 1;
+		else if (tolower(k) == 'g') player.setecoMeter(player.getecoMeter() - 25) , animate = 1;
 		//else if (tolower(k) == 'h') ecoMeter += 25, animate = 1;
 		//else if (tolower(k) == 'e') exit(0);
 		//else if (tolower(k) == 'h') goaldisplayed = 0, animate = 1;
@@ -1783,7 +1792,28 @@ void gameNew()
 		}
 
 		goal.goalcheck();
-		if (ecoMeter > 100 ) ecoMeter = 100;
+		if (player.getecoMeter() > 100 ) player.setecoMeter(100);
+
+		//checking the ecometer to end the game
+		if (player.getecoMeter() <= 0 )
+		{
+			char m[11][80];
+			strcpy(m[0], "!VILLAGE LOST DUE TO A DISASTER");
+			strcpy(m[1], "You have not managed the village properly");
+			strcpy(m[2], "You have lost the game");
+			messagebox(m, YELLOW, 3, 0);
+			char c = '0';
+			while (1)
+			{
+				c = keyboardInput('0');
+				if (c == '\n' || c == '\r' ) 
+				{
+					gamesave(); //so the player basically will not be able to play any further
+					return;
+				}
+			}
+
+		}
 
 		mmx = mx;
 		mmy = my;
@@ -1905,7 +1935,7 @@ void drawDetails()
 
 	setlinestyle(SOLID_LINE, 0, 1);
 
-	drawBarHoriz(320 + 2 * 20 + 10 + textwidth("100000"),getmaxy() - 100 +20, 170, 20, BLACK, GREEN, ecoMeter );
+	drawBarHoriz(320 + 2 * 20 + 10 + textwidth("100000"),getmaxy() - 100 +20, 170, 20, BLACK, GREEN, player.getecoMeter() );
 
 	setcolor(YELLOW);
 	settextstyle(8,HORIZ_DIR,1);
