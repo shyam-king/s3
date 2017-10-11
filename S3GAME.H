@@ -10,6 +10,7 @@
 
 // macros
 #define MAX(x,y) (x>y)? x:y
+#define MIN(x,y) (x<y)? x:y
 
 #define DOWN_RIGHT 0
 #define DOWN_LEFT 3
@@ -679,6 +680,7 @@ void drag(char); // to drag around the terrain
 void setDetailDisplay (char a[], char b[]);
 void gamesave();
 int gameload();
+void disHighScores();
 
 //interact
 
@@ -3097,13 +3099,13 @@ int displayMenu()
 			}
 			else
 			{
-				menu_selection = 3;
+				menu_selection = 4;
 			}
 		}
 		if (key == 's' || key == 'S' || key == DOWN)     // menu down
 		{
 			l_mouse_using  = 0;
-			if (menu_selection < 3)
+			if (menu_selection < 4)
 			{
 				menu_selection += 1;
 			}
@@ -3140,6 +3142,10 @@ int displayMenu()
 			{
 				menu_selection = 3;
 			}
+			if (l_mouse_using == 1 && my >= SCREEN_H/2 + 30 && my < SCREEN_H/2 + 60)
+			{
+				menu_selection = 4;
+			}
 
 			if (menu_selection == 0  || menu_selection == -1) setcolor(LIGHTBLUE);
 			else setcolor(YELLOW);
@@ -3156,10 +3162,14 @@ int displayMenu()
 			else setcolor(YELLOW);
 			if(!TRANSITION_MODE) outtextxy(SCREEN_W/2 - 60, SCREEN_H/2 - 30, "  About");
 
-
 			if (menu_selection == 3)  setcolor(LIGHTBLUE);
 			else setcolor(YELLOW);
 			if (!TRANSITION_MODE)outtextxy(SCREEN_W/2 - 60, SCREEN_H/2 , "   Exit");
+
+			if (menu_selection == 4)  setcolor(LIGHTBLUE);
+			else setcolor(YELLOW);
+			if (!TRANSITION_MODE)outtextxy(SCREEN_W/2 - 60, SCREEN_H/2 + 30, "High Scores");
+
 
 			if (key == '\r' || (mc == 1 && mmc != 1) )     //   SELECTING FROM MENU
 			{
@@ -3278,6 +3288,23 @@ int displayMenu()
 
 					break;
 
+				case 4:
+					setcolor(LIGHTBLUE);
+					outtextxy(SCREEN_W/2 - 60, SCREEN_H/2 + 30, "High Scores");
+					if (tr < 200)
+					{
+						tr += trSpeed;
+						trSpeed += trAcc;
+					}
+
+					else
+					{
+						disHighScores();
+						TRANSITION_MODE = 0;
+						MENU_MODE = 1;
+					}
+
+					break;
 
 			}
 		}
@@ -3883,6 +3910,65 @@ void drawWall(int x, int y)
 		line(0, getmaxy()/2, getmaxx(), getmaxy()/2);
 		line(getmaxx()/2, 0, getmaxx()/2, getmaxy());
 	}
+}
+
+void disHighScores()
+{
+	struct details { // stucture to store the deatils of all the players
+		char name[80];
+		long score;
+	};
+
+	//checking if players already exist
+	if (!(fileop.noOfPlayers()))
+		return;
+
+	//reading all the player details
+	details *d = new details[fileop.noOfPlayers()];
+	ifstream f("PLAYER.DAT", ios::binary);
+	PLAYER p;
+	int i = 0;
+	while(f.read((char*)&p, sizeof(p)))
+	{
+		strcpy(d[i].name, p.getuserName());
+		//calculating the score for each player
+		d[i].score = 0;
+		d[i].score += p.getmoney() + p.getproduce() + p.getwater() + p.getwood();
+		d[i].score *= 10;
+		d[i].score += p.getecoMeter() * 100L;
+		d[i].score += p.getWalls() * 100L;
+		d[i].score += p.rlevel() * 1000L;
+		i++;
+	}
+	f.close();
+
+
+	//sorting 
+	//using bubble sort to sort the list in descending order of score
+	for (int j = 0; j < i - 1; j++)
+		for (int k = 0; k < i - j - 1; k++)
+		{
+			if (d[k].score < d[k+1].score)
+			{
+				details t = d[k+1];
+				d[k+1] = d[k];
+				d[k] = t;
+			}
+		}
+
+	//displaying it in somewhat proper format
+	cleardevice();
+
+	setcolor(WHITE);
+	char m[80];
+	for (j = 0; j < i; j++) // displaying only the main five records
+	{
+		sprintf(m, "%s : %d", d[j].name, d[j].score);
+		outtextxy(10, 10 + 40 * j, m);
+	}
+
+	getch();
+	delete[] d;
 }
 
 #endif
