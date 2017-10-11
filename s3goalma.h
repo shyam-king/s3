@@ -130,6 +130,7 @@ class  FILE_OPERATIONS
 			f.open("Player.dat", ios::out | ios::in);
 			int id = noOfPlayers();
 			a->setid(id);
+			a->setWalls(0);
 
 			f.close();
 			f.open("Player.dat",ios::binary|ios::out|ios::app);

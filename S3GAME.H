@@ -18,12 +18,12 @@
 
 ///prototypes
 /*
-	class Road;
-	class House;
-	class customPalette;
-	class goals;
-	class Well;
-	*/
+   class Road;
+   class House;
+   class customPalette;
+   class goals;
+   class Well;
+   */
 ///definitions
 
 ///////////////GLOBAL VARIABLES////////////////////////
@@ -76,6 +76,7 @@ char  clist[20][15]={"POSIEDON","ZEUS","HADES","APHRODITE","ATHENA","HEPHAESTUS"
 
 //misc flags
 int moveflag = 0;
+int wallPlaced = 0;
 
 //troubleshooting purposes
 char tsstr[80] = "Troubleshooting test";
@@ -229,10 +230,12 @@ class PLAYER
 	unsigned long money,wood,produce,water;
 	int maxXp;
 	int nhouses;
+	int walls;
 	public:
 	PLAYER ()
 	{
 		maxXp=100;
+		walls = 0;
 		currXp=0;
 		playerLevel=1;
 		strcpy(userName,"\0");
@@ -246,6 +249,14 @@ class PLAYER
 	int getplayerLevel()
 	{
 		return playerLevel;
+	}
+	int getWalls()
+	{
+		return walls;
+	}
+	void setWalls(int x)
+	{
+		walls = x;
 	}
 	int getmaxXp()
 	{
@@ -683,7 +694,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		  ),
+		 ),
 
 	House(
 			180- 150, -3000/2 + 280+ 150, DOWN_LEFT,
@@ -694,7 +705,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		  ),
+		 ),
 
 	House(
 			360- 150, -3000/2 + 100 + 360+ 150, DOWN_LEFT,
@@ -705,7 +716,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		  ),
+		 ),
 
 	House(
 			540- 150, -3000/2 + 100 +540+ 150, DOWN_LEFT,
@@ -716,7 +727,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		  ),
+		 ),
 
 	House(
 			720- 150, -3000/2 + 100 + 150+720, DOWN_LEFT,
@@ -727,7 +738,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		  ),
+		 ),
 	House(
 			900- 150, -3000/2+900+100+ 150, DOWN_LEFT,
 			150,BROWN,WHITE,DARKGRAY,BROWN,WHITE,SOLID_FILL,SLASH_FILL,SLASH_FILL,
@@ -737,7 +748,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		  ),
+		 ),
 	House(
 			1080- 150, -3000/2+1080+ 150+100, DOWN_LEFT,
 			150,BROWN,WHITE,DARKGRAY,BROWN,WHITE,SOLID_FILL,SLASH_FILL,SLASH_FILL,
@@ -747,7 +758,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		  )
+		 )
 		,
 	House(
 			1260- 150, -3000/2+1260+100+ 150, DOWN_LEFT,
@@ -758,7 +769,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		  )
+		 )
 };
 
 ///////////////FUNCTION DEFINITIONS////////////////////
@@ -1523,7 +1534,8 @@ void gameNew()
 			cleardevice();
 			//Green terrain
 			drawTerrain();
-			
+			wallPlaced = player.getWalls();
+
 			//trial placement of a wall
 			{
 				//drawing the walls
@@ -1562,9 +1574,6 @@ void gameNew()
 				drawWall(originX + 1600, originY + -48 );
 				drawWall(originX + 1650, originY + 2 );
 			}
-
-			drawWall(getmaxx()/2, getmaxy()/2 );
-
 
 			//All the roads
 			mainRoad[0].build(originX, originY);
@@ -1648,6 +1657,7 @@ void gameNew()
 			animate = 0;
 		}
 		sprintf(tsstr, "%d,%d",  getmaxx()/2 - originX, getmaxy()/2 - originY);
+		tsval = player.getWalls();
 		tsprint();
 
 		if (EDITMODE == SCRAMBLE_MODE)
@@ -1752,6 +1762,23 @@ void gameNew()
 				EDITMODE = MOVE_MODE;
 				MovingHouse = NULL;
 				animate = 1;
+			}
+			else if (mx >= 218 + 86 + 43 && mx <= 258 + 86 + 43 && my >= getmaxy() - 43 && my  <= getmaxy() && EDITMODE == VIEW_MODE && mc == 1 && mmc !=1)
+			{
+				//adding a new wall
+				if (player.getmoney() >= 2000 && player.getwood() >= 1000 && player.getproduce() >= 1000)
+				{
+					player.setmoney(player.getmoney() - 2000);
+					player.setwood(player.getwood() - 1000);
+					player.setproduce(player.getproduce() - 1000);
+					player.setWalls(player.getWalls() + 1);
+					animate = 1;
+					setMiniBox("A new wall has been raised!", DARKGRAY, WHITE, DARKGRAY);
+				}
+				else
+				{
+					setMiniBox("Not enough resources to raise a wall!", YELLOW, RED, YELLOW);
+				}
 			}
 		}
 
@@ -1929,6 +1956,11 @@ void drawDetails()
 		{
 			drawMoveIcon(218 + 86, getmaxy() - 43, 2, 2);
 		}
+		if (EDITMODE == VIEW_MODE)
+		{
+			drawMoveIcon(218 + 86 + 43, getmaxy() - 43, 2, 2);
+		}
+
 
 		drawBackIcon(218 + 43, getmaxy()-43, 2,2);
 	}
@@ -3750,73 +3782,77 @@ void drawWall(int x, int y)
 	x -= 300;
 	y -= 350;
 
-	setcolor(DARKGRAY);
-	//OUTER RECTANGLES
-	int poly[8];
-	poly[0] = poly[2] = x + 250;
-	poly[1] =  y + 150;
-	poly[3] =  y + 350;
-	poly[4] = x + 300;
-	poly[5] = y + 400;
-	poly[6] = x + 300;
-	poly[7] = y + 200;
-	setfillstyle(SOLID_FILL, DARKGRAY);
-	fillpoly(4, poly);
+	if (wallPlaced )
+	{
+		wallPlaced --;
+		setcolor(DARKGRAY);
+		//OUTER RECTANGLES
+		int poly[8];
+		poly[0] = poly[2] = x + 250;
+		poly[1] =  y + 150;
+		poly[3] =  y + 350;
+		poly[4] = x + 300;
+		poly[5] = y + 400;
+		poly[6] = x + 300;
+		poly[7] = y + 200;
+		setfillstyle(SOLID_FILL, DARKGRAY);
+		fillpoly(4, poly);
 
-	poly[0] = x + 300;
-	poly[1] = y + 200;
-	poly[2] = x + 300;
-	poly[3] = y + 400;
-	poly[4] = x + 350;
-	poly[5] = y + 350;
-	poly[6] = x + 350;
-	poly[7] = y + 150;
-	setfillstyle(SOLID_FILL, DARKGRAY);
-	fillpoly(4, poly);
+		poly[0] = x + 300;
+		poly[1] = y + 200;
+		poly[2] = x + 300;
+		poly[3] = y + 400;
+		poly[4] = x + 350;
+		poly[5] = y + 350;
+		poly[6] = x + 350;
+		poly[7] = y + 150;
+		setfillstyle(SOLID_FILL, DARKGRAY);
+		fillpoly(4, poly);
 
-	// THE ABOVE CONE PART ...
-	poly[0] = x + 300;
-	poly[1] = y + 100;
-	poly[2] = x + 250;
-	poly[3] = y + 150;
-	poly[4] = x + 300;
-	poly[5] = y + 200;
-	poly[6] = x + 350;
-	poly[7] = y + 150;
-	setfillstyle(SOLID_FILL, LIGHTGRAY);
-	fillpoly(4, poly);
+		// THE ABOVE CONE PART ...
+		poly[0] = x + 300;
+		poly[1] = y + 100;
+		poly[2] = x + 250;
+		poly[3] = y + 150;
+		poly[4] = x + 300;
+		poly[5] = y + 200;
+		poly[6] = x + 350;
+		poly[7] = y + 150;
+		setfillstyle(SOLID_FILL, LIGHTGRAY);
+		fillpoly(4, poly);
 
-	line ( x + 305 , y + 130 , x + 300 , y + 200 ) ;
-	line ( x + 305 , y + 130 , x + 250 , y + 150 ) ;
-	line ( x + 305 , y + 130 , x + 350 , y + 150 ) ;
-	line ( x + 305 , y + 130 , x + 300 , y + 100 ) ;
+		line ( x + 305 , y + 130 , x + 300 , y + 200 ) ;
+		line ( x + 305 , y + 130 , x + 250 , y + 150 ) ;
+		line ( x + 305 , y + 130 , x + 350 , y + 150 ) ;
+		line ( x + 305 , y + 130 , x + 300 , y + 100 ) ;
 
-	// THE INNER RECTANGLE 1 ....
-	poly[0] = x + 260;
-	poly[1] = y + 180;
-	poly[2] = x + 290;
-	poly[3] = y + 210;
-	poly[4] = x + 290;
-	poly[5] = y + 370;
-	poly[6] = x + 260;
-	poly[7] = y + 340;
-	setfillstyle(SOLID_FILL, LIGHTGRAY);
-	fillpoly(4, poly);
+		// THE INNER RECTANGLE 1 ....
+		poly[0] = x + 260;
+		poly[1] = y + 180;
+		poly[2] = x + 290;
+		poly[3] = y + 210;
+		poly[4] = x + 290;
+		poly[5] = y + 370;
+		poly[6] = x + 260;
+		poly[7] = y + 340;
+		setfillstyle(SOLID_FILL, LIGHTGRAY);
+		fillpoly(4, poly);
 
-	// THE INNER RECTANGLE 2 ....
-	poly[0] = x + 310;
-	poly[1] = y + 370;
-	poly[2] = x + 340;
-	poly[3] = y + 340;
-	poly[4] = x + 340;
-	poly[5] = y + 180;
-	poly[6] = x + 310;
-	poly[7] = y + 210;
-	setfillstyle(SOLID_FILL, LIGHTGRAY);
-	fillpoly(4, poly);
-	setcolor(YELLOW);
-	line(0, getmaxy()/2, getmaxx(), getmaxy()/2);
-	line(getmaxx()/2, 0, getmaxx()/2, getmaxy());
+		// THE INNER RECTANGLE 2 ....
+		poly[0] = x + 310;
+		poly[1] = y + 370;
+		poly[2] = x + 340;
+		poly[3] = y + 340;
+		poly[4] = x + 340;
+		poly[5] = y + 180;
+		poly[6] = x + 310;
+		poly[7] = y + 210;
+		setfillstyle(SOLID_FILL, LIGHTGRAY);
+		fillpoly(4, poly);
+		setcolor(YELLOW);
+		line(0, getmaxy()/2, getmaxx(), getmaxy()/2);
+		line(getmaxx()/2, 0, getmaxx()/2, getmaxy());
+	}
 }
 
 #endif
