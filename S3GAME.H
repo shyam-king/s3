@@ -77,6 +77,7 @@ char  clist[20][15]={"POSIEDON","ZEUS","HADES","APHRODITE","ATHENA","HEPHAESTUS"
 //misc flags
 int moveflag = 0;
 int wallPlaced = 0;
+int dangerAnim = 0;
 
 //troubleshooting purposes
 char tsstr[80] = "Troubleshooting test";
@@ -671,6 +672,7 @@ void drawProduceIcon(int x, int y, int xscale, int yscale);
 void drawDropIcon(int x, int y, int xscale, int yscale);
 void drawScrambleIcon(int, int ,int, int);
 void drawMoveIcon(int x, int y, int xscale, int yscale);
+void drawAddIcon(int x, int y, int xscale, int yscale);
 
 //game management fucntions
 void goals_display();
@@ -682,6 +684,7 @@ void setDetailDisplay (char a[], char b[]);
 void gamesave();
 int gameload();
 void disHighScores();
+void drawLightning();
 
 //interact
 
@@ -1780,7 +1783,7 @@ void gameNew()
 		}
 		sprintf(tsstr, "%d,%d",    getmaxx()/2-originX,   getmaxy()/2-originY);
 		tsval = player.getWalls();
-		tsprint();
+		//tsprint();
 
 		if (EDITMODE == SCRAMBLE_MODE)
 			puzzle.puzzleInteract(k);
@@ -1906,6 +1909,18 @@ void gameNew()
 
 		goal.goalcheck();
 		if (player.getecoMeter() > 100 ) player.setecoMeter(100);
+		
+		//an animation to show the ecoMeter has reached an abnormal value
+		
+		if (player.getecoMeter() > 25)
+			dangerAnim = 3;
+
+		if (player.getecoMeter() <= 25 && dangerAnim)
+		{
+			dangerAnim --;
+			drawLightning();
+			animate = 1;
+		}
 
 		//checking the ecometer to end the game
 		if (player.getecoMeter() <= 0 )
@@ -2101,7 +2116,7 @@ void drawDetails()
 		}
 		if (EDITMODE == VIEW_MODE)
 		{
-			drawMoveIcon(218 + 86 + 43, getmaxy() - 43, 2, 2);
+			drawAddIcon(218 + 86 + 43, getmaxy() - 43, 2, 2);
 		}
 
 
@@ -2566,6 +2581,50 @@ void drawScrambleIcon(int x, int y, int xscale, int yscale)
 	setcolor(WHITE)	;
 	rectangle(x,y, x +  40, y + 40);
 
+
+}
+
+void drawAddIcon(int x, int y, int xscale, int yscale)
+{
+	int picture[20][20] = {15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
+	15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
+	15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
+	15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
+	15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
+	15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
+	15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
+	15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
+	15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
+	15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
+	15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4
+	};
+
+	int poly[8]	;
+	for (int i = 0; i < 20; i++)
+		for (int j = 0; j < 20; j++)
+		{
+			//if (picture[i][j] == 14)
+				//picture[i][j] = RED;
+			setfillstyle(SOLID_FILL, picture[i][j]);
+			poly[0] = poly[2] = x + i*(xscale);
+			poly[1] = poly[7] = y + j*(yscale);
+			poly[3] = poly[5] = y + (j+1) * yscale;
+			poly[4] = poly[6] = x + (i+1) * xscale;
+			//if (picture[i][j] != WHITE) 
+				fillpoly(4, poly);
+		}
+
+	setcolor(WHITE)	;
+	rectangle(x,y, x +  40, y + 40);
 
 }
 
@@ -4163,6 +4222,25 @@ void disHighScores()
 
 	getch();
 	delete[] d;
+}
+
+void drawLightning()
+{
+	int x = -200 , y = 0 ;
+	setlinestyle ( SOLID_LINE , 1 , 2 ) ;
+	setcolor ( YELLOW ) ;
+	randomize () ;
+	for ( int i = 1 ; i <= 5 ; i++ )
+	{ x = (i-1)*100 + random (100) ;
+		y = random (50) ;
+		int Bolt [] = { x+200 , y+50 , x+150 , y+200 ,
+			x+205 , y+150 , x+120 , y+350 ,
+			x+180 , y+295 , x+130 , y+450 ,
+			x+190 , y+280 , x+130 , y+335 ,
+			x+220 , y+130 , x+165 , y+180 } ;
+		fillpoly ( 10 , Bolt ) ;
+	}
+
 }
 
 #endif
