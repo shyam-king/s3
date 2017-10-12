@@ -1913,7 +1913,7 @@ void gameNew()
 		//an animation to show the ecoMeter has reached an abnormal value
 		
 		if (player.getecoMeter() > 25)
-			dangerAnim = 3;
+			dangerAnim = 5;
 
 		if (player.getecoMeter() <= 25 && dangerAnim)
 		{
@@ -2308,7 +2308,7 @@ void Well::drawWell(int X, int Y, int watercolor)
 {
 
 	X -= 200;
-	Y -= 200;
+	Y -= 250;
 
 
 	//drawRoad(int X, int Y, int direction, int w, int h, int color, int stripeColor, int fill, int stripeFill, int borderFill, int stripeBorderFill)
