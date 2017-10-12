@@ -1528,7 +1528,7 @@ void gameNew()
 		//if (tolower(k) == 'e') gameLoop = 0;
 		//else
 		if (tolower(k) == 'r') animate = 1;
-		//else if (tolower(k) == 'b') animate = 0;
+		else if (tolower(k) == 'b') originX = 550, originY = 1970, animate = 1;
 		else if (tolower(k) == 'o') {originX = 0; originY = 0;}
 		else if (tolower(k) == 'g') player.setecoMeter(player.getecoMeter() - 25) , animate = 1;
 		//else if (tolower(k) == 'h') ecoMeter += 25, animate = 1;
@@ -1550,39 +1550,39 @@ void gameNew()
 			//trial placement of a wall
 			{
 				//drawing the walls
-				drawWall(originX + 0, originY + -1648 );
-				drawWall(originX + 50, originY + -1598 );
-				drawWall(originX + 100, originY + -1548 );
-				drawWall(originX + 150, originY + -1498 );
-				drawWall(originX + 200, originY + -1448 );
-				drawWall(originX + 250, originY + -1398 );
-				drawWall(originX + 300, originY + -1348 );
-				drawWall(originX + 350, originY + -1298 );
-				drawWall(originX + 400, originY + -1248 );
-				drawWall(originX + 450, originY + -1198 );
-				drawWall(originX + 500, originY + -1148 );
-				drawWall(originX + 550, originY + -1098 );
-				drawWall(originX + 600, originY + -1048 );
-				drawWall(originX + 650, originY + -998 );
-				drawWall(originX + 700, originY + -948 );
-				drawWall(originX + 750, originY + -898 );
-				drawWall(originX + 800, originY + -848 );
-				drawWall(originX + 850, originY + -798 );
-				drawWall(originX + 900, originY + -748 );
-				drawWall(originX + 950, originY + -698 );
-				drawWall(originX + 1000, originY + -648 );
-				drawWall(originX + 1050, originY + -598 );
-				drawWall(originX + 1100, originY + -548 );
-				drawWall(originX + 1150, originY + -498 );
-				drawWall(originX + 1200, originY + -448 );
-				drawWall(originX + 1250, originY + -398 );
-				drawWall(originX + 1300, originY + -348 );
-				drawWall(originX + 1350, originY + -298 );
-				drawWall(originX + 1400, originY + -248 );
-				drawWall(originX + 1450, originY + -198 );
-				drawWall(originX + 1500, originY + -148 );
-				drawWall(originX + 1550, originY + -98 );
-				drawWall(originX + 1600, originY + -48 );
+				drawWall(originX + 825, originY + -295 );
+				drawWall(originX + 850, originY + -286 );
+				drawWall(originX + 875, originY + -277 );
+				drawWall(originX + 900, originY + -268 );
+				drawWall(originX + 925, originY + -259 );
+				drawWall(originX + 950, originY + -250 );
+				drawWall(originX + 975, originY + -241 );
+				drawWall(originX + 1000, originY + -232 );
+				drawWall(originX + 1025, originY + -223 );
+				drawWall(originX + 1050, originY + -214 );
+				drawWall(originX + 1075, originY + -205 );
+				drawWall(originX + 1100, originY + -196 );
+				drawWall(originX + 1125, originY + -187 );
+				drawWall(originX + 1150, originY + -178 );
+				drawWall(originX + 1175, originY + -169 );
+				drawWall(originX + 1200, originY + -160 );
+				drawWall(originX + 1225, originY + -151 );
+				drawWall(originX + 1250, originY + -142 );
+				drawWall(originX + 1275, originY + -133 );
+				drawWall(originX + 1300, originY + -124 );
+				drawWall(originX + 1325, originY + -115 );
+				drawWall(originX + 1350, originY + -106 );
+				drawWall(originX + 1375, originY + -97 );
+				drawWall(originX + 1400, originY + -88 );
+				drawWall(originX + 1425, originY + -79 );
+				drawWall(originX + 1450, originY + -70 );
+				drawWall(originX + 1475, originY + -61 );
+				drawWall(originX + 1500, originY + -52 );
+				drawWall(originX + 1525, originY + -43 );
+				drawWall(originX + 1550, originY + -34 );
+				drawWall(originX + 1575, originY + -25 );
+				drawWall(originX + 1600, originY + -16 );
+				drawWall(originX + 1625, originY + -7 );
 				drawWall(originX + 1650, originY + 2 );
 			}
 
@@ -1667,7 +1667,7 @@ void gameNew()
 
 			animate = 0;
 		}
-		sprintf(tsstr, "%d,%d",  getmaxx()/2 - originX, getmaxy()/2 - originY);
+		sprintf(tsstr, "%d,%d",    getmaxx()/2-originX,   getmaxy()/2-originY);
 		tsval = player.getWalls();
 		tsprint();
 
@@ -3836,80 +3836,135 @@ int gameload()
 
 void drawWall(int x, int y)
 {
-	x -= 300;
-	y -= 350;
+	x -= 308;
+	y -= 450;
+	setcolor ( DARKGRAY ) ;
+	setfillstyle ( SOLID_FILL , CYAN ) ;
+	int front [] = { x+300 , y+250 , x+315 , y+250 ,
+		x+315 , y+450 , x+300 , y+450 } ;
+	fillpoly ( 4 , front ) ;
+	setfillstyle ( SOLID_FILL , LIGHTBLUE ) ;
+	int sideleft [] = { x+300 , y+250 , x+300 , y+450 ,
+		x+291 , y+440 , x+291 , y+240 } ;
+	fillpoly ( 4 , sideleft ) ;
+	int sideright [] = { x+315 , y+250 , x+315 , y+450 ,
+		x+324 , y+440 , x+324 , y+240 } ;
+	fillpoly ( 4 , sideright ) ;
+	setfillstyle ( SOLID_FILL , BLUE ) ;
+	int pedestal [] = { x+291 , y+440 , x+300 , y+450 ,
+		x+315 , y+450 , x+324 , y+440 ,
+		x+324 , y+460 , x+315 , y+470 ,
+		x+300 , y+470 , x+291 , y+460 } ;
+	fillpoly ( 8 , pedestal ) ;
+	setfillstyle ( SOLID_FILL , BLUE ) ;
+	int roof [] = { x+291 , y+220 , x+300 , y+230 ,
+		x+315 , y+230 , x+324 , y+220 ,
+		x+324 , y+240 , x+315 , y+250 ,
+		x+300 , y+250 , x+291 , y+240 } ;
+	fillpoly ( 8 , roof ) ;
+	setfillstyle ( SOLID_FILL , CYAN ) ;
+	int roof1 [] = { x+291 , y+220 , x+300 , y+230 ,
+		x+315 , y+230 , x+324 , y+220 ,
+		x+315 , y+210 , x+300 , y+210 } ;
+	fillpoly ( 6 , roof1 ) ;
+	setfillstyle ( SOLID_FILL , LIGHTGRAY ) ;
+	circle ( x+308 , y+220 , 5 ) ;
+	floodfill ( x+305 , y+220 , DARKGRAY ) ;
+	// TRIDENT ......
+	setcolor ( LIGHTGRAY ) ;
+	line ( x+308 , y+170 , x+308 , y+150 ) ;
+	arc ( x+275 , y+175 , 0 , 49 , 25 ) ;
+	arc ( x+342 , y+175 , 130 , 180 , 25 ) ;
+	setcolor ( DARKGRAY ) ;
+	setfillstyle ( SOLID_FILL , DARKGRAY ) ;
+	int smalltri1 [] = { x+292 , y+157 , x+298 ,
+		y+159 , x+295 , y+164 } ;
+	fillpoly ( 3 , smalltri1 ) ;
+	int smalltri2 [] = { x+305 , y+155 , x+311 ,
+		y+155 , x+308 , y+145 } ;
+	fillpoly ( 3 , smalltri2 ) ;
+	int smalltri3 [] = { x+325 , y+157 , x+322 ,
+		y+164 , x+319 , y+159 } ;
+	fillpoly ( 3 , smalltri3 ) ;
+	setlinestyle ( SOLID_LINE , 1 , 3 ) ;
+	line ( x+308 , y+220 , x+308 , y+170 ) ;
+	arc ( x+309 , y+170 , 210 , 330 , 10 ) ;
+	/*
+	   x -= 300;
+	   y -= 350;
 
-	if (wallPlaced )
-	{
-		wallPlaced --;
-		setcolor(DARKGRAY);
-		//OUTER RECTANGLES
-		int poly[8];
-		poly[0] = poly[2] = x + 250;
-		poly[1] =  y + 150;
-		poly[3] =  y + 350;
-		poly[4] = x + 300;
-		poly[5] = y + 400;
-		poly[6] = x + 300;
-		poly[7] = y + 200;
-		setfillstyle(SOLID_FILL, DARKGRAY);
-		fillpoly(4, poly);
+	   if (wallPlaced )
+	   {
+	   wallPlaced --;
+	   setcolor(DARKGRAY);
+	//OUTER RECTANGLES
+	int poly[8];
+	poly[0] = poly[2] = x + 250;
+	poly[1] =  y + 150;
+	poly[3] =  y + 350;
+	poly[4] = x + 300;
+	poly[5] = y + 400;
+	poly[6] = x + 300;
+	poly[7] = y + 200;
+	setfillstyle(SOLID_FILL, DARKGRAY);
+	fillpoly(4, poly);
 
-		poly[0] = x + 300;
-		poly[1] = y + 200;
-		poly[2] = x + 300;
-		poly[3] = y + 400;
-		poly[4] = x + 350;
-		poly[5] = y + 350;
-		poly[6] = x + 350;
-		poly[7] = y + 150;
-		setfillstyle(SOLID_FILL, DARKGRAY);
-		fillpoly(4, poly);
+	poly[0] = x + 300;
+	poly[1] = y + 200;
+	poly[2] = x + 300;
+	poly[3] = y + 400;
+	poly[4] = x + 350;
+	poly[5] = y + 350;
+	poly[6] = x + 350;
+	poly[7] = y + 150;
+	setfillstyle(SOLID_FILL, DARKGRAY);
+	fillpoly(4, poly);
 
-		// THE ABOVE CONE PART ...
-		poly[0] = x + 300;
-		poly[1] = y + 100;
-		poly[2] = x + 250;
-		poly[3] = y + 150;
-		poly[4] = x + 300;
-		poly[5] = y + 200;
-		poly[6] = x + 350;
-		poly[7] = y + 150;
-		setfillstyle(SOLID_FILL, LIGHTGRAY);
-		fillpoly(4, poly);
+	// THE ABOVE CONE PART ...
+	poly[0] = x + 300;
+	poly[1] = y + 100;
+	poly[2] = x + 250;
+	poly[3] = y + 150;
+	poly[4] = x + 300;
+	poly[5] = y + 200;
+	poly[6] = x + 350;
+	poly[7] = y + 150;
+	setfillstyle(SOLID_FILL, LIGHTGRAY);
+	fillpoly(4, poly);
 
-		line ( x + 305 , y + 130 , x + 300 , y + 200 ) ;
-		line ( x + 305 , y + 130 , x + 250 , y + 150 ) ;
-		line ( x + 305 , y + 130 , x + 350 , y + 150 ) ;
-		line ( x + 305 , y + 130 , x + 300 , y + 100 ) ;
+	line ( x + 305 , y + 130 , x + 300 , y + 200 ) ;
+	line ( x + 305 , y + 130 , x + 250 , y + 150 ) ;
+	line ( x + 305 , y + 130 , x + 350 , y + 150 ) ;
+	line ( x + 305 , y + 130 , x + 300 , y + 100 ) ;
 
-		// THE INNER RECTANGLE 1 ....
-		poly[0] = x + 260;
-		poly[1] = y + 180;
-		poly[2] = x + 290;
-		poly[3] = y + 210;
-		poly[4] = x + 290;
-		poly[5] = y + 370;
-		poly[6] = x + 260;
-		poly[7] = y + 340;
-		setfillstyle(SOLID_FILL, LIGHTGRAY);
-		fillpoly(4, poly);
+	// THE INNER RECTANGLE 1 ....
+	poly[0] = x + 260;
+	poly[1] = y + 180;
+	poly[2] = x + 290;
+	poly[3] = y + 210;
+	poly[4] = x + 290;
+	poly[5] = y + 370;
+	poly[6] = x + 260;
+	poly[7] = y + 340;
+	setfillstyle(SOLID_FILL, LIGHTGRAY);
+	fillpoly(4, poly);
 
-		// THE INNER RECTANGLE 2 ....
-		poly[0] = x + 310;
-		poly[1] = y + 370;
-		poly[2] = x + 340;
-		poly[3] = y + 340;
-		poly[4] = x + 340;
-		poly[5] = y + 180;
-		poly[6] = x + 310;
-		poly[7] = y + 210;
-		setfillstyle(SOLID_FILL, LIGHTGRAY);
-		fillpoly(4, poly);
-		setcolor(YELLOW);
-		line(0, getmaxy()/2, getmaxx(), getmaxy()/2);
-		line(getmaxx()/2, 0, getmaxx()/2, getmaxy());
-	}
+	// THE INNER RECTANGLE 2 ....
+	poly[0] = x + 310;
+	poly[1] = y + 370;
+	poly[2] = x + 340;
+	poly[3] = y + 340;
+	poly[4] = x + 340;
+	poly[5] = y + 180;
+	poly[6] = x + 310;
+	poly[7] = y + 210;
+	setfillstyle(SOLID_FILL, LIGHTGRAY);
+	fillpoly(4, poly);
+	setcolor(YELLOW);
+	line(0, getmaxy()/2, getmaxx(), getmaxy()/2);
+	line(getmaxx()/2, 0, getmaxx()/2, getmaxy());
+}
+*/
 }
 
 void disHighScores()
@@ -3937,7 +3992,7 @@ void disHighScores()
 		d[i].score *= 10;
 		d[i].score += p.getecoMeter() * 100L;
 		d[i].score += p.getWalls() * 100L;
-		d[i].score += p.rlevel() * 1000L;
+		d[i].score += p.getplayerLevel() * 1000L;
 		d[i].score += p.getnhouses() * 10;
 		i++;
 	}
