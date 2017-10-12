@@ -1535,9 +1535,10 @@ void gameNew()
 		//else if (tolower(k) == 'e') exit(0);
 		//else if (tolower(k) == 'h') goaldisplayed = 0, animate = 1;
 		else if (tolower(k) == 'j') player.setcurrXp(10);
-		else if (tolower(k) == 'i') {originX = +200 -industry.industry_x; originY = +200 -industry.industry_y; animate = 1;}
-		else if (tolower(k) == 'b') {originX = +200 -boat.boat_x; originY = +200 -boat.boat_y; animate = 1;}
-		else if (tolower(k) == 'q') player.setWalls(player.getWalls() + 1), animate = 1;
+		else if (tolower(k) == 'i') {originX = +200 -industry.industry_x; originY = +200 -industry.industry_y; animate = 1;} // jump to industry
+		else if (tolower(k) == 'z') {originX = +200 -well.access(1); originY = +200 -well.access(2); animate = 1;} // jump to WELL
+		else if (tolower(k) == 'b') {originX = +200 -boat.boat_x; originY = +200 -boat.boat_y; animate = 1;} //JUMP TO BOAT
+		else if (tolower(k) == 'q') player.setWalls(player.getWalls() + 10), animate = 1;
 
 
 		if (animate)
@@ -1733,7 +1734,6 @@ void gameNew()
 
 			//The Well
 			well.drawWell(well.access(1) + originX, well.access(2) + originY, (well.access(3))? CYAN: BLACK);
-			drawPillar(well.access(1) + originX - 200, well.access(2) + originY + 200);
 			drawPillar(well.access(1) + originX + 200, well.access(2) + originY + 200);
 
 			//the boat
