@@ -694,7 +694,7 @@ void tsprint();
 
 ////////////////GAME MAP//////
 
-Road mainRoad[10];
+Road mainRoad[6];
 
 House map_houses[30] = {
 	House(
@@ -1090,7 +1090,7 @@ void PLAYER::accept()
 
 			if (animate)
 			{
-				cleardevice();
+				//cleardevice();
 				setcolor(WHITE);
 				settextstyle(1,HORIZ_DIR,1);
 				outtextxy(10, 380, "BG");
@@ -1553,9 +1553,17 @@ void gameNew()
 			mainRoad[1].build(originX, originY);
 			mainRoad[2].build(originX, originY);
 			mainRoad[3].build(originX, originY);
-			wallPlaced = player.getWalls();
+			mainRoad[4].build(originX, originY);
 
-			//trial placement of a wall
+			//The Well
+			drawPillar(well.access(1) + originX , well.access(2) + originY -150);
+			drawPillar(well.access(1) + originX -150, well.access(2) + originY );
+			well.drawWell(well.access(1) + originX, well.access(2) + originY, (well.access(3))? CYAN: BLACK);
+			drawPillar(well.access(1) + originX + 150, well.access(2) + originY );
+			drawPillar(well.access(1) + originX , well.access(2) + originY + 150);
+
+			//walls
+			wallPlaced = player.getWalls();
 			{
 				//drawing the walls
 				//down right
@@ -1731,10 +1739,6 @@ void gameNew()
 
 			//industry
 			industry.drawIndustry(originX , originY , BROWN, DARKGRAY, BLACK);
-
-			//The Well
-			well.drawWell(well.access(1) + originX, well.access(2) + originY, (well.access(3))? CYAN: BLACK);
-			drawPillar(well.access(1) + originX + 200, well.access(2) + originY + 200);
 
 			//the boat
 			setrgbpalette(pal.colors[LIGHTMAGENTA], 0, 0, 0);
@@ -1973,19 +1977,19 @@ void drag(char l)
 	if (l == UP)
 		originY += dg * 5;
 	else if (l == 'w' || l == 'W')
-		originY += 2;
+		originY += dg;
 	else if (l == DOWN)
 		originY -= dg * 5;
 	else if (l == 's' || l == 'S')
-		originY -= 2;
+		originY -= dg;
 	else if (l == LEFT)
 		originX += dg * 5;
 	else if (l == 'a' || l == 'A')
-		originX += 2;
+		originX += dg;
 	else if (l == RIGHT)
 		originX -= dg * 5;
 	else if (l == 'd' || l == 'D')
-		originX -= 2;
+		originX -= dg;
 
 	if (l == UP || l == DOWN || l == RIGHT || l == LEFT
 			|| tolower(l) == 'w' || tolower(l) == 's' || tolower(l) == 'd' || tolower(l) == 'a')
@@ -3534,6 +3538,19 @@ void gameReset()
 			DOTTED_LINE,
 			SOLID_LINE
 			);
+
+	mainRoad[4].setProperties(
+			well.access(1) ,well.access(2)  + 10,
+			400,
+			1,
+			DOWN_RIGHT,
+			EMPTY_FILL,
+			WHITE,
+			CLOSE_DOT_FILL,
+			BROWN,
+			DOTTED_LINE,
+			SOLID_LINE
+			);
 	/*
 		 map_trees[0].setPositions(150 - 20,-3000/2 + 100+ 80);
 		 map_trees[1].setPositions(150 - 60 - 20+150,-3000/2 + 100+ 80+150);
@@ -3926,6 +3943,19 @@ int gameload()
 				SOLID_LINE
 				);
 
+	mainRoad[4].setProperties(
+			well.access(1) ,well.access(2)  + 10,
+			400,
+			1,
+			DOWN_RIGHT,
+			EMPTY_FILL,
+			WHITE,
+			CLOSE_DOT_FILL,
+			BROWN,
+			DOTTED_LINE,
+			SOLID_LINE
+			);
+
 	}
 
 	delete names;
@@ -4017,7 +4047,7 @@ void drawWall(int x, int y)
 		poly[5] = y + 400;
 		poly[6] = x + 300;
 		poly[7] = y + 200;
-		setfillstyle(SOLID_FILL, DARKGRAY);
+		setfillstyle(SOLID_FILL, BLACK);
 		fillpoly(4, poly);
 
 		poly[0] = x + 300;
@@ -4028,7 +4058,7 @@ void drawWall(int x, int y)
 		poly[5] = y + 350;
 		poly[6] = x + 350;
 		poly[7] = y + 150;
-		setfillstyle(SOLID_FILL, DARKGRAY);
+		setfillstyle(SOLID_FILL, BLACK);
 		fillpoly(4, poly);
 
 		// THE ABOVE CONE PART ...
@@ -4071,9 +4101,6 @@ void drawWall(int x, int y)
 		poly[7] = y + 210;
 		setfillstyle(SOLID_FILL, LIGHTGRAY);
 		fillpoly(4, poly);
-		setcolor(YELLOW);
-		line(0, getmaxy()/2, getmaxx(), getmaxy()/2);
-		line(getmaxx()/2, 0, getmaxx()/2, getmaxy());
 	}
 
 }
