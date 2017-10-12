@@ -1733,6 +1733,8 @@ void gameNew()
 
 			//The Well
 			well.drawWell(well.access(1) + originX, well.access(2) + originY, (well.access(3))? CYAN: BLACK);
+			drawPillar(well.access(1) + originX - 200, well.access(2) + originY + 200);
+			drawPillar(well.access(1) + originX + 200, well.access(2) + originY + 200);
 
 			//the boat
 			setrgbpalette(pal.colors[LIGHTMAGENTA], 0, 0, 0);
@@ -1887,7 +1889,7 @@ void gameNew()
 					player.setmoney(player.getmoney() - 2000);
 					player.setwood(player.getwood() - 1000);
 					player.setproduce(player.getproduce() - 1000);
-					player.setWalls(player.getWalls() + 1);
+					player.setWalls(player.getWalls() + 10);
 					animate = 1;
 					setMiniBox("A new wall has been raised!", DARKGRAY, WHITE, DARKGRAY);
 				}
