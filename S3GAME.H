@@ -1558,12 +1558,20 @@ void gameNew()
 			mainRoad[3].build(originX, originY);
 			mainRoad[4].build(originX, originY);
 
+			//the lost shrine
+			setcolor(DARKGRAY);
+			setfillstyle(CLOSE_DOT_FILL, BROWN);
+			fillellipse(originX - 975, originY, 150, 150);
+			setfillstyle(CLOSE_DOT_FILL, LIGHTGRAY);
+			fillellipse(originX - 975, originY, 90, 90);
+
+			drawPillar(originX  - 850,  originY);
+			drawPillar(originX -1100, originY );
+			drawPillar(originX - 975,  originY -125);
+			drawPillar(originX - 975,  originY  + 125);
+
 			//The Well
-			drawPillar(well.access(1) + originX , well.access(2) + originY -150);
-			drawPillar(well.access(1) + originX -150, well.access(2) + originY );
 			well.drawWell(well.access(1) + originX, well.access(2) + originY, (well.access(3))? CYAN: BLACK);
-			drawPillar(well.access(1) + originX + 150, well.access(2) + originY );
-			drawPillar(well.access(1) + originX , well.access(2) + originY + 150);
 
 			//walls
 			wallPlaced = player.getWalls();
