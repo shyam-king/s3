@@ -19,12 +19,12 @@
 
 ///prototypes
 /*
-   class Road;
-   class House;
-   class customPalette;
-   class goals;
-   class Well;
-   */
+	 class Road;
+	 class House;
+	 class customPalette;
+	 class goals;
+	 class Well;
+	 */
 ///definitions
 
 ///////////////GLOBAL VARIABLES////////////////////////
@@ -77,6 +77,7 @@ char  clist[20][15]={"POSIEDON","ZEUS","HADES","APHRODITE","ATHENA","HEPHAESTUS"
 //misc flags
 int moveflag = 0;
 int wallPlaced = 0;
+int dangerAnim = 0;
 
 //troubleshooting purposes
 char tsstr[80] = "Troubleshooting test";
@@ -649,6 +650,7 @@ void drawbush ( int x , int y , int color ); // bush below the tree
 void drawtreebush ( int x , int y ); // bush above the tree
 void plotTree(Tree); // the whole tree
 void drawWall(int x, int y); // drawing the wall around the map
+void drawPillar(int x, int y);//drawing the pillar with the trident
 void messagebox(char message[][80] , int color, int n, int image_index);
 int displayMenu();
 void drawBarHoriz(int x, int y, int w, int h, int color0, int color1, float percent);
@@ -670,6 +672,7 @@ void drawProduceIcon(int x, int y, int xscale, int yscale);
 void drawDropIcon(int x, int y, int xscale, int yscale);
 void drawScrambleIcon(int, int ,int, int);
 void drawMoveIcon(int x, int y, int xscale, int yscale);
+void drawAddIcon(int x, int y, int xscale, int yscale);
 
 //game management fucntions
 void goals_display();
@@ -681,6 +684,7 @@ void setDetailDisplay (char a[], char b[]);
 void gamesave();
 int gameload();
 void disHighScores();
+void drawLightning();
 
 //interact
 
@@ -693,7 +697,7 @@ void tsprint();
 
 ////////////////GAME MAP//////
 
-Road mainRoad[10];
+Road mainRoad[6];
 
 House map_houses[30] = {
 	House(
@@ -705,7 +709,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		 ),
+			),
 
 	House(
 			180- 150, -3000/2 + 280+ 150, DOWN_LEFT,
@@ -716,7 +720,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		 ),
+			),
 
 	House(
 			360- 150, -3000/2 + 100 + 360+ 150, DOWN_LEFT,
@@ -727,7 +731,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		 ),
+			),
 
 	House(
 			540- 150, -3000/2 + 100 +540+ 150, DOWN_LEFT,
@@ -738,7 +742,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		 ),
+			),
 
 	House(
 			720- 150, -3000/2 + 100 + 150+720, DOWN_LEFT,
@@ -749,7 +753,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		 ),
+			),
 	House(
 			900- 150, -3000/2+900+100+ 150, DOWN_LEFT,
 			150,BROWN,WHITE,DARKGRAY,BROWN,WHITE,SOLID_FILL,SLASH_FILL,SLASH_FILL,
@@ -759,7 +763,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		 ),
+			),
 	House(
 			1080- 150, -3000/2+1080+ 150+100, DOWN_LEFT,
 			150,BROWN,WHITE,DARKGRAY,BROWN,WHITE,SOLID_FILL,SLASH_FILL,SLASH_FILL,
@@ -769,7 +773,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		 )
+			)
 		,
 	House(
 			1260- 150, -3000/2+1260+100+ 150, DOWN_LEFT,
@@ -780,7 +784,7 @@ House map_houses[30] = {
 			0,
 			0,0,0
 			,0,0
-		 )
+			)
 };
 
 ///////////////FUNCTION DEFINITIONS////////////////////
@@ -1089,7 +1093,7 @@ void PLAYER::accept()
 
 			if (animate)
 			{
-				cleardevice();
+				//cleardevice();
 				setcolor(WHITE);
 				settextstyle(1,HORIZ_DIR,1);
 				outtextxy(10, 380, "BG");
@@ -1218,9 +1222,9 @@ Boat::Boat()
 	boatTimer = 0;
 	boatTimerMax = 0;
 	boatAnimate = 0;
-	boat_xx = terrW/2 - 80;
+	boat_xx = terrW/2 - 80 + 50;
 	boat_yy = 350;
-	boat_x = terrW/2 - 80;
+	boat_x = terrW/2 - 80 + 50;
 	boat_y = 350;
 }
 
@@ -1528,15 +1532,16 @@ void gameNew()
 		//if (tolower(k) == 'e') gameLoop = 0;
 		//else
 		if (tolower(k) == 'r') animate = 1;
-		else if (tolower(k) == 'b') originX = 550, originY = 1970, animate = 1;
 		else if (tolower(k) == 'o') {originX = 0; originY = 0;}
 		else if (tolower(k) == 'g') player.setecoMeter(player.getecoMeter() - 25) , animate = 1;
 		//else if (tolower(k) == 'h') ecoMeter += 25, animate = 1;
 		//else if (tolower(k) == 'e') exit(0);
 		//else if (tolower(k) == 'h') goaldisplayed = 0, animate = 1;
 		else if (tolower(k) == 'j') player.setcurrXp(10);
-		else if (tolower(k) == 'i') {originX = +200 -industry.industry_x; originY = +200 -industry.industry_y; animate = 1;}
-		else if (tolower(k) == 'b') {originX = +200 -boat.boat_x; originY = +200 -boat.boat_y; animate = 1;}
+		else if (tolower(k) == 'i') {originX = +200 -industry.industry_x; originY = +200 -industry.industry_y; animate = 1;} // jump to industry
+		else if (tolower(k) == 'z') {originX = +200 -well.access(1); originY = +200 -well.access(2); animate = 1;} // jump to WELL
+		else if (tolower(k) == 'b') {originX = +200 -boat.boat_x; originY = +200 -boat.boat_y; animate = 1;} //JUMP TO BOAT
+		else if (tolower(k) == 'q') player.setWalls(player.getWalls() + 10), animate = 1;
 
 
 		if (animate)
@@ -1545,52 +1550,164 @@ void gameNew()
 			cleardevice();
 			//Green terrain
 			drawTerrain();
-			wallPlaced = player.getWalls();
-
-			//trial placement of a wall
-			{
-				//drawing the walls
-				drawWall(originX + 825, originY + -295 );
-				drawWall(originX + 850, originY + -286 );
-				drawWall(originX + 875, originY + -277 );
-				drawWall(originX + 900, originY + -268 );
-				drawWall(originX + 925, originY + -259 );
-				drawWall(originX + 950, originY + -250 );
-				drawWall(originX + 975, originY + -241 );
-				drawWall(originX + 1000, originY + -232 );
-				drawWall(originX + 1025, originY + -223 );
-				drawWall(originX + 1050, originY + -214 );
-				drawWall(originX + 1075, originY + -205 );
-				drawWall(originX + 1100, originY + -196 );
-				drawWall(originX + 1125, originY + -187 );
-				drawWall(originX + 1150, originY + -178 );
-				drawWall(originX + 1175, originY + -169 );
-				drawWall(originX + 1200, originY + -160 );
-				drawWall(originX + 1225, originY + -151 );
-				drawWall(originX + 1250, originY + -142 );
-				drawWall(originX + 1275, originY + -133 );
-				drawWall(originX + 1300, originY + -124 );
-				drawWall(originX + 1325, originY + -115 );
-				drawWall(originX + 1350, originY + -106 );
-				drawWall(originX + 1375, originY + -97 );
-				drawWall(originX + 1400, originY + -88 );
-				drawWall(originX + 1425, originY + -79 );
-				drawWall(originX + 1450, originY + -70 );
-				drawWall(originX + 1475, originY + -61 );
-				drawWall(originX + 1500, originY + -52 );
-				drawWall(originX + 1525, originY + -43 );
-				drawWall(originX + 1550, originY + -34 );
-				drawWall(originX + 1575, originY + -25 );
-				drawWall(originX + 1600, originY + -16 );
-				drawWall(originX + 1625, originY + -7 );
-				drawWall(originX + 1650, originY + 2 );
-			}
 
 			//All the roads
 			mainRoad[0].build(originX, originY);
 			mainRoad[1].build(originX, originY);
 			mainRoad[2].build(originX, originY);
 			mainRoad[3].build(originX, originY);
+			mainRoad[4].build(originX, originY);
+
+			//The Well
+			drawPillar(well.access(1) + originX , well.access(2) + originY -150);
+			drawPillar(well.access(1) + originX -150, well.access(2) + originY );
+			well.drawWell(well.access(1) + originX, well.access(2) + originY, (well.access(3))? CYAN: BLACK);
+			drawPillar(well.access(1) + originX + 150, well.access(2) + originY );
+			drawPillar(well.access(1) + originX , well.access(2) + originY + 150);
+
+			//walls
+			wallPlaced = player.getWalls();
+			{
+				//drawing the walls
+				//down right
+				drawWall( originX + 0 , originY + -1648 );
+				drawWall( originX + 50 , originY + -1598 );
+				drawWall( originX + 100 , originY + -1548 );
+				drawWall( originX + 150 , originY + -1498 );
+				drawWall( originX + 200 , originY + -1448 );
+				drawWall( originX + 250 , originY + -1398 );
+				drawWall( originX + 300 , originY + -1348 );
+				drawWall( originX + 350 , originY + -1298 );
+				drawWall( originX + 400 , originY + -1248 );
+				drawWall( originX + 450 , originY + -1198 );
+				drawWall( originX + 500 , originY + -1148 );
+				drawWall( originX + 550 , originY + -1098 );
+				drawWall( originX + 600 , originY + -1048 );
+				drawWall( originX + 650 , originY + -998 );
+				drawWall( originX + 700 , originY + -948 );
+				drawWall( originX + 750 , originY + -898 );
+				drawWall( originX + 800 , originY + -848 );
+				drawWall( originX + 850 , originY + -798 );
+				drawWall( originX + 900 , originY + -748 );
+				drawWall( originX + 950 , originY + -698 );
+				drawWall( originX + 1000 , originY + -648 );
+				drawWall( originX + 1050 , originY + -598 );
+				drawWall( originX + 1100 , originY + -548 );
+				drawWall( originX + 1150 , originY + -498 );
+				drawWall( originX + 1200 , originY + -448 );
+				drawWall( originX + 1250 , originY + -398 );
+				drawWall( originX + 1300 , originY + -348 );
+				drawWall( originX + 1350 , originY + -298 );
+				drawWall( originX + 1400 , originY + -248 );
+				drawWall( originX + 1450 , originY + -198 );
+				drawWall( originX + 1500 , originY + -148 );
+				drawWall( originX + 1550 , originY + -98 );
+				drawWall( originX + 1600 , originY + -48 );
+				drawWall( originX + 1650 , originY + 2 );
+				//downleft
+				drawWall( originX + 1600 , originY + 52 );
+				drawWall( originX + 1550 , originY + 102 );
+				drawWall( originX + 1500 , originY + 152 );
+				drawWall( originX + 1450 , originY + 202 );
+				drawWall( originX + 1400 , originY + 252 );
+				drawWall( originX + 1350 , originY + 302 );
+				drawWall( originX + 1300 , originY + 352 );
+				drawWall( originX + 1250 , originY + 402 -70);
+				drawWall( originX + 1200 , originY + 452 -70);
+				drawWall( originX + 1150 , originY + 502 -70);
+				drawWall( originX + 1100 , originY + 552 );
+				drawWall( originX + 1050 , originY + 602 );
+				drawWall( originX + 1000 , originY + 652 );
+				drawWall( originX + 950 , originY + 702 );
+				drawWall( originX + 900 , originY + 752 );
+				drawWall( originX + 850 , originY + 802 );
+				drawWall( originX + 800 , originY + 852 );
+				drawWall( originX + 750 , originY + 902 );
+				drawWall( originX + 700 , originY + 952 );
+				drawWall( originX + 650 , originY + 1002 );
+				drawWall( originX + 600 , originY + 1052 );
+				drawWall( originX + 550 , originY + 1102 );
+				drawWall( originX + 500 , originY + 1152 );
+				drawWall( originX + 450 , originY + 1202 );
+				drawWall( originX + 400 , originY + 1252 );
+				drawWall( originX + 350 , originY + 1302 );
+				drawWall( originX + 300 , originY + 1352 );
+				drawWall( originX + 250 , originY + 1402 );
+				drawWall( originX + 200 , originY + 1452 );
+				drawWall( originX + 150 , originY + 1502 );
+				drawWall( originX + 100 , originY + 1552 );
+				drawWall( originX + 50 , originY + 1602 );
+				//up : down left
+				drawWall( originX + -50 , originY + -1598 );
+				drawWall( originX + -100 , originY + -1548 );
+				drawWall( originX + -150 , originY + -1498 );
+				drawWall( originX + -200 , originY + -1448 );
+				drawWall( originX + -250 , originY + -1398 );
+				drawWall( originX + -300 , originY + -1348 );
+				drawWall( originX + -350 , originY + -1298 );
+				drawWall( originX + -400 , originY + -1248 );
+				drawWall( originX + -450 , originY + -1198 );
+				drawWall( originX + -500 , originY + -1148 );
+				drawWall( originX + -550 , originY + -1098 );
+				drawWall( originX + -600 , originY + -1048 );
+				drawWall( originX + -650 , originY + -998 );
+				drawWall( originX + -700 , originY + -948 );
+				drawWall( originX + -750 , originY + -898 );
+				drawWall( originX + -800 , originY + -848 );
+				drawWall( originX + -850 , originY + -798 );
+				drawWall( originX + -900 , originY + -748 );
+				drawWall( originX + -950 , originY + -698 );
+				drawWall( originX + -1000 , originY + -648 );
+				drawWall( originX + -1050 , originY + -598 );
+				drawWall( originX + -1100 , originY + -548 );
+				drawWall( originX + -1150 , originY + -498 );
+				drawWall( originX + -1200 , originY + -448 );
+				drawWall( originX + -1250 , originY + -398 );
+				drawWall( originX + -1300 , originY + -348 );
+				drawWall( originX + -1350 , originY + -298 );
+				drawWall( originX + -1400 , originY + -248 );
+				drawWall( originX + -1450 , originY + -198 );
+				drawWall( originX + -1500 , originY + -148 );
+				drawWall( originX + -1550 , originY + -98 );
+				drawWall( originX + -1600 , originY + -48 );
+				drawWall( originX + -1650 , originY + 2 );
+				//up:down right
+				drawWall( originX + -1600 , originY + 52 );
+				drawWall( originX + -1550 , originY + 102 );
+				drawWall( originX + -1500 , originY + 152 );
+				drawWall( originX + -1450 , originY + 202 );
+				drawWall( originX + -1400 , originY + 252 );
+				drawWall( originX + -1350 , originY + 302 );
+				drawWall( originX + -1300 , originY + 352 );
+				drawWall( originX + -1250 , originY + 402 );
+				drawWall( originX + -1200 , originY + 452 );
+				drawWall( originX + -1150 , originY + 502 );
+				drawWall( originX + -1100 , originY + 552 );
+				drawWall( originX + -1050 , originY + 602 );
+				drawWall( originX + -1000 , originY + 652 );
+				drawWall( originX + -950 , originY + 702 );
+				drawWall( originX + -900 , originY + 752 );
+				drawWall( originX + -850 , originY + 802 );
+				drawWall( originX + -800 , originY + 852 );
+				drawWall( originX + -750 , originY + 902 );
+				drawWall( originX + -700 , originY + 952 );
+				drawWall( originX + -650 , originY + 1002 );
+				drawWall( originX + -600 , originY + 1052 );
+				drawWall( originX + -550 , originY + 1102 );
+				drawWall( originX + -500 , originY + 1152 );
+				drawWall( originX + -450 , originY + 1202 );
+				drawWall( originX + -400 , originY + 1252 );
+				drawWall( originX + -350 , originY + 1302 );
+				drawWall( originX + -300 , originY + 1352 );
+				drawWall( originX + -250 , originY + 1402 );
+				drawWall( originX + -200 , originY + 1452 );
+				drawWall( originX + -150 , originY + 1502 );
+				drawWall( originX + -100 , originY + 1552 );
+				drawWall( originX + -50 , originY + 1602 );
+				drawWall( originX + 0 , originY + 1652 );
+
+			}	
+
 
 			// houses 
 			for(int i = 0; i < nhouses; i++)
@@ -1625,9 +1742,6 @@ void gameNew()
 
 			//industry
 			industry.drawIndustry(originX , originY , BROWN, DARKGRAY, BLACK);
-
-			//The Well
-			well.drawWell(well.access(1) + originX, well.access(2) + originY, (well.access(3))? CYAN: BLACK);
 
 			//the boat
 			setrgbpalette(pal.colors[LIGHTMAGENTA], 0, 0, 0);
@@ -1669,7 +1783,7 @@ void gameNew()
 		}
 		sprintf(tsstr, "%d,%d",    getmaxx()/2-originX,   getmaxy()/2-originY);
 		tsval = player.getWalls();
-		tsprint();
+		//tsprint();
 
 		if (EDITMODE == SCRAMBLE_MODE)
 			puzzle.puzzleInteract(k);
@@ -1782,7 +1896,7 @@ void gameNew()
 					player.setmoney(player.getmoney() - 2000);
 					player.setwood(player.getwood() - 1000);
 					player.setproduce(player.getproduce() - 1000);
-					player.setWalls(player.getWalls() + 1);
+					player.setWalls(player.getWalls() + 10);
 					animate = 1;
 					setMiniBox("A new wall has been raised!", DARKGRAY, WHITE, DARKGRAY);
 				}
@@ -1795,6 +1909,18 @@ void gameNew()
 
 		goal.goalcheck();
 		if (player.getecoMeter() > 100 ) player.setecoMeter(100);
+		
+		//an animation to show the ecoMeter has reached an abnormal value
+		
+		if (player.getecoMeter() > 25)
+			dangerAnim = 5;
+
+		if (player.getecoMeter() <= 25 && dangerAnim)
+		{
+			dangerAnim --;
+			drawLightning();
+			animate = 1;
+		}
 
 		//checking the ecometer to end the game
 		if (player.getecoMeter() <= 0 )
@@ -1866,19 +1992,19 @@ void drag(char l)
 	if (l == UP)
 		originY += dg * 5;
 	else if (l == 'w' || l == 'W')
-		originY += 2;
+		originY += dg;
 	else if (l == DOWN)
 		originY -= dg * 5;
 	else if (l == 's' || l == 'S')
-		originY -= 2;
+		originY -= dg;
 	else if (l == LEFT)
 		originX += dg * 5;
 	else if (l == 'a' || l == 'A')
-		originX += 2;
+		originX += dg;
 	else if (l == RIGHT)
 		originX -= dg * 5;
 	else if (l == 'd' || l == 'D')
-		originX -= 2;
+		originX -= dg;
 
 	if (l == UP || l == DOWN || l == RIGHT || l == LEFT
 			|| tolower(l) == 'w' || tolower(l) == 's' || tolower(l) == 'd' || tolower(l) == 'a')
@@ -1990,7 +2116,7 @@ void drawDetails()
 		}
 		if (EDITMODE == VIEW_MODE)
 		{
-			drawMoveIcon(218 + 86 + 43, getmaxy() - 43, 2, 2);
+			drawAddIcon(218 + 86 + 43, getmaxy() - 43, 2, 2);
 		}
 
 
@@ -2182,7 +2308,7 @@ void Well::drawWell(int X, int Y, int watercolor)
 {
 
 	X -= 200;
-	Y -= 200;
+	Y -= 250;
 
 
 	//drawRoad(int X, int Y, int direction, int w, int h, int color, int stripeColor, int fill, int stripeFill, int borderFill, int stripeBorderFill)
@@ -2455,6 +2581,50 @@ void drawScrambleIcon(int x, int y, int xscale, int yscale)
 	setcolor(WHITE)	;
 	rectangle(x,y, x +  40, y + 40);
 
+
+}
+
+void drawAddIcon(int x, int y, int xscale, int yscale)
+{
+	int picture[20][20] = {15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
+	15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
+	15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
+	15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
+	15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
+	15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
+	15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
+	15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
+	15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
+	15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
+	15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
+	15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4
+	};
+
+	int poly[8]	;
+	for (int i = 0; i < 20; i++)
+		for (int j = 0; j < 20; j++)
+		{
+			//if (picture[i][j] == 14)
+				//picture[i][j] = RED;
+			setfillstyle(SOLID_FILL, picture[i][j]);
+			poly[0] = poly[2] = x + i*(xscale);
+			poly[1] = poly[7] = y + j*(yscale);
+			poly[3] = poly[5] = y + (j+1) * yscale;
+			poly[4] = poly[6] = x + (i+1) * xscale;
+			//if (picture[i][j] != WHITE) 
+				fillpoly(4, poly);
+		}
+
+	setcolor(WHITE)	;
+	rectangle(x,y, x +  40, y + 40);
 
 }
 
@@ -3427,23 +3597,36 @@ void gameReset()
 			DOTTED_LINE,
 			SOLID_LINE
 			);
+
+	mainRoad[4].setProperties(
+			well.access(1) ,well.access(2)  + 10,
+			400,
+			1,
+			DOWN_RIGHT,
+			EMPTY_FILL,
+			WHITE,
+			CLOSE_DOT_FILL,
+			BROWN,
+			DOTTED_LINE,
+			SOLID_LINE
+			);
 	/*
-	   map_trees[0].setPositions(150 - 20,-3000/2 + 100+ 80);
-	   map_trees[1].setPositions(150 - 60 - 20+150,-3000/2 + 100+ 80+150);
-	   map_trees[2].setPositions(150 - 40+150+150-25,-3000/2 +150+ 100+ 80+150);
-	   map_trees[3].setPositions( + 150 - 100+150+150+150 - 5,-3000/2 +150+150+ 100+ 80+150);
-	   map_trees[4].setPositions(+ 150 - 50+150+150+150+150-15,-3000/2 +150+ 100+ 80+150+150+150);
-	   map_trees[5].setPositions(+ 150 - 150+150+150+150+150+150-30,-3000/2 +150+ 100+ 80+150+150+150+150);
-	   map_trees[6].setPositions(+600+ 150 - 20+150+150,-3000/2 +150+ 100+600+ 80+150);
-	   map_trees[7].setPositions(+ 150 -80+150+150+600+150-30,-3000/2 +150+ 100+ 80+150+600+150);
-	   map_trees[8].setPositions( - 100,0);
-	   map_trees[9].setPositions(-1000, 10);
-	   map_trees[10].setPositions(-1300, -25);
-	   map_trees[11].setPositions(-750, 60);
-	   map_trees[12].setPositions(-1000, 250);
-	   map_trees[13].setPositions(industry.industry_x, industry.industry_y - 450);
-	   map_trees[14].setPositions(industry.industry_x - 100, industry.industry_y - 350);
-	   */	
+		 map_trees[0].setPositions(150 - 20,-3000/2 + 100+ 80);
+		 map_trees[1].setPositions(150 - 60 - 20+150,-3000/2 + 100+ 80+150);
+		 map_trees[2].setPositions(150 - 40+150+150-25,-3000/2 +150+ 100+ 80+150);
+		 map_trees[3].setPositions( + 150 - 100+150+150+150 - 5,-3000/2 +150+150+ 100+ 80+150);
+		 map_trees[4].setPositions(+ 150 - 50+150+150+150+150-15,-3000/2 +150+ 100+ 80+150+150+150);
+		 map_trees[5].setPositions(+ 150 - 150+150+150+150+150+150-30,-3000/2 +150+ 100+ 80+150+150+150+150);
+		 map_trees[6].setPositions(+600+ 150 - 20+150+150,-3000/2 +150+ 100+600+ 80+150);
+		 map_trees[7].setPositions(+ 150 -80+150+150+600+150-30,-3000/2 +150+ 100+ 80+150+600+150);
+		 map_trees[8].setPositions( - 100,0);
+		 map_trees[9].setPositions(-1000, 10);
+		 map_trees[10].setPositions(-1300, -25);
+		 map_trees[11].setPositions(-750, 60);
+		 map_trees[12].setPositions(-1000, 250);
+		 map_trees[13].setPositions(industry.industry_x, industry.industry_y - 450);
+		 map_trees[14].setPositions(industry.industry_x - 100, industry.industry_y - 350);
+		 */	
 	//the above lines are commented out to check if the random layout load up is working
 
 	cleardevice();
@@ -3819,6 +4002,19 @@ int gameload()
 				SOLID_LINE
 				);
 
+	mainRoad[4].setProperties(
+			well.access(1) ,well.access(2)  + 10,
+			400,
+			1,
+			DOWN_RIGHT,
+			EMPTY_FILL,
+			WHITE,
+			CLOSE_DOT_FILL,
+			BROWN,
+			DOTTED_LINE,
+			SOLID_LINE
+			);
+
 	}
 
 	delete names;
@@ -3834,7 +4030,7 @@ int gameload()
 
 }
 
-void drawWall(int x, int y)
+void drawPillar(int x, int y)
 {
 	x -= 308;
 	y -= 450;
@@ -3889,82 +4085,83 @@ void drawWall(int x, int y)
 	setlinestyle ( SOLID_LINE , 1 , 3 ) ;
 	line ( x+308 , y+220 , x+308 , y+170 ) ;
 	arc ( x+309 , y+170 , 210 , 330 , 10 ) ;
-	/*
-	   x -= 300;
-	   y -= 350;
-
-	   if (wallPlaced )
-	   {
-	   wallPlaced --;
-	   setcolor(DARKGRAY);
-	//OUTER RECTANGLES
-	int poly[8];
-	poly[0] = poly[2] = x + 250;
-	poly[1] =  y + 150;
-	poly[3] =  y + 350;
-	poly[4] = x + 300;
-	poly[5] = y + 400;
-	poly[6] = x + 300;
-	poly[7] = y + 200;
-	setfillstyle(SOLID_FILL, DARKGRAY);
-	fillpoly(4, poly);
-
-	poly[0] = x + 300;
-	poly[1] = y + 200;
-	poly[2] = x + 300;
-	poly[3] = y + 400;
-	poly[4] = x + 350;
-	poly[5] = y + 350;
-	poly[6] = x + 350;
-	poly[7] = y + 150;
-	setfillstyle(SOLID_FILL, DARKGRAY);
-	fillpoly(4, poly);
-
-	// THE ABOVE CONE PART ...
-	poly[0] = x + 300;
-	poly[1] = y + 100;
-	poly[2] = x + 250;
-	poly[3] = y + 150;
-	poly[4] = x + 300;
-	poly[5] = y + 200;
-	poly[6] = x + 350;
-	poly[7] = y + 150;
-	setfillstyle(SOLID_FILL, LIGHTGRAY);
-	fillpoly(4, poly);
-
-	line ( x + 305 , y + 130 , x + 300 , y + 200 ) ;
-	line ( x + 305 , y + 130 , x + 250 , y + 150 ) ;
-	line ( x + 305 , y + 130 , x + 350 , y + 150 ) ;
-	line ( x + 305 , y + 130 , x + 300 , y + 100 ) ;
-
-	// THE INNER RECTANGLE 1 ....
-	poly[0] = x + 260;
-	poly[1] = y + 180;
-	poly[2] = x + 290;
-	poly[3] = y + 210;
-	poly[4] = x + 290;
-	poly[5] = y + 370;
-	poly[6] = x + 260;
-	poly[7] = y + 340;
-	setfillstyle(SOLID_FILL, LIGHTGRAY);
-	fillpoly(4, poly);
-
-	// THE INNER RECTANGLE 2 ....
-	poly[0] = x + 310;
-	poly[1] = y + 370;
-	poly[2] = x + 340;
-	poly[3] = y + 340;
-	poly[4] = x + 340;
-	poly[5] = y + 180;
-	poly[6] = x + 310;
-	poly[7] = y + 210;
-	setfillstyle(SOLID_FILL, LIGHTGRAY);
-	fillpoly(4, poly);
-	setcolor(YELLOW);
-	line(0, getmaxy()/2, getmaxx(), getmaxy()/2);
-	line(getmaxx()/2, 0, getmaxx()/2, getmaxy());
 }
-*/
+
+void drawWall(int x, int y)
+{
+
+	x -= 300;
+	y -= 350;
+
+	if (wallPlaced )
+	{
+		wallPlaced --;
+		setcolor(DARKGRAY);
+		//OUTER RECTANGLES
+		int poly[8];
+		poly[0] = poly[2] = x + 250;
+		poly[1] =  y + 150;
+		poly[3] =  y + 350;
+		poly[4] = x + 300;
+		poly[5] = y + 400;
+		poly[6] = x + 300;
+		poly[7] = y + 200;
+		setfillstyle(SOLID_FILL, BLACK);
+		fillpoly(4, poly);
+
+		poly[0] = x + 300;
+		poly[1] = y + 200;
+		poly[2] = x + 300;
+		poly[3] = y + 400;
+		poly[4] = x + 350;
+		poly[5] = y + 350;
+		poly[6] = x + 350;
+		poly[7] = y + 150;
+		setfillstyle(SOLID_FILL, BLACK);
+		fillpoly(4, poly);
+
+		// THE ABOVE CONE PART ...
+		poly[0] = x + 300;
+		poly[1] = y + 100;
+		poly[2] = x + 250;
+		poly[3] = y + 150;
+		poly[4] = x + 300;
+		poly[5] = y + 200;
+		poly[6] = x + 350;
+		poly[7] = y + 150;
+		setfillstyle(SOLID_FILL, LIGHTGRAY);
+		fillpoly(4, poly);
+
+		line ( x + 305 , y + 130 , x + 300 , y + 200 ) ;
+		line ( x + 305 , y + 130 , x + 250 , y + 150 ) ;
+		line ( x + 305 , y + 130 , x + 350 , y + 150 ) ;
+		line ( x + 305 , y + 130 , x + 300 , y + 100 ) ;
+
+		// THE INNER RECTANGLE 1 ....
+		poly[0] = x + 260;
+		poly[1] = y + 180;
+		poly[2] = x + 290;
+		poly[3] = y + 210;
+		poly[4] = x + 290;
+		poly[5] = y + 370;
+		poly[6] = x + 260;
+		poly[7] = y + 340;
+		setfillstyle(SOLID_FILL, LIGHTGRAY);
+		fillpoly(4, poly);
+
+		// THE INNER RECTANGLE 2 ....
+		poly[0] = x + 310;
+		poly[1] = y + 370;
+		poly[2] = x + 340;
+		poly[3] = y + 340;
+		poly[4] = x + 340;
+		poly[5] = y + 180;
+		poly[6] = x + 310;
+		poly[7] = y + 210;
+		setfillstyle(SOLID_FILL, LIGHTGRAY);
+		fillpoly(4, poly);
+	}
+
 }
 
 void disHighScores()
@@ -4025,6 +4222,25 @@ void disHighScores()
 
 	getch();
 	delete[] d;
+}
+
+void drawLightning()
+{
+	int x = -200 , y = 0 ;
+	setlinestyle ( SOLID_LINE , 1 , 2 ) ;
+	setcolor ( YELLOW ) ;
+	randomize () ;
+	for ( int i = 1 ; i <= 5 ; i++ )
+	{ x = (i-1)*100 + random (100) ;
+		y = random (50) ;
+		int Bolt [] = { x+200 , y+50 , x+150 , y+200 ,
+			x+205 , y+150 , x+120 , y+350 ,
+			x+180 , y+295 , x+130 , y+450 ,
+			x+190 , y+280 , x+130 , y+335 ,
+			x+220 , y+130 , x+165 , y+180 } ;
+		fillpoly ( 10 , Bolt ) ;
+	}
+
 }
 
 #endif
