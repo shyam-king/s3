@@ -3921,7 +3921,11 @@ int gameload()
 	int h = scrollAnimation(0,0);
 
 	if (!n)
-		outtextxy(10,10, "No saves exist! Please start a new game!");
+	{
+		setcolor(YELLOW);
+		settextstyle(7, HORIZ_DIR, 2);
+		outtextxy(70,10, "No saves exist! Please start a new game!");
+	}
 	else
 	{
 		//copy all the names and icons into the array
