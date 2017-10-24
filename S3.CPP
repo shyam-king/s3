@@ -60,7 +60,7 @@ void main()
 
 //////////////////////////////////FUNCTION DEFINITIONS/////////////////
 
-
+/*
 void displayAnim()
 {
 	randomize();
@@ -104,4 +104,64 @@ void displayAnim()
 		delay(i%20);
 	}
 
+}
+*/
+
+void displayAnim()
+{
+	int c[] = {GREEN, GREEN, BLUE, BLUE};
+while (!kbhit())
+	{ static int j = 0;
+		for(int i=0,k=350;i<350;i++,k--)
+		{
+				//coloured inner arcs
+				setcolor(c[i% (sizeof(c)/2)]);
+				if (j%2)
+				{
+				arc(getmaxx()/2,getmaxy()/2,i+0,i+30,i);
+				arc(getmaxx()/2,getmaxy()/2,i+60,i+90,i);
+				arc(getmaxx()/2,getmaxy()/2,i+120,i+150,i);
+				arc(getmaxx()/2,getmaxy()/2,i+180,i+210,i);
+				arc(getmaxx()/2,getmaxy()/2,i+240,i+270,i);
+				arc(getmaxx()/2,getmaxy()/2,i+300,i+330,i);
+				}
+				else
+				{
+
+				arc(getmaxx()/2,getmaxy()/2,i+30,i+60,i);
+				arc(getmaxx()/2,getmaxy()/2,i+90,i+120,i);
+				arc(getmaxx()/2,getmaxy()/2,i+150,i+180,i);
+				arc(getmaxx()/2,getmaxy()/2,i+210,i+240,i);
+				arc(getmaxx()/2,getmaxy()/2,i+270,i+300,i);
+				arc(getmaxx()/2,getmaxy()/2,i+330,i+360,i);
+				}
+				setcolor(BLACK);
+				if(j%2)
+				{
+					arc(getmaxx()/2,getmaxy()/2,k+330,k+360,k);
+					arc(getmaxx()/2,getmaxy()/2,k+270,k+300,k);
+					arc(getmaxx()/2,getmaxy()/2,k+210,k+240,k);
+					arc(getmaxx()/2,getmaxy()/2,k+150,k+180,k);
+					arc(getmaxx()/2,getmaxy()/2,k+90,k+120,k);
+					arc(getmaxx()/2,getmaxy()/2,k+30,k+60,k);
+				}
+				else
+				{
+					arc(getmaxx()/2,getmaxy()/2,k+300,k+330,k);
+					arc(getmaxx()/2,getmaxy()/2,k+240,k+270,k);
+					arc(getmaxx()/2,getmaxy()/2,k+180,k+210,k);
+					arc(getmaxx()/2,getmaxy()/2,k+120,k+150,k);
+					arc(getmaxx()/2,getmaxy()/2,k+60,k+90,k);
+					arc(getmaxx()/2,getmaxy()/2,k+0,k+30,k);
+				}
+				for (int t = 0; t < 5; t++)
+				{
+					setcolor(WHITE);
+					settextstyle(7, HORIZ_DIR, 7);   //5
+					outtextxy(getmaxx()/2 - textwidth("Virtz")/2 -2 + t,
+										getmaxy()/2 - textheight("Virtz")/2, "Virtz");
+				}
+		 }
+		 j++;
+		}
 }

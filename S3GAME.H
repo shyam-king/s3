@@ -651,6 +651,7 @@ void drawtreebush ( int x , int y ); // bush above the tree
 void plotTree(Tree); // the whole tree
 void drawWall(int x, int y); // drawing the wall around the map
 void drawPillar(int x, int y);//drawing the pillar with the trident
+void drawLightning(); // Lightning shower
 void messagebox(char message[][80] , int color, int n, int image_index);
 int displayMenu();
 void drawBarHoriz(int x, int y, int w, int h, int color0, int color1, float percent);
@@ -684,7 +685,6 @@ void setDetailDisplay (char a[], char b[]);
 void gamesave();
 int gameload();
 void disHighScores();
-void drawLightning();
 
 //interact
 
@@ -1558,20 +1558,12 @@ void gameNew()
 			mainRoad[3].build(originX, originY);
 			mainRoad[4].build(originX, originY);
 
-			//the lost shrine
-			setcolor(DARKGRAY);
-			setfillstyle(CLOSE_DOT_FILL, BROWN);
-			fillellipse(originX - 975, originY, 150, 150);
-			setfillstyle(CLOSE_DOT_FILL, LIGHTGRAY);
-			fillellipse(originX - 975, originY, 90, 90);
-
-			drawPillar(originX  - 850,  originY);
-			drawPillar(originX -1100, originY );
-			drawPillar(originX - 975,  originY -125);
-			drawPillar(originX - 975,  originY  + 125);
-
 			//The Well
+			drawPillar(well.access(1) + originX , well.access(2) + originY -150);
+			drawPillar(well.access(1) + originX -150, well.access(2) + originY );
 			well.drawWell(well.access(1) + originX, well.access(2) + originY, (well.access(3))? CYAN: BLACK);
+			drawPillar(well.access(1) + originX + 150, well.access(2) + originY );
+			drawPillar(well.access(1) + originX , well.access(2) + originY + 150);
 
 			//walls
 			wallPlaced = player.getWalls();
@@ -2622,12 +2614,19 @@ void drawAddIcon(int x, int y, int xscale, int yscale)
 		{
 			//if (picture[i][j] == 14)
 				//picture[i][j] = RED;
-			setfillstyle(SOLID_FILL, picture[i][j]);
+			if (picture[i][j] == 7)
+				picture[i][j] = BLACK;
+			if (picture[i][j] == WHITE)
+				picture[i][j] = DARKGRAY;
+				setfillstyle(SOLID_FILL, picture[i][j]);
 			poly[0] = poly[2] = x + i*(xscale);
 			poly[1] = poly[7] = y + j*(yscale);
 			poly[3] = poly[5] = y + (j+1) * yscale;
 			poly[4] = poly[6] = x + (i+1) * xscale;
-			//if (picture[i][j] != WHITE) 
+			
+			
+			
+			if (picture[i][j] != WHITE) 
 				fillpoly(4, poly);
 		}
 
@@ -3236,31 +3235,28 @@ int displayMenu()
 	SCREEN_H = getmaxy();
 
 	// LOGO
-	int x,y,r[] = {170, 150, 130},a[6];
+	int x,y;
 	x = SCREEN_W/2;
 	y = SCREEN_H/2;
-	a[0] = 0;
-	a[1] = 80;
-	a[2] = 180;
-	a[3] = 180 + 80;
-	a[4] = 180 + -80;
-	a[5] = 180;
 
-	int tr = 0, trSpeed = 0, trAcc = 10;
+	int tr = 0, trspeed = 15,trAcc = 10;
 
 	//LOGO LOOP
 
 	initmouse();
+	cleardevice();
 
 	while (logo)
 	{
-		cleardevice();
+		//cleardevice();
 
 		//GETTING MOUSE STATUS
 		mousestatus();
 		mc = out.x.bx;
 		mx = out.x.cx;
 		my = out.x.dx;
+		
+		int cols[] = {CYAN,DARKGRAY,CYAN, BLUE,BROWN,LIGHTBLUE, BROWN,CYAN};
 
 		if (mx != mmx || my != mmy) l_mouse_using = 1 ;
 		else l_mouse_using = 0;
@@ -3299,10 +3295,10 @@ int displayMenu()
 		{
 
 			int f = 0;
-			setcolor(LIGHTBLUE);
-			settextstyle(8, HORIZ_DIR, 4);
-			for (f =0; f < 6; f ++)
-				outtextxy(getmaxx()/2 - textwidth("MENU")/2 + f, 20 + f, "MENU");
+			setcolor(CYAN);
+			settextstyle(4, HORIZ_DIR, 6);
+			for (f =0; f < 2; f ++)
+				outtextxy(getmaxx()/2 - textwidth("Atlantis")/2 + f, 20 + f + 60, "Atlantis");
 
 
 			if (l_mouse_using == 1 && my >= SCREEN_H/2 - 90 && my < SCREEN_H/2 - 60) {
@@ -3364,12 +3360,35 @@ int displayMenu()
 
 		x = SCREEN_W/2;
 		y = SCREEN_H/2 ;
-		setcolor(RED);
+		/*setcolor(RED);
 		drawtarc(x,y, a[0], a[1], r[0] + tr, 5);
 		setcolor(BLUE);
 		drawtarc(x,y,a[2],a[3],r[1] + tr,5);
 		setcolor(GREEN);
 		drawtarc(x,y,a[4],a[5],r[2] + tr,5);
+		*/
+		//lines
+		static int col = 0;
+		col = col % (sizeof(cols)/2);
+		col ++;
+		for (int i = 0; i < 360; i++)
+		{
+			if (TRANSITION_MODE)
+			{
+				setcolor(BLACK);
+				line(x + (200 + tr-trspeed) * cos(i * 3.14/180), y - (200 + tr-trspeed) * sin (i * 3.14 / 180), x + (250+tr-trspeed) * cos (i * 3.14/180), y - (250+tr-trspeed) * sin(i * 3.14/180));
+			}
+			else 
+			{
+				setcolor(BLACK);
+				line(x + (200 + tr+trspeed) * cos(i * 3.14/180), y - (200 + tr+trspeed) * sin (i * 3.14 / 180), x + (250+tr+trspeed) * cos (i * 3.14/180), y - (250+tr+trspeed) * sin(i * 3.14/180));		
+			}
+			
+			setcolor(cols[col]);
+			col ++ ;
+			col = col % (sizeof(cols)/2);
+			line(x + (200 + tr) * cos(i * 3.14/180), y - (200 + tr) * sin (i * 3.14 / 180), x + (250+tr) * cos (i * 3.14/180), y - (250+tr) * sin(i * 3.14/180));
+		}
 
 
 		//TRANSITION FROM THE MENU TO THE SELECTED SCREEN
@@ -3384,8 +3403,7 @@ int displayMenu()
 					outtextxy(SCREEN_W/2 - 60, SCREEN_H/2  - 90, "New Game");
 					if (tr < 200)
 					{
-						tr += trSpeed;
-						trSpeed += trAcc;
+						tr ++;
 					}
 
 					else
@@ -3409,8 +3427,7 @@ int displayMenu()
 					outtextxy(SCREEN_W/2 - 60, SCREEN_H/2  - 60, "Continue");
 					if (tr < 200)
 					{
-						tr += trSpeed;
-						trSpeed += trAcc;
+						tr += trspeed;
 					}
 
 					else
@@ -3431,13 +3448,13 @@ int displayMenu()
 					outtextxy(SCREEN_W/2 - 60, SCREEN_H/2 - 30, "  About");
 					if (tr < 200)
 					{
-						tr += trSpeed;
-						trSpeed += trAcc;
+						tr += trspeed;
 					}
 
 					else
 					{
 						displayAbout();
+						cleardevice();
 						TRANSITION_MODE = 0;
 						MENU_MODE = 1;
 					}
@@ -3449,8 +3466,7 @@ int displayMenu()
 					outtextxy(SCREEN_W/2 - 60, SCREEN_H/2 , "   Exit");
 					if (tr < 200)
 					{
-						tr += trSpeed;
-						trSpeed += trAcc;
+						tr += trspeed;
 					}
 
 					else
@@ -3471,8 +3487,7 @@ int displayMenu()
 					outtextxy(SCREEN_W/2 - 60, SCREEN_H/2 + 30, "High Scores");
 					if (tr < 200)
 					{
-						tr += trSpeed;
-						trSpeed += trAcc;
+						tr += trspeed;
 					}
 
 					else
@@ -3493,24 +3508,12 @@ int displayMenu()
 
 		if (!TRANSITION_MODE && tr > 0)
 		{
-			tr -= trSpeed;
-			trSpeed -= trAcc;
+			tr -= trspeed;
 		}
 
 		if (tr < 0) tr = 0;
 
-		//red
-		a[0] -= 9 * !tr;
-		a[1] -= 9 * !tr;
-
-		//blue
-		a[2] += 7 * !tr;
-		a[3] += 7 * !tr;
-
-		//green
-		a[4] -= 5 * !tr;
-		a[5] -= 5 * !tr;
-
+		
 		setcolor(WHITE);
 		outtextxy(10, getmaxy() - 20, text);
 
@@ -3618,7 +3621,7 @@ void gameReset()
 			DOTTED_LINE,
 			SOLID_LINE
 			);
-	/*
+	
 		 map_trees[0].setPositions(150 - 20,-3000/2 + 100+ 80);
 		 map_trees[1].setPositions(150 - 60 - 20+150,-3000/2 + 100+ 80+150);
 		 map_trees[2].setPositions(150 - 40+150+150-25,-3000/2 +150+ 100+ 80+150);
@@ -3629,12 +3632,12 @@ void gameReset()
 		 map_trees[7].setPositions(+ 150 -80+150+150+600+150-30,-3000/2 +150+ 100+ 80+150+600+150);
 		 map_trees[8].setPositions( - 100,0);
 		 map_trees[9].setPositions(-1000, 10);
-		 map_trees[10].setPositions(-1300, -25);
 		 map_trees[11].setPositions(-750, 60);
-		 map_trees[12].setPositions(-1000, 250);
+		  map_trees[10].setPositions(-1300, -25);
+		map_trees[12].setPositions(-1000, 250);
 		 map_trees[13].setPositions(industry.industry_x, industry.industry_y - 450);
 		 map_trees[14].setPositions(industry.industry_x - 100, industry.industry_y - 350);
-		 */	
+		 
 	//the above lines are commented out to check if the random layout load up is working
 
 	cleardevice();
@@ -3948,6 +3951,23 @@ int gameload()
 		//loading up the player and the layout
 		player = fileop.loadPlayer(sel);
 		fileop.loadHouse(map_houses, sel);
+	
+		 map_trees[0].setPositions(150 - 20,-3000/2 + 100+ 80);
+		 map_trees[1].setPositions(150 - 60 - 20+150,-3000/2 + 100+ 80+150);
+		 map_trees[2].setPositions(150 - 40+150+150-25,-3000/2 +150+ 100+ 80+150);
+		 map_trees[3].setPositions( + 150 - 100+150+150+150 - 5,-3000/2 +150+150+ 100+ 80+150);
+		 map_trees[4].setPositions(+ 150 - 50+150+150+150+150-15,-3000/2 +150+ 100+ 80+150+150+150);
+		 map_trees[5].setPositions(+ 150 - 150+150+150+150+150+150-30,-3000/2 +150+ 100+ 80+150+150+150+150);
+		 map_trees[6].setPositions(+600+ 150 - 20+150+150,-3000/2 +150+ 100+600+ 80+150);
+		 map_trees[7].setPositions(+ 150 -80+150+150+600+150-30,-3000/2 +150+ 100+ 80+150+600+150);
+		 map_trees[8].setPositions( - 100,0);
+		 map_trees[9].setPositions(-1000, 10);
+		 map_trees[11].setPositions(-750, 60);
+		  map_trees[10].setPositions(-1300, -25);
+		map_trees[12].setPositions(-1000, 250);
+		 map_trees[13].setPositions(industry.industry_x, industry.industry_y - 450);
+		 map_trees[14].setPositions(industry.industry_x - 100, industry.industry_y - 350);
+		 
 		fileop.loadTrees(map_trees, sel);
 		fileop.loadRoad(mainRoad, sel); // doesnt seem to work properly
 		goal.setGoalIndex(fileop.loadGoalIndex(sel));
