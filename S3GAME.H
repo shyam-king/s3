@@ -339,6 +339,10 @@ class PLAYER
 	{
 		return nhouses;
 	}
+	int getIcon(int i, int j)
+	{
+		return userIcon[i][j];
+	}
 
 	int show_ID();
 
@@ -3324,25 +3328,25 @@ int displayMenu()
 			if (menu_selection == 0  || menu_selection == -1) setcolor(LIGHTBLUE);
 			else setcolor(YELLOW);
 
-			settextstyle(1, HORIZ_DIR, 2);
-			if(!TRANSITION_MODE) outtextxy(SCREEN_W/2 - 60, SCREEN_H/2  - 90, "New Game");
+			settextstyle(7, HORIZ_DIR, 2);
+			if(!TRANSITION_MODE) outtextcenter( SCREEN_H/2  - 90, "New Game");
 
 			if (menu_selection == 1) setcolor(LIGHTBLUE);
 			else setcolor(YELLOW);
 
-			if(!TRANSITION_MODE) outtextxy(SCREEN_W/2 - 60, SCREEN_H/2 - 60, "Continue");
+			if(!TRANSITION_MODE) outtextcenter(SCREEN_H/2 - 60, "Continue");
 
 			if (menu_selection == 2)  setcolor(LIGHTBLUE);
 			else setcolor(YELLOW);
-			if(!TRANSITION_MODE) outtextxy(SCREEN_W/2 - 60, SCREEN_H/2 - 30, "  About");
+			if(!TRANSITION_MODE) outtextcenter(SCREEN_H/2 - 30, "High Scores");
 
 			if (menu_selection == 3)  setcolor(LIGHTBLUE);
 			else setcolor(YELLOW);
-			if (!TRANSITION_MODE)outtextxy(SCREEN_W/2 - 60, SCREEN_H/2 , "   Exit");
+			if (!TRANSITION_MODE) outtextcenter(SCREEN_H/2 , "About");
 
 			if (menu_selection == 4)  setcolor(LIGHTBLUE);
 			else setcolor(YELLOW);
-			if (!TRANSITION_MODE)outtextxy(SCREEN_W/2 - 60, SCREEN_H/2 + 30, "High Scores");
+			if (!TRANSITION_MODE) outtextcenter(SCREEN_H/2 + 30, "Exit");
 
 
 			if (key == '\r' || (mc == 1 && mmc != 1) )     //   SELECTING FROM MENU
@@ -3399,11 +3403,9 @@ int displayMenu()
 			{
 
 				case 0:
-					setcolor(LIGHTBLUE);
-					outtextxy(SCREEN_W/2 - 60, SCREEN_H/2  - 90, "New Game");
 					if (tr < 200)
 					{
-						tr ++;
+						tr += trspeed;
 					}
 
 					else
@@ -3412,6 +3414,7 @@ int displayMenu()
 						gameReset();
 						fileop.New_Player(&player , map_houses, map_trees, mainRoad);
 						gameNew();
+						cleardevice();
 						TRANSITION_MODE = 0;
 						MENU_MODE = 1;
 						key = 0;
@@ -3423,8 +3426,6 @@ int displayMenu()
 					break;
 
 				case 1:
-					setcolor(LIGHTBLUE);
-					outtextxy(SCREEN_W/2 - 60, SCREEN_H/2  - 60, "Continue");
 					if (tr < 200)
 					{
 						tr += trspeed;
@@ -3434,6 +3435,7 @@ int displayMenu()
 					{
 						if (gameload())
 							gameNew();
+						cleardevice();
 						TRANSITION_MODE = 0;
 						MENU_MODE = 1;
 						key = 0;
@@ -3443,9 +3445,7 @@ int displayMenu()
 					}
 					break;
 
-				case 2:
-					setcolor(LIGHTBLUE);
-					outtextxy(SCREEN_W/2 - 60, SCREEN_H/2 - 30, "  About");
+				case 3:
 					if (tr < 200)
 					{
 						tr += trspeed;
@@ -3461,9 +3461,7 @@ int displayMenu()
 
 					break;
 
-				case 3:
-					setcolor(LIGHTBLUE);
-					outtextxy(SCREEN_W/2 - 60, SCREEN_H/2 , "   Exit");
+				case 4:
 					if (tr < 200)
 					{
 						tr += trspeed;
@@ -3476,15 +3474,14 @@ int displayMenu()
 						{
 							exit(0);
 						}
+						cleardevice();
 						TRANSITION_MODE = 0;
 						MENU_MODE = 1;
 					}
 
 					break;
 
-				case 4:
-					setcolor(LIGHTBLUE);
-					outtextxy(SCREEN_W/2 - 60, SCREEN_H/2 + 30, "High Scores");
+				case 2:
 					if (tr < 200)
 					{
 						tr += trspeed;
@@ -3493,6 +3490,7 @@ int displayMenu()
 					else
 					{
 						disHighScores();
+						cleardevice();
 						TRANSITION_MODE = 0;
 						MENU_MODE = 1;
 					}
@@ -3909,23 +3907,32 @@ int gameload()
 	originY = 0;
 	originX = 0;
 	int n = fileop.noOfPlayers();
-	//allocating memory to store the names of all the players
-	char *names = new char[80 * n];
+
+	//structure to store the details
+	struct det
+	{
+		char name[80];
+		int icon[10][10];
+	};
+
+	det *players = new det[n];
+
+	//scroll animation
+	int h = scrollAnimation(0,0);
 
 	if (!n)
 		outtextxy(10,10, "No saves exist! Please start a new game!");
 	else
 	{
-		//copy all the names into the array
+		//copy all the names and icons into the array
 		for(int i = 0; i < n; i++)
-			strcpy(names + 80*i, (fileop.loadPlayer(i)).getuserName());
-
-		//display the array
-		setcolor(YELLOW);
-		for(i = 0; i < n; i++)
-			outtextxy(10, 100 + 20 *  i, names + 80 * i);
-		outtextxy(10, 100 + 20 *  i, "BACK");
-
+		{
+			PLAYER p = fileop.loadPlayer(i);
+			strcpy(players[i].name, p.getuserName());
+			for (int j = 0; j < 10; j++)
+				for (int k = 0; k < 10; k++)
+					players[i].icon[j][k] = p.getIcon(j,k);
+		}
 
 		//selection process
 		int sel = 0; // selection variable
@@ -3933,20 +3940,53 @@ int gameload()
 		int flag = 1;
 		while (flag)
 		{
-			setcolor(GREEN);
-			rectangle(5, 100 + 20 * sel - 5, getmaxy() - 5, 100 + 20 * sel + 20);
+			int x = 90;
+			int y = 150;
+			//scroll
+			scrollAnimation(1, h);
+
+			//TITLE
+			setcolor(YELLOW);
+			settextstyle(7, HORIZ_DIR, 5);
+			outtextcenter(20, "SELECT PLAYER");
+			//drawing the icon of the player selected
+			int poly[8];
+
+			for  (int I = 0; I < 10; I++)
+				for (int J = 0; J < 10; J++)
+				{
+					poly[0] = poly[2] = x + J * 5;
+					poly[1] =poly[7] = y  + I * 5;
+					poly[3] = poly[5] = y  + I * 5 + 5;
+					poly[4] =poly[6]= x  + J*5 + 5;
+					setfillstyle(SOLID_FILL, players[sel].icon[I][J]);
+					setcolor(players[sel].icon[I][J]);
+					fillpoly(4, poly);
+				}
+
+			//name
+			setcolor(YELLOW);
+			settextstyle(7, HORIZ_DIR, 3);
+			outtextxy(x + 100, y + 5, players[sel].name);
+
+
+			//displaying the instructions
+			setcolor(YELLOW);
+			outtextcenter(y + 100, "Use arrow keys to navigate");
+			outtextcenter(y + 130, "Press backspace to go back");
+
+
+			//accepting the keystroke
 			k = getch();
-			setcolor(BLACK);
-			rectangle(5, 100 + 20 * sel - 5, getmaxy() - 5, 100 + 20 * sel + 20);
 			if (k == '\r' || k == '\n')
 				flag  = 0;
 			else if (k == UP || tolower(k) == 'w')
-				sel = (sel == 0) ? n : sel-1;
+				sel = (sel == 0) ? n-1 : sel-1;
 			else if (k == DOWN || tolower(k) == 's')
-				sel = (sel == n) ? 0 : sel + 1;
+				sel = (sel == n-1) ? 0 : sel + 1;
+			else if (k == '\b')
+				return 0;
 		}
-		if (sel == n)
-			return 0;
 
 		//loading up the player and the layout
 		player = fileop.loadPlayer(sel);
@@ -4045,7 +4085,7 @@ int gameload()
 
 	}
 
-	delete names;
+	delete[] players;
 
 	if (n) 
 		return 1;
@@ -4197,6 +4237,7 @@ void disHighScores()
 	struct details { // stucture to store the deatils of all the players
 		char name[80];
 		long score;
+		int icon[10][10]; //100 bytes!? hope it works properly 
 	};
 
 	//checking if players already exist
@@ -4211,6 +4252,9 @@ void disHighScores()
 	while(f.read((char*)&p, sizeof(p)))
 	{
 		strcpy(d[i].name, p.getuserName());
+		for (int I = 0; I < 10; I++)
+			for (int J = 0; J < 10; J++)
+				d[i].icon[I][J] = p.getIcon(I, J);
 		//calculating the score for each player
 		d[i].score = 0;
 		d[i].score += p.getmoney() + p.getproduce() + p.getwater() + p.getwood();
@@ -4237,15 +4281,37 @@ void disHighScores()
 			}
 		}
 
-	//displaying it in somewhat proper format
+	//displaying
 	cleardevice();
+	int h = scrollAnimation(0,0);
+	scrollAnimation(1, h);
 
 	setcolor(WHITE);
 	char m[80];
 	for (j = 0; j < i; j++) // displaying only the main five records
 	{
+
+		//drawing the icon
+		int x = 70;
+		int y = j * 70;
+		int poly[8];
+
+		for  (int I = 0; I < 10; I++)
+			for (int J = 0; J < 10; J++)
+			{
+				poly[0] = poly[2] = x + J * 5;
+				poly[1] =poly[7] = y  + I * 5;
+				poly[3] = poly[5] = y  + I * 5 + 5;
+				poly[4] =poly[6]= x  + J*5 + 5;
+				setfillstyle(SOLID_FILL, d[j].icon[I][J]);
+				setcolor(d[j].icon[I][J]);
+				fillpoly(4, poly);
+			}
+
 		sprintf(m, "%s : %d", d[j].name, d[j].score);
-		outtextxy(10, 10 + 40 * j, m);
+		setcolor(YELLOW);
+		settextstyle(7, HORIZ_DIR, 3);
+		outtextxy(x + 70, y + 2, m);
 	}
 
 	getch();
@@ -4268,7 +4334,7 @@ void drawLightning()
 			x+220 , y+130 , x+165 , y+180 } ;
 		fillpoly ( 10 , Bolt ) ;
 	}
-
 }
+
 
 #endif

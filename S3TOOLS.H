@@ -30,6 +30,7 @@ union REGS in, out;
 
 /////////////////////////FUNCTION PROTOTYPES//////////////////////
 char *inttochar(int);
+void outtextcenter(int y, char*);
 void drawtarc(int, int, int, int, int, int);
 void initmouse();
 void mousereset();
@@ -434,6 +435,11 @@ int stringSearch(char list[20][15], char *str)
 			return 1;
 
 	return 0;
+}
+
+void outtextcenter(int y, char *t)
+{
+	outtextxy(getmaxx()/2 - textwidth(t)/2, y, t);
 }
 
 #endif
