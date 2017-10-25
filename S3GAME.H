@@ -655,7 +655,6 @@ void drawtreebush ( int x , int y ); // bush above the tree
 void plotTree(Tree); // the whole tree
 void drawWall(int x, int y); // drawing the wall around the map
 void drawPillar(int x, int y);//drawing the pillar with the trident
-void drawLightning(); // Lightning shower
 void messagebox(char message[][80] , int color, int n, int image_index);
 int displayMenu();
 void drawBarHoriz(int x, int y, int w, int h, int color0, int color1, float percent);
@@ -1913,18 +1912,6 @@ void gameNew()
 
 		goal.goalcheck();
 		if (player.getecoMeter() > 100 ) player.setecoMeter(100);
-		
-		//an animation to show the ecoMeter has reached an abnormal value
-		
-		if (player.getecoMeter() > 25)
-			dangerAnim = 5;
-
-		if (player.getecoMeter() <= 25 && dangerAnim)
-		{
-			dangerAnim --;
-			drawLightning();
-			animate = 1;
-		}
 
 		//checking the ecometer to end the game
 		if (player.getecoMeter() <= 0 )
@@ -4321,24 +4308,5 @@ void disHighScores()
 	getch();
 	delete[] d;
 }
-
-void drawLightning()
-{
-	int x = -200 , y = 0 ;
-	setlinestyle ( SOLID_LINE , 1 , 2 ) ;
-	setcolor ( YELLOW ) ;
-	randomize () ;
-	for ( int i = 1 ; i <= 5 ; i++ )
-	{ x = (i-1)*100 + random (100) ;
-		y = random (50) ;
-		int Bolt [] = { x+200 , y+50 , x+150 , y+200 ,
-			x+205 , y+150 , x+120 , y+350 ,
-			x+180 , y+295 , x+130 , y+450 ,
-			x+190 , y+280 , x+130 , y+335 ,
-			x+220 , y+130 , x+165 , y+180 } ;
-		fillpoly ( 10 , Bolt ) ;
-	}
-}
-
 
 #endif
