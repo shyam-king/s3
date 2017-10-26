@@ -1,4 +1,4 @@
-/////////////////Game data and functions
+////////////////Game data and functions
 #include"S3TOOLS.H"
 #include<ctype.h>
 #include<string.h>
@@ -70,13 +70,10 @@ int ntrees = 15;
 int treeCutCount = 0;
 int houseBuiltCount;
 
-// puzzle list
-char  rlist[20][15]={"POSIEDON","ZEUS","HADES","APHRODITE","ATHENA","HEPHAESTUS","DIONISUS","APOLLO","ARTEMIS","ARES","HERMES","HERA","GAIA","KRONOS","ORANOUS","ATLAS","CHAOS","LOKI","THOR","ODIN"};
-char  clist[20][15]={"POSIEDON","ZEUS","HADES","APHRODITE","ATHENA","HEPHAESTUS","DIONISUS","APOLLO","ARTEMIS","ARES","HERMES","HERA","GAIA","KRONOS","ORANOUS","ATLAS","CHAOS","LOKI","THOR","ODIN"};
-
 //misc flags
 int moveflag = 0;
 int wallPlaced = 0;
+int pillarStatus = 0;
 int dangerAnim = 0;
 
 //troubleshooting purposes
@@ -221,7 +218,49 @@ void Road::build(int origx, int origy)
 		draw(origx, origy, i, (!i || i == n-1));
 }
 
-class PLAYER
+class Puzzle
+{
+	protected:
+	int puzzleStatus;
+	char  rlist[4][15];
+	char  clist[4][15];
+	char list [15];
+	int index, locked;
+	char  currscramble[15] ;
+	int selection , choice , scselection ;
+	char completedList[4][15];
+	public:
+	Puzzle();
+	int limit;
+	int sflag;
+	int completed;
+
+	int puzzleCheck()
+	{
+		return clist[index][0];
+	}
+	void add(char letter)
+	{
+		int t =strlen(list);
+		list[t] = letter;
+		list[t+1]='\0';
+	}
+
+	void appendList();
+	void puzzleInteract(char);
+	void setIndex()
+	{
+		index = random(limit);
+	}
+	char pop();
+	void resetPuzzleInterface()
+	{
+		selection = locked;
+	}
+
+};
+
+class PLAYER : public Puzzle
 {
 	int currXp;
 	int id;
@@ -236,6 +275,7 @@ class PLAYER
 	public:
 	PLAYER ()
 	{
+		puzzleStatus = 0;
 		ecoMeter = 100;
 		maxXp=100;
 		walls = 0;
@@ -252,6 +292,14 @@ class PLAYER
 	int getplayerLevel()
 	{
 		return playerLevel;
+	}
+	void setPuzzleStatus(int x)
+	{
+		puzzleStatus = x;
+	}
+	int getPuzzleStatus()
+	{
+		return puzzleStatus;
 	}
 	int getWalls()
 	{
@@ -594,39 +642,6 @@ class Industry
 			industryIncome = 0;
 		}
 } industry ;
-class Puzzle
-{
-	char list [15];
-	int index, locked;
-	char  currscramble[15] ;
-	int selection , choice , scselection ;
-	char completedList[20][15];
-	public:
-	Puzzle();
-	void drawPuzzleScreen();
-	int limit;
-	int sflag;
-	int completed;
-
-	void add(char letter)
-	{
-		int t =strlen(list);
-		list[t] = letter;
-		list[t+1]='\0';
-	}
-
-	void appendList();
-	void puzzleInteract(char);
-
-
-
-	void setIndex()
-	{
-		index = random(limit);
-	}
-	char pop();
-
-} puzzle ;
 
 char Puzzle::pop ()
 {
@@ -1233,10 +1248,18 @@ Boat::Boat()
 
 Puzzle::Puzzle ()
 {
+	strcpy(rlist[0], "POSEIDON");
+	strcpy(rlist[1], "ZEUS");
+	strcpy(rlist[2], "HADES");
+	strcpy(rlist[3], "APHRODITE");
+	strcpy(clist[0], "POSEIDON");
+	strcpy(clist[1], "ZEUS");
+	strcpy(clist[2], "HADES");
+	strcpy(clist[3], "APHRODITE");
 	randomize();
 	completed = 0;
 	list[0] = 0;
-	limit = 20;
+	limit = 4;
 	sflag = 0;
 	index = random(limit);
 	locked = 0;
@@ -1352,18 +1375,18 @@ void Tree::interact( int n)
 				animate = 1;
 				treeCutCount ++;
 
-				if (random(2))
+				if (random(2) && player.getPuzzleStatus() < 4)
 				{
-					puzzleChar = puzzle.pop();
-					puzzle.add(puzzleChar);
+					puzzleChar = player.pop();
+					player.add(puzzleChar);
 
 					char text[80];
 					sprintf(text, "You have collected one treasure: %c", puzzleChar);
 
-					if (!puzzleChar)
+					if (!player.puzzleCheck())
 					{
 						sprintf(text, "You have collected all the letters. Try to unscramble them.");
-						puzzle.appendList();
+						player.appendList();
 					}
 
 					setMiniBox(text, GREEN, BLACK, GREEN);
@@ -1540,12 +1563,11 @@ void gameNew()
 		//else if (tolower(k) == 'h') ecoMeter += 25, animate = 1;
 		//else if (tolower(k) == 'e') exit(0);
 		//else if (tolower(k) == 'h') goaldisplayed = 0, animate = 1;
-		else if (tolower(k) == 'j') player.setcurrXp(10);
+		else if (tolower(k) == 'l') player.setwater(player.getwater() + 10);
 		else if (tolower(k) == 'i') {originX = +200 -industry.industry_x; originY = +200 -industry.industry_y; animate = 1;} // jump to industry
 		else if (tolower(k) == 'z') {originX = +200 -well.access(1); originY = +200 -well.access(2); animate = 1;} // jump to WELL
 		else if (tolower(k) == 'b') {originX = +200 -boat.boat_x; originY = +200 -boat.boat_y; animate = 1;} //JUMP TO BOAT
 		else if (tolower(k) == 'q') player.setWalls(player.getWalls() + 10), animate = 1;
-
 
 		if (animate)
 		{
@@ -1562,6 +1584,7 @@ void gameNew()
 			mainRoad[4].build(originX, originY);
 
 			//The Well
+			pillarStatus = player.getPuzzleStatus();
 			drawPillar(well.access(1) + originX , well.access(2) + originY -150);
 			drawPillar(well.access(1) + originX -150, well.access(2) + originY );
 			well.drawWell(well.access(1) + originX, well.access(2) + originY, (well.access(3))? CYAN: BLACK);
@@ -1777,19 +1800,16 @@ void gameNew()
 
 			//goal stuff
 			goals_display();
-
-
-			if (EDITMODE == SCRAMBLE_MODE)
-				puzzle.drawPuzzleScreen();
-
 			animate = 0;
 		}
 		sprintf(tsstr, "%d,%d",    getmaxx()/2-originX,   getmaxy()/2-originY);
-		tsval = player.getWalls();
-		//tsprint();
+		tsval = player.getPuzzleStatus();
+		tsprint();
 
 		if (EDITMODE == SCRAMBLE_MODE)
-			puzzle.puzzleInteract(k);
+		{
+			player.puzzleInteract(k);
+		}	
 
 		if (!goaldisplayed)
 		{
@@ -1879,7 +1899,7 @@ void gameNew()
 					animate = 1;
 				}
 			}
-			else if (mx >= 218 && mx <= 258  && my >= getmaxy()-43 && my <= getmaxy() && mc == 1 && mmc != 1 && EDITMODE == VIEW_MODE && (puzzle.limit != 20 || puzzle.sflag))
+			else if (mx >= 218 && mx <= 258  && my >= getmaxy()-43 && my <= getmaxy() && mc == 1 && mmc != 1 && EDITMODE == VIEW_MODE && (player.limit != 4 || player.sflag) && player.getPuzzleStatus() < 4)
 			{
 				EDITMODE = SCRAMBLE_MODE;
 				interact = 0;
@@ -1912,12 +1932,28 @@ void gameNew()
 
 		goal.goalcheck();
 		if (player.getecoMeter() > 100 ) player.setecoMeter(100);
+		
+		//a blackout animation to show the ecoMeter has reached an abnormal value
+		//commented out because it did not give the desired output
+		
+		/*
+		if (player.getecoMeter() > 25)
+			dangerAnim = 3;
+
+		if (player.getecoMeter() <= 25 && dangerAnim)
+		{
+			dangerAnim --;
+			animate = 1;
+			cleardevice();
+			delay(50);
+		}
+		*/
 
 		//checking the ecometer to end the game
 		if (player.getecoMeter() <= 0 )
 		{
 			char m[11][80];
-			strcpy(m[0], "!VILLAGE LOST DUE TO A DISASTER");
+			strcpy(m[0], "VILLAGE LOST DUE TO A DISASTER");
 			strcpy(m[1], "You have not managed the village properly");
 			strcpy(m[2], "You have lost the game");
 			messagebox(m, YELLOW, 3, 0);
@@ -3711,9 +3747,12 @@ void setDetailDisplay (char a[], char b[])
 
 	animate = 1;
 }
-void Puzzle::drawPuzzleScreen ()
+
+void Puzzle::puzzleInteract(char k)
 {
-	int pad = 50;
+	static int panimate = 1;
+	//DRAWING THE BACKGROUND
+	int pad = 5, sx = getmaxx()/2 + 10; //padding from the screen
 	int screen[8] = {
 		pad,pad,
 		getmaxx() - pad, pad,
@@ -3725,51 +3764,53 @@ void Puzzle::drawPuzzleScreen ()
 	setfillstyle(SOLID_FILL, BROWN);
 	setcolor(BLACK);
 
-	fillpoly(4,screen);
-
+	if (panimate) fillpoly(4,screen), panimate = 0;
 	rectangle(pad, pad, getmaxx() - pad, getmaxy());
 
-	int sx = getmaxx() / 2;
-	sx += 10;
-
+	//DISPLAYING THE LIST OF NAMES IN THE LEFT
 	settextstyle(7, HORIZ_DIR, 2);
 
 	for (int i = 0; i < completed; i++)
 	{
 		if (i == selection && selection >= locked)
 			setcolor(YELLOW);
+		else if (i == selection && selection < locked)
+			setcolor(GREEN);
 		else
 			setcolor(BLACK);
 		outtextxy(pad + 5, pad + 5 + i*(textheight("H")+5) , completedList[i]);
 	}
 
-	for (i =0 ; i < strlen(completedList[selection]); i++)
+	//DISPLAYING THE LETTERS ON THE RIGHT IF THE CHOICE IS 1
+	if (choice == 1)
 	{
-		if(scselection == i)
-			setcolor(RED);
-		else
-			setcolor(BLACK);
+		for (i =0 ; i < strlen(completedList[selection]); i++)
+		{
+			if(scselection == i)
+				setcolor(RED);
+			else
+				setcolor(BLACK);
 
-		char t[2];
-		t[1] = 0;
-		t[0] = completedList[selection][i];
-		outtextxy(sx + 10 + i * (textwidth("A ")), pad + 10, t);
+			char t[2];
+			t[1] = 0;
+			t[0] = completedList[selection][i];
+			outtextxy(sx + 10 + i * (textwidth("A ")), pad + 10, t);
+		}
+		//DISPLAYING THE SCRAMBLED STRING
+		outtextxy(sx + 10, getmaxy()  - pad - textheight("S") - 20, currscramble);
 	}
 
-	outtextxy(sx + 10, getmaxy()  - pad - textheight("S") - 20, currscramble);
-
+	//DISPLAYING THE RED FRAME BASED ON CHOICE
 	setcolor(RED);
 	if (choice == 0)
 		rectangle(pad + 2,pad + 2, sx - 2, getmaxy() - pad - 2);
 	else
 		rectangle(sx + 2, pad + 2, getmaxx() - pad - 2, getmaxy() - pad - 2);
-}
 
-void Puzzle::puzzleInteract(char k)
-{
+	//INTERFACE CONTROL USING KEYBOARD ONLY
 	if (k != NOKEY)
 	{
-
+		panimate = 1;
 		if (choice == 0) // The menu on the left
 		{
 			if (k == DOWN || tolower(k) == 's')
@@ -3785,7 +3826,10 @@ void Puzzle::puzzleInteract(char k)
 					selection -- ;
 
 			if ((k == RIGHT || tolower(k) == 'd' || k ==  '\r' || k == '\n') && selection >= locked)
+			{	
+				scselection = 0;
 				choice = 1;
+			}
 
 			if (k == '\b')
 			{
@@ -3795,19 +3839,26 @@ void Puzzle::puzzleInteract(char k)
 			}
 
 		}
-		else // The scrambling work on the right
+		else // The scrambling work on the right (choice == 1)
 		{
 
 			if (k == DOWN || tolower(k) == 's' || k == ' ' || k == '\n' || k == '\r')
 			{
+				//adding to the scramble string
 				char t[2];
 				t[1] = 0;
 				t[0] = completedList[selection][scselection];
 				strcat(currscramble, t);
+				
+				//deleting the character from the current string 
 				for (int j = scselection; j < strlen(completedList[selection]); j++)
 					completedList[selection][j] = completedList[selection][j+1];
+
+				//placing the scselection flag in a proper position
 				if (scselection == strlen(completedList[selection]))
 					scselection --;
+
+				//if all the letters have been used
 				if (strlen(completedList[selection]) == 0)
 				{
 					k = '\b'; // to simulate the press of a backspace
@@ -3817,10 +3868,13 @@ void Puzzle::puzzleInteract(char k)
 
 			if ((k == UP || tolower(k) == 'w') && strlen(currscramble))
 			{
+				//adding the character to the current string
 				char t[2];
 				t[1] = 0;
 				t[0] = currscramble[strlen(currscramble) - 1];
 				strcat(completedList[selection], t);
+
+				//deleting the character from the scrambled string
 				currscramble[strlen(currscramble) - 1] = 0;
 			}
 
@@ -3852,17 +3906,38 @@ void Puzzle::puzzleInteract(char k)
 				if (stringSearch(rlist, completedList[selection]))
 				{
 					locked ++; // Put the rewards here!
+
+					//PUSHING THE COMPLETED WORD TO THE TOP
+					/*
 					selection = locked;
 					char t[15];
 					strcpy(t, completedList[selection]);
 					for (int i = selection; i > 0; i--)
 						strcpy(completedList[i], completedList[i-1]);
 					strcpy(completedList[0], t);
+					*/ // commented out because the word vanishes for some reason will look up this later
+
+					//rewards
+
+					//the next pillar gets coloured
+					if (puzzleStatus < 4)
+						puzzleStatus++;
+					setMiniBox("One of the ancient pillars have been reviwed...", LIGHTBLUE, CYAN, DARKBLUE);
+
+					if (puzzleStatus == 4)
+					{
+						// major rewards after completing all the four pillars
+						player.setwater(player.getwater() + 1000);
+						setMiniBox("The pillars are completely renewed. Fresh Water.", LIGHTBLUE, CYAN, DARKBLUE)
+					}
+
+					//Going back to normal-view mode
+					EDITMODE = VIEW_MODE;
+					animate = 1;
+					interact = 1;
 				}
 			}
-
 		}
-		animate = 1;
 	}
 }
 
@@ -3982,23 +4057,23 @@ int gameload()
 		//loading up the player and the layout
 		player = fileop.loadPlayer(sel);
 		fileop.loadHouse(map_houses, sel);
-	
-		 map_trees[0].setPositions(150 - 20,-3000/2 + 100+ 80);
-		 map_trees[1].setPositions(150 - 60 - 20+150,-3000/2 + 100+ 80+150);
-		 map_trees[2].setPositions(150 - 40+150+150-25,-3000/2 +150+ 100+ 80+150);
-		 map_trees[3].setPositions( + 150 - 100+150+150+150 - 5,-3000/2 +150+150+ 100+ 80+150);
-		 map_trees[4].setPositions(+ 150 - 50+150+150+150+150-15,-3000/2 +150+ 100+ 80+150+150+150);
-		 map_trees[5].setPositions(+ 150 - 150+150+150+150+150+150-30,-3000/2 +150+ 100+ 80+150+150+150+150);
-		 map_trees[6].setPositions(+600+ 150 - 20+150+150,-3000/2 +150+ 100+600+ 80+150);
-		 map_trees[7].setPositions(+ 150 -80+150+150+600+150-30,-3000/2 +150+ 100+ 80+150+600+150);
-		 map_trees[8].setPositions( - 100,0);
-		 map_trees[9].setPositions(-1000, 10);
-		 map_trees[11].setPositions(-750, 60);
-		  map_trees[10].setPositions(-1300, -25);
+
+		map_trees[0].setPositions(150 - 20,-3000/2 + 100+ 80);
+		map_trees[1].setPositions(150 - 60 - 20+150,-3000/2 + 100+ 80+150);
+		map_trees[2].setPositions(150 - 40+150+150-25,-3000/2 +150+ 100+ 80+150);
+		map_trees[3].setPositions( + 150 - 100+150+150+150 - 5,-3000/2 +150+150+ 100+ 80+150);
+		map_trees[4].setPositions(+ 150 - 50+150+150+150+150-15,-3000/2 +150+ 100+ 80+150+150+150);
+		map_trees[5].setPositions(+ 150 - 150+150+150+150+150+150-30,-3000/2 +150+ 100+ 80+150+150+150+150);
+		map_trees[6].setPositions(+600+ 150 - 20+150+150,-3000/2 +150+ 100+600+ 80+150);
+		map_trees[7].setPositions(+ 150 -80+150+150+600+150-30,-3000/2 +150+ 100+ 80+150+600+150);
+		map_trees[8].setPositions( - 100,0);
+		map_trees[9].setPositions(-1000, 10);
+		map_trees[11].setPositions(-750, 60);
+		map_trees[10].setPositions(-1300, -25);
 		map_trees[12].setPositions(-1000, 250);
-		 map_trees[13].setPositions(industry.industry_x, industry.industry_y - 450);
-		 map_trees[14].setPositions(industry.industry_x - 100, industry.industry_y - 350);
-		 
+		map_trees[13].setPositions(industry.industry_x, industry.industry_y - 450);
+		map_trees[14].setPositions(industry.industry_x - 100, industry.industry_y - 350);
+
 		fileop.loadTrees(map_trees, sel);
 		fileop.loadRoad(mainRoad, sel); // doesnt seem to work properly
 		goal.setGoalIndex(fileop.loadGoalIndex(sel));
@@ -4061,18 +4136,18 @@ int gameload()
 				SOLID_LINE
 				);
 
-	mainRoad[4].setProperties(
-			well.access(1) ,well.access(2)  + 10,
-			400,
-			1,
-			DOWN_RIGHT,
-			EMPTY_FILL,
-			WHITE,
-			CLOSE_DOT_FILL,
-			BROWN,
-			DOTTED_LINE,
-			SOLID_LINE
-			);
+		mainRoad[4].setProperties(
+				well.access(1) ,well.access(2)  + 10,
+				400,
+				1,
+				DOWN_RIGHT,
+				EMPTY_FILL,
+				WHITE,
+				CLOSE_DOT_FILL,
+				BROWN,
+				DOTTED_LINE,
+				SOLID_LINE
+				);
 
 	}
 
@@ -4093,45 +4168,56 @@ void drawPillar(int x, int y)
 {
 	x -= 308;
 	y -= 450;
-	setcolor ( DARKGRAY ) ;
-	setfillstyle ( SOLID_FILL , CYAN ) ;
+	int colorscheme[] = {DARKGRAY, LIGHTGRAY, DARKGRAY, LIGHTGRAY, CYAN, LIGHTGRAY, DARKGRAY};
+
+	//COLOURATION of pillars while solving the puzzles
+	if (pillarStatus)
+	{
+		pillarStatus --;
+		colorscheme[1] = CYAN;
+		colorscheme[2] = LIGHTBLUE;
+		colorscheme[3] = BLUE;
+	}
+
+	setcolor (colorscheme[0]) ;
+	setfillstyle ( SOLID_FILL , colorscheme[1] ) ;
 	int front [] = { x+300 , y+250 , x+315 , y+250 ,
 		x+315 , y+450 , x+300 , y+450 } ;
 	fillpoly ( 4 , front ) ;
-	setfillstyle ( SOLID_FILL , LIGHTBLUE ) ;
+	setfillstyle ( SOLID_FILL , colorscheme[2] ) ;
 	int sideleft [] = { x+300 , y+250 , x+300 , y+450 ,
 		x+291 , y+440 , x+291 , y+240 } ;
 	fillpoly ( 4 , sideleft ) ;
 	int sideright [] = { x+315 , y+250 , x+315 , y+450 ,
 		x+324 , y+440 , x+324 , y+240 } ;
 	fillpoly ( 4 , sideright ) ;
-	setfillstyle ( SOLID_FILL , BLUE ) ;
+	setfillstyle ( SOLID_FILL , colorscheme[3] ) ;
 	int pedestal [] = { x+291 , y+440 , x+300 , y+450 ,
 		x+315 , y+450 , x+324 , y+440 ,
 		x+324 , y+460 , x+315 , y+470 ,
 		x+300 , y+470 , x+291 , y+460 } ;
 	fillpoly ( 8 , pedestal ) ;
-	setfillstyle ( SOLID_FILL , BLUE ) ;
+	setfillstyle ( SOLID_FILL , colorscheme[3] ) ;
 	int roof [] = { x+291 , y+220 , x+300 , y+230 ,
 		x+315 , y+230 , x+324 , y+220 ,
 		x+324 , y+240 , x+315 , y+250 ,
 		x+300 , y+250 , x+291 , y+240 } ;
 	fillpoly ( 8 , roof ) ;
-	setfillstyle ( SOLID_FILL , CYAN ) ;
+	setfillstyle ( SOLID_FILL , colorscheme[4] ) ;
 	int roof1 [] = { x+291 , y+220 , x+300 , y+230 ,
 		x+315 , y+230 , x+324 , y+220 ,
 		x+315 , y+210 , x+300 , y+210 } ;
 	fillpoly ( 6 , roof1 ) ;
-	setfillstyle ( SOLID_FILL , LIGHTGRAY ) ;
+	setfillstyle ( SOLID_FILL , colorscheme[5] ) ;
 	circle ( x+308 , y+220 , 5 ) ;
-	floodfill ( x+305 , y+220 , DARKGRAY ) ;
+	floodfill ( x+305 , y+220 , colorscheme[6] ) ;
 	// TRIDENT ......
 	setcolor ( LIGHTGRAY ) ;
 	line ( x+308 , y+170 , x+308 , y+150 ) ;
 	arc ( x+275 , y+175 , 0 , 49 , 25 ) ;
 	arc ( x+342 , y+175 , 130 , 180 , 25 ) ;
 	setcolor ( DARKGRAY ) ;
-	setfillstyle ( SOLID_FILL , DARKGRAY ) ;
+	setfillstyle ( SOLID_FILL , colorscheme[6] ) ;
 	int smalltri1 [] = { x+292 , y+157 , x+298 ,
 		y+159 , x+295 , y+164 } ;
 	fillpoly ( 3 , smalltri1 ) ;
@@ -4308,5 +4394,6 @@ void disHighScores()
 	getch();
 	delete[] d;
 }
+
 
 #endif
