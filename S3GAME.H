@@ -1784,8 +1784,6 @@ void gameNew()
 			map_trees[13].draw(originX, originY);
 			map_trees[14].draw(originX, originY);
 
-
-
 			boat.drawBoat(originX, originY);
 
 			setcolor(RED);
@@ -1914,12 +1912,15 @@ void gameNew()
 			else if (mx >= 218 + 86 + 43 && mx <= 258 + 86 + 43 && my >= getmaxy() - 43 && my  <= getmaxy() && EDITMODE == VIEW_MODE && mc == 1 && mmc !=1)
 			{
 				//adding a new wall
-				if (player.getmoney() >= 2000 && player.getwood() >= 1000 && player.getproduce() >= 1000)
+				if (player.getmoney() >= 2000 && player.getwood() >= 1000 && player.getproduce() >= 1000 && player.getWalls() < 132)
 				{
 					player.setmoney(player.getmoney() - 2000);
 					player.setwood(player.getwood() - 1000);
 					player.setproduce(player.getproduce() - 1000);
-					player.setWalls(player.getWalls() + 10);
+					if (player.getWalls() < 130)
+						player.setWalls(player.getWalls() + 10);
+					else
+						player.setWalls(132);
 					animate = 1;
 					setMiniBox("A new wall has been raised!", DARKGRAY, WHITE, DARKGRAY);
 				}
@@ -1967,7 +1968,34 @@ void gameNew()
 					return;
 				}
 			}
+		}
 
+		//checking if all the walls are constructed
+		if (player.getWalls() >= 132)
+		{
+			char m[11][80];
+			strcpy(m[0], "CONGRATULATIONS");
+			strcpy(m[1], "You have successfully saved the");
+			strcpy(m[2], "village from disaster!");
+			messagebox(m, YELLOW, 3, 0);
+
+			//increasing the money,wood,etc of the player so that he gets quite the highscore
+
+			player.setmoney(player.getmoney() + 10000l);
+			player.setwater(player.getwater() + 10000l);
+			player.setwood(player.getwood() + 10000l);
+			player.setproduce(player.getproduce() + 10000l);
+
+			char c = '0';
+			while (1)
+			{
+				c = keyboardInput('0');
+				if (c == '\n' || c == '\r' ) 
+				{
+					gamesave(); //so the player basically will not be able to play any further since has has won the game
+					return;
+				}
+			}
 		}
 
 		mmx = mx;
@@ -3922,13 +3950,13 @@ void Puzzle::puzzleInteract(char k)
 					//the next pillar gets coloured
 					if (puzzleStatus < 4)
 						puzzleStatus++;
-					setMiniBox("One of the ancient pillars have been reviwed...", LIGHTBLUE, CYAN, DARKBLUE);
+					setMiniBox("One of the ancient pillars have been reviwed...", LIGHTBLUE, CYAN, BLUE);
 
 					if (puzzleStatus == 4)
 					{
 						// major rewards after completing all the four pillars
 						player.setwater(player.getwater() + 1000);
-						setMiniBox("The pillars are completely renewed. Fresh Water.", LIGHTBLUE, CYAN, DARKBLUE)
+						setMiniBox("The pillars are completely renewed. Fresh Water.", LIGHTBLUE, CYAN, BLUE);
 					}
 
 					//Going back to normal-view mode
