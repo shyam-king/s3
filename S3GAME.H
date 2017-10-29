@@ -221,42 +221,42 @@ void Road::build(int origx, int origy)
 class Puzzle
 {
 	protected:
-	int puzzleStatus;
-	char  rlist[4][15];
-	char  clist[4][15];
-	char list [15];
-	int index, locked;
-	char  currscramble[15] ;
-	int selection , choice , scselection ;
-	char completedList[4][15];
+		int puzzleStatus;
+		char  rlist[4][15];
+		char  clist[4][15];
+		char list [15];
+		int index, locked;
+		char  currscramble[15] ;
+		int selection , choice , scselection ;
+		char completedList[4][15];
 	public:
-	Puzzle();
-	int limit;
-	int sflag;
-	int completed;
+		Puzzle();
+		int limit;
+		int sflag;
+		int completed;
 
-	int puzzleCheck()
-	{
-		return clist[index][0];
-	}
-	void add(char letter)
-	{
-		int t =strlen(list);
-		list[t] = letter;
-		list[t+1]='\0';
-	}
+		int puzzleCheck()
+		{
+			return clist[index][0];
+		}
+		void add(char letter)
+		{
+			int t =strlen(list);
+			list[t] = letter;
+			list[t+1]='\0';
+		}
 
-	void appendList();
-	void puzzleInteract(char);
-	void setIndex()
-	{
-		index = random(limit);
-	}
-	char pop();
-	void resetPuzzleInterface()
-	{
-		selection = locked;
-	}
+		void appendList();
+		void puzzleInteract(char);
+		void setIndex()
+		{
+			index = random(limit);
+		}
+		char pop();
+		void resetPuzzleInterface()
+		{
+			selection = locked;
+		}
 
 };
 
@@ -1935,22 +1935,22 @@ void gameNew()
 
 		goal.goalcheck();
 		if (player.getecoMeter() > 100 ) player.setecoMeter(100);
-		
+
 		//a blackout animation to show the ecoMeter has reached an abnormal value
 		//commented out because it did not give the desired output
-		
-		/*
-		if (player.getecoMeter() > 25)
-			dangerAnim = 3;
 
-		if (player.getecoMeter() <= 25 && dangerAnim)
-		{
-			dangerAnim --;
-			animate = 1;
-			cleardevice();
-			delay(50);
-		}
-		*/
+		/*
+			 if (player.getecoMeter() > 25)
+			 dangerAnim = 3;
+
+			 if (player.getecoMeter() <= 25 && dangerAnim)
+			 {
+			 dangerAnim --;
+			 animate = 1;
+			 cleardevice();
+			 delay(50);
+			 }
+			 */
 
 		//checking the ecometer to end the game
 		if (player.getecoMeter() <= 0 )
@@ -2644,25 +2644,25 @@ void drawScrambleIcon(int x, int y, int xscale, int yscale)
 void drawAddIcon(int x, int y, int xscale, int yscale)
 {
 	int picture[20][20] = {15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
-	15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
-	15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
-	15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
-	15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
-	15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
-	15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
-	15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
-	15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
-	15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
-	15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
-	15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
-	15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
-	15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
-	15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
-	15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
-	15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
-	15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
-	15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
-	15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4
+		15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
+		15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
+		15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
+		15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
+		15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
+		15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
+		15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
+		15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
+		15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
+		15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
+		15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
+		15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
+		15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
+		15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
+		15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4,
+		15,15,15,15,15,12,12,4,7,4,7,7,7,4,7,7,7,4,7,7,
+		15,15,15,15,15,12,12,4,7,4,7,4,7,7,7,4,7,4,7,4,
+		15,15,15,15,15,12,12,4,7,7,7,4,7,4,7,4,7,7,7,4,
+		15,15,15,15,15,12,12,7,7,4,7,4,7,4,7,4,7,4,7,4
 	};
 
 	int poly[8]	;
@@ -2670,19 +2670,19 @@ void drawAddIcon(int x, int y, int xscale, int yscale)
 		for (int j = 0; j < 20; j++)
 		{
 			//if (picture[i][j] == 14)
-				//picture[i][j] = RED;
+			//picture[i][j] = RED;
 			if (picture[i][j] == 7)
 				picture[i][j] = BLACK;
 			if (picture[i][j] == WHITE)
 				picture[i][j] = DARKGRAY;
-				setfillstyle(SOLID_FILL, picture[i][j]);
+			setfillstyle(SOLID_FILL, picture[i][j]);
 			poly[0] = poly[2] = x + i*(xscale);
 			poly[1] = poly[7] = y + j*(yscale);
 			poly[3] = poly[5] = y + (j+1) * yscale;
 			poly[4] = poly[6] = x + (i+1) * xscale;
-			
-			
-			
+
+
+
 			if (picture[i][j] != WHITE) 
 				fillpoly(4, poly);
 		}
@@ -3252,6 +3252,9 @@ void messagebox(char message[][80] , int color, int n, int image_index)
 		case 12:
 			drawMoveIcon(getmaxx()/2 - 40/2, y + i * (textheight(message[i-1] + 10)), 2,2);
 			break;
+		case 13:
+			drawAddIcon(getmaxx()/2 - 40/2, y + i * (textheight(message[i-1] + 10)), 2,2);
+			break;
 	};
 
 
@@ -3312,7 +3315,7 @@ int displayMenu()
 		mc = out.x.bx;
 		mx = out.x.cx;
 		my = out.x.dx;
-		
+
 		int cols[] = {CYAN,DARKGRAY,CYAN, BLUE,BROWN,LIGHTBLUE, BROWN,CYAN};
 
 		if (mx != mmx || my != mmy) l_mouse_using = 1 ;
@@ -3418,12 +3421,12 @@ int displayMenu()
 		x = SCREEN_W/2;
 		y = SCREEN_H/2 ;
 		/*setcolor(RED);
-		drawtarc(x,y, a[0], a[1], r[0] + tr, 5);
-		setcolor(BLUE);
-		drawtarc(x,y,a[2],a[3],r[1] + tr,5);
-		setcolor(GREEN);
-		drawtarc(x,y,a[4],a[5],r[2] + tr,5);
-		*/
+			drawtarc(x,y, a[0], a[1], r[0] + tr, 5);
+			setcolor(BLUE);
+			drawtarc(x,y,a[2],a[3],r[1] + tr,5);
+			setcolor(GREEN);
+			drawtarc(x,y,a[4],a[5],r[2] + tr,5);
+			*/
 		//lines
 		static int col = 0;
 		col = col % (sizeof(cols)/2);
@@ -3440,7 +3443,7 @@ int displayMenu()
 				setcolor(BLACK);
 				line(x + (200 + tr+trspeed) * cos(i * 3.14/180), y - (200 + tr+trspeed) * sin (i * 3.14 / 180), x + (250+tr+trspeed) * cos (i * 3.14/180), y - (250+tr+trspeed) * sin(i * 3.14/180));		
 			}
-			
+
 			setcolor(cols[col]);
 			col ++ ;
 			col = col % (sizeof(cols)/2);
@@ -3567,7 +3570,7 @@ int displayMenu()
 
 		if (tr < 0) tr = 0;
 
-		
+
 		setcolor(WHITE);
 		outtextxy(10, getmaxy() - 20, text);
 
@@ -3675,23 +3678,23 @@ void gameReset()
 			DOTTED_LINE,
 			SOLID_LINE
 			);
-	
-		 map_trees[0].setPositions(150 - 20,-3000/2 + 100+ 80);
-		 map_trees[1].setPositions(150 - 60 - 20+150,-3000/2 + 100+ 80+150);
-		 map_trees[2].setPositions(150 - 40+150+150-25,-3000/2 +150+ 100+ 80+150);
-		 map_trees[3].setPositions( + 150 - 100+150+150+150 - 5,-3000/2 +150+150+ 100+ 80+150);
-		 map_trees[4].setPositions(+ 150 - 50+150+150+150+150-15,-3000/2 +150+ 100+ 80+150+150+150);
-		 map_trees[5].setPositions(+ 150 - 150+150+150+150+150+150-30,-3000/2 +150+ 100+ 80+150+150+150+150);
-		 map_trees[6].setPositions(+600+ 150 - 20+150+150,-3000/2 +150+ 100+600+ 80+150);
-		 map_trees[7].setPositions(+ 150 -80+150+150+600+150-30,-3000/2 +150+ 100+ 80+150+600+150);
-		 map_trees[8].setPositions( - 100,0);
-		 map_trees[9].setPositions(-1000, 10);
-		 map_trees[11].setPositions(-750, 60);
-		  map_trees[10].setPositions(-1300, -25);
-		map_trees[12].setPositions(-1000, 250);
-		 map_trees[13].setPositions(industry.industry_x, industry.industry_y - 450);
-		 map_trees[14].setPositions(industry.industry_x - 100, industry.industry_y - 350);
-		 
+
+	map_trees[0].setPositions(150 - 20,-3000/2 + 100+ 80);
+	map_trees[1].setPositions(150 - 60 - 20+150,-3000/2 + 100+ 80+150);
+	map_trees[2].setPositions(150 - 40+150+150-25,-3000/2 +150+ 100+ 80+150);
+	map_trees[3].setPositions( + 150 - 100+150+150+150 - 5,-3000/2 +150+150+ 100+ 80+150);
+	map_trees[4].setPositions(+ 150 - 50+150+150+150+150-15,-3000/2 +150+ 100+ 80+150+150+150);
+	map_trees[5].setPositions(+ 150 - 150+150+150+150+150+150-30,-3000/2 +150+ 100+ 80+150+150+150+150);
+	map_trees[6].setPositions(+600+ 150 - 20+150+150,-3000/2 +150+ 100+600+ 80+150);
+	map_trees[7].setPositions(+ 150 -80+150+150+600+150-30,-3000/2 +150+ 100+ 80+150+600+150);
+	map_trees[8].setPositions( - 100,0);
+	map_trees[9].setPositions(-1000, 10);
+	map_trees[11].setPositions(-750, 60);
+	map_trees[10].setPositions(-1300, -25);
+	map_trees[12].setPositions(-1000, 250);
+	map_trees[13].setPositions(industry.industry_x, industry.industry_y - 450);
+	map_trees[14].setPositions(industry.industry_x - 100, industry.industry_y - 350);
+
 	//the above lines are commented out to check if the random layout load up is working
 
 	cleardevice();
@@ -3882,7 +3885,7 @@ void Puzzle::puzzleInteract(char k)
 				t[1] = 0;
 				t[0] = completedList[selection][scselection];
 				strcat(currscramble, t);
-				
+
 				//deleting the character from the current string 
 				for (int j = scselection; j < strlen(completedList[selection]); j++)
 					completedList[selection][j] = completedList[selection][j+1];
@@ -3942,13 +3945,13 @@ void Puzzle::puzzleInteract(char k)
 
 					//PUSHING THE COMPLETED WORD TO THE TOP
 					/*
-					selection = locked;
-					char t[15];
-					strcpy(t, completedList[selection]);
-					for (int i = selection; i > 0; i--)
-						strcpy(completedList[i], completedList[i-1]);
-					strcpy(completedList[0], t);
-					*/ // commented out because the word vanishes for some reason will look up this later
+						 selection = locked;
+						 char t[15];
+						 strcpy(t, completedList[selection]);
+						 for (int i = selection; i > 0; i--)
+						 strcpy(completedList[i], completedList[i-1]);
+						 strcpy(completedList[0], t);
+						 */ // commented out because the word vanishes for some reason will look up this later
 
 					//rewards
 

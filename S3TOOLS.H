@@ -106,45 +106,69 @@ void mousereset()
 void displayAbout()
 {
 
-	cleardevice();
+	//cleardevice();
 
 	int x = 25, y = 50;
 	settextstyle(7,HORIZ_DIR,1);
 	setcolor(MAGENTA);
 
-	for(int i=-180,j=620,k=490,l=-100,m=-161,n=600;j>=230;i+=3,j-=3,k-=3,l+=3,m+=2,n-=3)
+
+	for(int i = 0; i < 3; i++)	
 	{
+		setcolor(MAGENTA);
 		cleardevice();
-		outtextxy(x+150,y+60,"Done by :");
 		rectangle(5,5,635,475);
 		rectangle(10,10,630,470);
-		outtextxy(x+233,y+i,"S.Shank");
-		outtextxy(x+305,y+n,"rith[33]");
-		outtextxy(x+j,y+160,"M.Shy");
-		outtextxy(x+l,y+160,"am[35]");
-		outtextxy(x+233,y+k,"K.Srir");
-		outtextxy(x+292,y+m,"am[38]");
-		delay(25);
-	}
-
+		outtextxy(x,y   ,"Alas!!! Myth has finally turned into legend. The long");
+		outtextxy(x,y+30," lost radical city has been found. Thanks to the");
+		outtextxy(x,y+60,"hard work of an archaeologist humans can now ");
+		outtextxy(x,y+90,"really begin to understand that the ancient");
+		outtextxy(x,y+120,"civilisations were far more advanced than us. But....");
+		outtextxy(x,y+150,"Plato’s vision is now in ruins thanks to time and");
+		outtextxy(x,y+180,"nature. The archaeologist has outdone himself but ");
+		outtextxy(x,y+210,"society had other plans for him. The Legendary");
+		outtextxy(x,y+240,"ATLANTIS, the land of the most advanced");
+		outtextxy(x,y+270,"civilisation to have ever lived on Earth is now in the  ");
+		outtextxy(x,y+300,"hands of an archaeologist to develop and protect.");
+		outtextxy(x,y+330,"Can he protect the city from further disasters? Is");
+		outtextxy(x,y+360,"he really capable of that much stress and planning.");
+		outtextxy(x,y+390,"Can he really manage time and win over nature?");
+		setcolor(BLACK);
+		rectangle(5+i,5,635,475);
+		int blackout [] = { 5+i, 5 , 635 , 5 , 635 , 475 , 5+i , 475 } ;
+		fillpoly ( 4 , blackout ) ;
+	}	
 	getch();
+
+
 	cleardevice();
 	rectangle(5,5,635,475);
 	rectangle(10,10,630,470);
-	outtextxy(x,y   ,"Atlantis is a management game that requires the user to");
-	outtextxy(x,y+30,"develop and protect an ancient and forgotten city which ");
-	outtextxy(x,y+60,"his father had discovered recently.The city is prone to ");
-	outtextxy(x,y+90,"earthquakes and tsunamis much like Japan.");
-	outtextxy(x,y+120,"The gamer/user will have to take care not to disturb the");
-	outtextxy(x,y+150,"city\'s ecosystem or increase pollutiion while developing");
-	outtextxy(x,y+180,"the city. The game will put the gamer through a series of");
-	outtextxy(x,y+210,"problems so as to make the gamer get a better understanding");
-	outtextxy(x,y+240,"of the problems faced by people in real life. The game will");
-	outtextxy(x,y+270,"end when the gamer makes his city completely automised ");
-	outtextxy(x,y+300,"and takes defensive measures to protect his city from all ");
-	outtextxy(x,y+330,"disasters - both man made and natural.");
+	outtextxy(x,y   ,"Atlantis is a management game that tests the");
+	outtextxy(x,y+30," player’s ability to foresee, plan and productively");
+	outtextxy(x,y+60,"manage time. The player is the archaeologist who");
+	outtextxy(x,y+90,"has to renew and re-establish a city and develop it.");
+	outtextxy(x,y+120,"But this is not as easy as it sounds for there are");
+	outtextxy(x,y+150,"many deadly traps. The city has limited resources");
+	outtextxy(x,y+180,"which can only be saved and balanced with proper");
+	outtextxy(x,y+210,"planning. If the player is a little careless he might");
+	outtextxy(x,y+240,"get stuck for a while when a resource has got ");
+	outtextxy(x,y+270,"depleted from which recovery is difficult. Secondly  ");
+	outtextxy(x,y+300,"the player should also take care of the ");
+	outtextxy(x,y+330,"ecosystem ,which if he misses to take care the ");
+	outtextxy(x,y+360,"player will loose the city altogether. Furthermore ");
+	outtextxy(x,y+390,"the land is prone to disasters!!! Yes that is right. ");
+	getch();
+
+	cleardevice();
+	rectangle(5,5,635,475);
+	rectangle(10,10,630,470);
+	outtextxy(x,y,"The player also has to save his city from disasters");
+	outtextxy(x,y+30,"for which the player has to build a wall enclosing");
+	outtextxy(x,y+60,"the city and protecting it from disasters.");
 	getch();
 }
+
 // to draw thick lines
 void drawtline(int x1, int y1, int x2, int y2, int t)
 {
