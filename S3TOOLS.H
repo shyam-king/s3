@@ -36,7 +36,6 @@ void initmouse();
 void mousereset();
 void mousestatus();
 void displayAbout();
-int displayExit(int);
 void drawtline(int, int, int, int, int);
 void drawAtlantis () ;
 void drawthickline ( int , int , int , int , int ) ;
@@ -176,91 +175,6 @@ void drawtline(int x1, int y1, int x2, int y2, int t)
 	fillpoly(4,poly);
 }
 
-//Exit sequence
-int displayExit(int t)
-{
-	cleardevice();
-	int x = 175;
-	int y = 200;
-	int choice = 1; // 0 - YES || 1-NO
-	char k = NOKEY;
-	int usingMouse = 0, mmx = 0, mmy = 0, mmc = 1,mx, mc, my;
-
-
-	while(1)
-	{
-		mousestatus();
-		mc = out.x.bx;
-		mx = out.x.cx;
-		my = out.x.dx;
-
-		if (mmx == mx && mmy == my) usingMouse = 0;
-		else usingMouse = 1;
-
-		cleardevice();
-		if (kbhit()) k = getch();
-		else k = NOKEY;
-		setcolor(RED);
-		settextstyle(3,HORIZ_DIR,3);
-		if (t)
-			outtextxy(x,y,"Do you want to exit?");
-		else
-			outtextxy(x-10,y,"Are you sure about this?");
-
-		settextstyle(1,HORIZ_DIR,3);
-		if (choice == 0)
-			setcolor(GREEN);
-		else
-			setcolor(WHITE);
-
-		outtextxy(x, y+200, "YES");
-
-		if (choice == 1)
-			setcolor(GREEN);
-		else
-			setcolor(WHITE);
-
-		outtextxy(x+200, y+200, "NO");
-
-		if (k=='\n' || k=='\r' || (mc == 1 && mmc != mc))
-		{
-			if (choice == 1)
-			{
-				return 1;
-			}
-			else
-			{
-				if (t)
-					return displayExit(t-1);
-				else
-					return 0;
-			}
-		}
-
-		else if (k == RIGHT || k ==  LEFT || tolower(k) == 'a' || tolower(k) == 'd')
-			if (choice)	choice = 0;
-			else choice = 1;
-
-		else if (k == 'e' || k == 'E')
-			return 0;
-
-
-		if (usingMouse)
-		{
-			if (mx >= 0 && mx <= SCREEN_W/2 && my >= SCREEN_H/2 && my <= SCREEN_H)
-				choice = 0;
-			else if (mx >= SCREEN_W/2 && mx <= SCREEN_W && my >= SCREEN_H/2 && my <= SCREEN_H)
-				choice = 1;
-		}
-
-		mmx = mx;
-		mmy = my;
-		mmc = mc;
-		delay(100);
-
-	}
-
-}
 
 //Thick line 
 void drawthickline ( int x1 , int y1 , int x2 , int y2 , int t )

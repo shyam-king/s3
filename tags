@@ -3,4 +3,437 @@
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.8	//
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Boat	S3GAME.H	/^Boat::Boat()$/;"	f	class:Boat
+Boat	S3GAME.H	/^class Boat$/;"	c
+CREATE_MODE	S3GAME.H	/^enum EDITMODES{VIEW_MODE, CREATE_MODE, REMOVE_MODE, SCRAMBLE_MODE, MOVE_MODE};$/;"	e	enum:EDITMODES
+DOWN	S3TOOLS.H	/^const int DOWN =80;$/;"	v
+DOWN	additionalToolsSource/S3PORT.H	/^const int DOWN =80;$/;"	v
+DOWN_LEFT	S3GAME.H	16;"	d
+DOWN_RIGHT	S3GAME.H	15;"	d
+Delete	s3goalma.h	/^		void Delete (int ID)$/;"	f	class:FILE_OPERATIONS
+EDITMODE	S3GAME.H	/^EDITMODES EDITMODE = VIEW_MODE;$/;"	v
+EDITMODES	S3GAME.H	/^enum EDITMODES{VIEW_MODE, CREATE_MODE, REMOVE_MODE, SCRAMBLE_MODE, MOVE_MODE};$/;"	g
+FILE_OPERATIONS	s3goalma.h	/^class  FILE_OPERATIONS $/;"	c
+GOALS_TUTORIAL	unusedSourceFiles/S3GOALS.H	/^int GOALS_TUTORIAL = 0;$/;"	v
+Goal	s3goalc.h	/^	Goal()$/;"	f	class:Goal
+Goal	s3goalc.h	/^class Goal$/;"	c
+Goaldata	additionalToolsSource/writegoals.cpp	/^struct Goaldata$/;"	s	file:
+Goaldata	s3goalc.h	/^struct Goaldata$/;"	s
+House	S3GAME.H	/^	House (int a, int b, int C, int d, int e, int f, int g, int h, int i, int j, int k, int l, int m, int n, int o, int p, char * q, int r, int s, int t, int u, int v, int w )$/;"	f	class:House
+House	S3GAME.H	/^	House()$/;"	f	class:House
+House	S3GAME.H	/^class House{$/;"	c
+Industry	S3GAME.H	/^		Industry ()$/;"	f	class:Industry
+Industry	S3GAME.H	/^class Industry$/;"	c
+LEFT	S3TOOLS.H	/^const int LEFT =75;$/;"	v
+LEFT	additionalToolsSource/S3PORT.H	/^const int LEFT =75;$/;"	v
+Loadgoal	s3goalc.h	/^Goaldata Loadgoal ( int n )$/;"	f
+MAX	S3GAME.H	12;"	d
+MIN	S3GAME.H	13;"	d
+MOVE_MODE	S3GAME.H	/^enum EDITMODES{VIEW_MODE, CREATE_MODE, REMOVE_MODE, SCRAMBLE_MODE, MOVE_MODE};$/;"	e	enum:EDITMODES
+MovingHouse	S3GAME.H	/^House *MovingHouse = NULL;$/;"	v
+NOKEY	S3TOOLS.H	/^const char NOKEY = '0';$/;"	v
+NOKEY	additionalToolsSource/S3PORT.H	/^const char NOKEY = '0';$/;"	v
+New_Player	s3goalma.h	/^		void New_Player (PLAYER *a,House *b, Tree *c, Road *d)$/;"	f	class:FILE_OPERATIONS
+PI	S3TOOLS.H	14;"	d
+PI	additionalToolsSource/S3PORT.H	/^const long double PI = 3.1415926535;$/;"	v
+PLAYER	S3GAME.H	/^	PLAYER ()$/;"	f	class:PLAYER
+PLAYER	S3GAME.H	/^class PLAYER : public Puzzle$/;"	c
+PLAYER	additionalToolsSource/PLAYER.cpp	/^struct PLAYER$/;"	s	file:
+PLAYER	additionalToolsSource/playread.cpp	/^struct PLAYER$/;"	s	file:
+Puzzle	S3GAME.H	/^Puzzle::Puzzle ()$/;"	f	class:Puzzle
+Puzzle	S3GAME.H	/^class Puzzle$/;"	c
+REMOVE_MODE	S3GAME.H	/^enum EDITMODES{VIEW_MODE, CREATE_MODE, REMOVE_MODE, SCRAMBLE_MODE, MOVE_MODE};$/;"	e	enum:EDITMODES
+RIGHT	S3TOOLS.H	/^const int RIGHT =77;$/;"	v
+RIGHT	additionalToolsSource/S3PORT.H	/^const int RIGHT =77;$/;"	v
+Road	S3GAME.H	/^class Road{      \/\/ will be used for the buildRoad function$/;"	c
+S3GAME_H	S3GAME.H	8;"	d
+S3GOALC_H	s3goalc.h	4;"	d
+S3GOALMA_H	s3goalma.h	2;"	d
+S3GOALS_H	unusedSourceFiles/S3GOALS.H	2;"	d
+S3PORT_H	additionalToolsSource/S3PORT.H	13;"	d
+S3TOOLS_H	S3TOOLS.H	9;"	d
+SCRAMBLE_MODE	S3GAME.H	/^enum EDITMODES{VIEW_MODE, CREATE_MODE, REMOVE_MODE, SCRAMBLE_MODE, MOVE_MODE};$/;"	e	enum:EDITMODES
+SCREEN_H	S3TOOLS.H	/^int SCREEN_W, SCREEN_H; $/;"	v
+SCREEN_H	additionalToolsSource/S3PORT.H	/^int SCREEN_W, SCREEN_H; $/;"	v
+SCREEN_W	S3TOOLS.H	/^int SCREEN_W, SCREEN_H; $/;"	v
+SCREEN_W	additionalToolsSource/S3PORT.H	/^int SCREEN_W, SCREEN_H; $/;"	v
+Tree	S3GAME.H	/^	Tree()$/;"	f	class:Tree
+Tree	S3GAME.H	/^	Tree(int a, int b)$/;"	f	class:Tree
+Tree	S3GAME.H	/^class Tree{$/;"	c
+UP	S3TOOLS.H	/^const int UP =72;$/;"	v
+UP	additionalToolsSource/S3PORT.H	/^const int UP =72;$/;"	v
+UP_LEFT	S3GAME.H	18;"	d
+UP_RIGHT	S3GAME.H	17;"	d
+VIEW_MODE	S3GAME.H	/^enum EDITMODES{VIEW_MODE, CREATE_MODE, REMOVE_MODE, SCRAMBLE_MODE, MOVE_MODE};$/;"	e	enum:EDITMODES
+Well	S3GAME.H	/^	Well ()$/;"	f	class:Well
+Well	S3GAME.H	/^class Well{$/;"	c
+accept	S3GAME.H	/^void PLAYER::accept()$/;"	f	class:PLAYER
+access	S3GAME.H	/^	int access(int wellaccess)$/;"	f	class:Well
+add	S3GAME.H	/^	void add(char letter)$/;"	f	class:Puzzle
+addGoalToFile	additionalToolsSource/writegoals.cpp	/^void addGoalToFile(Goaldata g)$/;"	f
+animate	S3GAME.H	/^int animate = 1; \/\/ to prevent the ugly 'blinking' effect$/;"	v
+appendList	S3GAME.H	/^void Puzzle::appendList()$/;"	f	class:Puzzle
+b	S3GAME.H	/^	int r[16], g[16], b[16];$/;"	m	struct:customPalette
+boat	S3GAME.H	/^} boat;$/;"	v	typeref:class:Boat
+boatAnimate	S3GAME.H	/^	int boatAnimate, boat_x;$/;"	m	class:Boat
+boatIncome	S3GAME.H	/^int boatIncome = 0;$/;"	v
+boatInteract	S3GAME.H	/^void Boat::boatInteract()$/;"	f	class:Boat
+boatTimer	S3GAME.H	/^	int boatUsing, boatTimer, boatTimerMax, boat_xx, boat_yy;$/;"	m	class:Boat
+boatTimerMax	S3GAME.H	/^	int boatUsing, boatTimer, boatTimerMax, boat_xx, boat_yy;$/;"	m	class:Boat
+boatUsing	S3GAME.H	/^	int boatUsing, boatTimer, boatTimerMax, boat_xx, boat_yy;$/;"	m	class:Boat
+boat_x	S3GAME.H	/^	int boatAnimate, boat_x;$/;"	m	class:Boat
+boat_xx	S3GAME.H	/^	int boatUsing, boatTimer, boatTimerMax, boat_xx, boat_yy;$/;"	m	class:Boat
+boat_y	S3GAME.H	/^	int boat_y;$/;"	m	class:Boat
+boat_yy	S3GAME.H	/^	int boatUsing, boatTimer, boatTimerMax, boat_xx, boat_yy;$/;"	m	class:Boat
+borderFill	S3GAME.H	/^	int borderFill, stripeBorderFill;$/;"	m	class:Road
+build	S3GAME.H	/^void Road::build(int origx, int origy)$/;"	f	class:Road
+buildHouse	S3GAME.H	/^void House :: buildHouse(House &h)$/;"	f	class:House
+c	S3GAME.H	/^	int c,woc, goc, wic, pic, gic, wfill, pfill, gfill; \/\/ for plotter function$/;"	m	class:House
+canCollect	S3GAME.H	/^	int x, y, regenerateTimer, waterToCollect, canCollect, maxTimer;$/;"	m	class:Well
+changePalette	S3GAME.H	/^void changePalette(customPalette pal)$/;"	f
+check	S3GAME.H	/^void Boat::check()$/;"	f	class:Boat
+choice	S3GAME.H	/^	int selection , choice , scselection ;$/;"	m	class:Puzzle
+clist	S3GAME.H	/^	char  clist[4][15];$/;"	m	class:Puzzle
+color	S3GAME.H	/^	int stripeFill, stripeColor, fill, color;$/;"	m	class:Road
+color1	S3GAME.H	/^	int color1 ; int color2 ; int color3; \/\/ for drawHouse function$/;"	m	class:House
+color2	S3GAME.H	/^	int color1 ; int color2 ; int color3; \/\/ for drawHouse function$/;"	m	class:House
+color3	S3GAME.H	/^	int color1 ; int color2 ; int color3; \/\/ for drawHouse function$/;"	m	class:House
+completed	S3GAME.H	/^	int completed;$/;"	m	class:Puzzle
+completedList	S3GAME.H	/^	char completedList[4][15];$/;"	m	class:Puzzle
+copyflag	unusedSourceFiles/S3GOALS.H	/^	int copyflag;$/;"	m	class:goals
+currXp	S3GAME.H	/^	int currXp;$/;"	m	class:PLAYER
+currXp	additionalToolsSource/PLAYER.cpp	/^	int currXp;$/;"	m	struct:PLAYER	file:
+currXp	additionalToolsSource/playread.cpp	/^	int currXp;$/;"	m	struct:PLAYER	file:
+currentGoalIndex	s3goalc.h	/^int Goal::currentGoalIndex()$/;"	f	class:Goal
+currentGoalIndex	unusedSourceFiles/S3GOALS.H	/^int goals::currentGoalIndex()$/;"	f	class:goals
+currgoal	s3goalc.h	/^	Goaldata currgoal;$/;"	m	class:Goal
+currgoalindex	s3goalc.h	/^	int currgoalindex;$/;"	m	class:Goal
+currgoalindex	unusedSourceFiles/S3GOALS.H	/^	int currgoalindex;$/;"	m	class:goals
+currscramble	S3GAME.H	/^	char  currscramble[15] ;$/;"	m	class:Puzzle
+customPalette	S3GAME.H	/^struct customPalette{$/;"	s
+cutdown	S3GAME.H	/^	char cutdown;$/;"	m	class:Tree
+dangerAnim	S3GAME.H	/^int dangerAnim = 0;$/;"	v
+detailCount	S3GAME.H	/^int detailCount = 0;$/;"	v
+detailObjType	S3GAME.H	/^char detailObjType[20] = "";$/;"	v
+detailObject	S3GAME.H	/^char detailObject[20] = "";$/;"	v
+dir	S3GAME.H	/^	int dir; \/\/ direction of building \/\/ UP_RIGHT OR DOWN_RIGHT$/;"	m	class:Road
+direction	S3GAME.H	/^	int x,y,direction;$/;"	m	class:House
+disHighScores	S3GAME.H	/^void disHighScores()$/;"	f
+displayAbout	S3TOOLS.H	/^void displayAbout()$/;"	f
+displayExit	S3GAME.H	/^int displayExit(int t)$/;"	f
+displayMenu	S3GAME.H	/^int displayMenu()$/;"	f
+displayPara	S3TOOLS.H	/^void displayPara(int style, int x, int y, char credits[][80], char *cursor,int n, int delaySpd)$/;"	f
+displayPara	additionalToolsSource/S3PORT.H	/^void displayPara(int style, int x, int y, char **credits, char *cursor,int n, int delaySpd)$/;"	f
+drag	S3GAME.H	/^void drag(char l)$/;"	f
+dragging	S3GAME.H	/^int dragging = 0;$/;"	v
+dragx	S3GAME.H	/^int dragx = 0, dragy = 0;$/;"	v
+dragy	S3GAME.H	/^int dragx = 0, dragy = 0;$/;"	v
+draw	S3GAME.H	/^void Road::draw(int origx, int origy, int i, int stripeFlag)$/;"	f	class:Road
+draw	S3GAME.H	/^void Tree::draw(int ox, int oy)$/;"	f	class:Tree
+drawAddIcon	S3GAME.H	/^void drawAddIcon(int x, int y, int xscale, int yscale)$/;"	f
+drawAtlantis	S3TOOLS.H	/^void drawAtlantis ()$/;"	f
+drawAtlantis	additionalToolsSource/S3PORT.H	/^void drawAtlantis ()$/;"	f
+drawBackIcon	S3GAME.H	/^void drawBackIcon(int x, int y, int xscale, int yscale)$/;"	f
+drawBarHoriz	S3GAME.H	/^void drawBarHoriz(int x, int y, int w, int h, int color0, int color1, float percent)$/;"	f
+drawBarVer	S3GAME.H	/^void drawBarVer(int x, int y, int w, int h, int color0, int color1, float percent)$/;"	f
+drawBoat	S3GAME.H	/^void Boat::drawBoat(int x, int y)$/;"	f	class:Boat
+drawCreateIcon	S3GAME.H	/^void drawCreateIcon(int x, int y, int xscale, int yscale)$/;"	f
+drawDetails	S3GAME.H	/^void drawDetails()$/;"	f
+drawDropIcon	S3GAME.H	/^void drawDropIcon(int x, int y, int xscale, int yscale)$/;"	f
+drawGoalIcon	S3GAME.H	/^void drawGoalIcon(int x, int y, int xscale, int yscale)$/;"	f
+drawHelpIcon	S3GAME.H	/^void drawHelpIcon(int x, int y, int xscale, int yscale)$/;"	f
+drawHouse	S3GAME.H	/^void House::drawHouse(int X, int Y, int color1, int color2, int color3, int Direction)$/;"	f	class:House
+drawIcon	S3GAME.H	/^void PLAYER::drawIcon()$/;"	f	class:PLAYER
+drawIndustry	S3GAME.H	/^void Industry::drawIndustry ( int x , int y , int color1 , int color2 , int color3 )$/;"	f	class:Industry
+drawMenuIcon	S3GAME.H	/^void drawMenuIcon(int x, int y, int xscale, int yscale)$/;"	f
+drawMoneyIcon	S3GAME.H	/^void drawMoneyIcon(int x, int y, int xscale, int yscale)$/;"	f
+drawMoveIcon	S3GAME.H	/^void drawMoveIcon(int x, int y, int xscale, int yscale)$/;"	f
+drawPillar	S3GAME.H	/^void drawPillar(int x, int y)$/;"	f
+drawProduceIcon	S3GAME.H	/^void drawProduceIcon(int x, int y, int xscale, int yscale)$/;"	f
+drawRemoveIcon	S3GAME.H	/^void drawRemoveIcon(int x, int y, int xscale, int yscale)$/;"	f
+drawScrambleIcon	S3GAME.H	/^void drawScrambleIcon(int x, int y, int xscale, int yscale)$/;"	f
+drawTerrain	S3GAME.H	/^void drawTerrain()$/;"	f
+drawWall	S3GAME.H	/^void drawWall(int x, int y)$/;"	f
+drawWell	S3GAME.H	/^void Well::drawWell(int X, int Y, int watercolor)$/;"	f	class:Well
+drawWoodIcon	S3GAME.H	/^void drawWoodIcon(int x, int y, int xscale, int yscale)$/;"	f
+drawellipse	S3TOOLS.H	/^void drawellipse(int x, int y, int xrad, int yrad , double angle)$/;"	f
+drawellipse	additionalToolsSource/S3PORT.H	/^void drawellipse(int x, int y, int xrad, int yrad , double angle)$/;"	f
+drawlake	S3GAME.H	/^void drawlake(int x,int y)$/;"	f
+drawtarc	S3TOOLS.H	/^void drawtarc(int x, int y, int stangle, int endangle, int r, int t)$/;"	f
+drawtarc	additionalToolsSource/S3PORT.H	/^void drawtarc(int x, int y, int stangle, int endangle, int r, int t)$/;"	f
+drawthickline	S3TOOLS.H	/^void drawthickline ( int x1 , int y1 , int x2 , int y2 , int t )$/;"	f
+drawthickline	additionalToolsSource/S3PORT.H	/^void drawthickline ( int x1 , int y1 , int x2 , int y2 , int t )$/;"	f
+drawtline	S3TOOLS.H	/^void drawtline(int x1, int y1, int x2, int y2, int t)$/;"	f
+drawtline	additionalToolsSource/S3PORT.H	/^void drawtline(int x1, int y1, int x2, int y2, int t)$/;"	f
+ecoMeter	S3GAME.H	/^	int ecoMeter;$/;"	m	class:PLAYER
+eraseLastChar	S3TOOLS.H	/^void eraseLastChar(char* strSrc)$/;"	f
+eraseLastChar	additionalToolsSource/S3PORT.H	/^void eraseLastChar(char* strSrc)$/;"	f
+exitAnimation	S3GAME.H	/^void exitAnimation()$/;"	f
+fileop	s3goalma.h	/^} fileop;$/;"	v	typeref:class:FILE_OPERATIONS
+fill	S3GAME.H	/^	int stripeFill, stripeColor, fill, color;$/;"	m	class:Road
+fillCircle	additionalToolsSource/S3PORT.H	/^void fillCircle(int x, int y, int r, int color, int patt)$/;"	f
+fillPattern_honeycomb	S3GAME.H	/^char fillPattern_honeycomb[] = {0x18, 0x18, 0x24, 0xc3, 0xc3, 0x24, 0x18, 0x18}; \/\/ honey comb$/;"	v
+formatString	S3TOOLS.H	/^char *formatString(int type, char string[])$/;"	f
+formatString	additionalToolsSource/S3PORT.H	/^char *formatString(int type, char string[])$/;"	f
+g	S3GAME.H	/^	int r[16], g[16], b[16];$/;"	m	struct:customPalette
+gameLoop	S3GAME.H	/^int gameLoop = 0; \/\/ Loop controlling the game play$/;"	v
+gameNew	S3GAME.H	/^void gameNew()$/;"	f
+gameReset	S3GAME.H	/^void gameReset()$/;"	f
+gameload	S3GAME.H	/^int gameload()$/;"	f
+gamesave	S3GAME.H	/^void gamesave()$/;"	f
+getCutStatus	S3GAME.H	/^int Tree::getCutStatus()$/;"	f	class:Tree
+getIcon	S3GAME.H	/^	int getIcon(int i, int j)$/;"	f	class:PLAYER
+getImage	s3goalc.h	/^int Goal::getImage()$/;"	f	class:Goal
+getImage	unusedSourceFiles/S3GOALS.H	/^int goals::getImage()$/;"	f	class:goals
+getMessage	s3goalc.h	/^char *Goal::getMessage(int n)$/;"	f	class:Goal
+getMessage	unusedSourceFiles/S3GOALS.H	/^char *goals::getMessage(int n)$/;"	f	class:goals
+getMessageLength	s3goalc.h	/^int Goal::getMessageLength()$/;"	f	class:Goal
+getMessageLength	unusedSourceFiles/S3GOALS.H	/^int goals::getMessageLength()$/;"	f	class:goals
+getPuzzleStatus	S3GAME.H	/^	int getPuzzleStatus()$/;"	f	class:PLAYER
+getTitle	s3goalc.h	/^char *Goal::getTitle()$/;"	f	class:Goal
+getTitle	unusedSourceFiles/S3GOALS.H	/^char *goals::getTitle()$/;"	f	class:goals
+getWalls	S3GAME.H	/^	int getWalls()$/;"	f	class:PLAYER
+getcurrXp	S3GAME.H	/^	int getcurrXp()$/;"	f	class:PLAYER
+getecoMeter	S3GAME.H	/^	int getecoMeter()$/;"	f	class:PLAYER
+getmaxXp	S3GAME.H	/^	int getmaxXp()$/;"	f	class:PLAYER
+getmoney	S3GAME.H	/^	unsigned long getmoney()$/;"	f	class:PLAYER
+getnhouses	S3GAME.H	/^	int getnhouses()$/;"	f	class:PLAYER
+getplayerLevel	S3GAME.H	/^	int getplayerLevel()$/;"	f	class:PLAYER
+getproduce	S3GAME.H	/^	unsigned long getproduce()$/;"	f	class:PLAYER
+getuserName	S3GAME.H	/^	char * getuserName()$/;"	f	class:PLAYER
+getwater	S3GAME.H	/^	unsigned long getwater()$/;"	f	class:PLAYER
+getwood	S3GAME.H	/^	unsigned long getwood()$/;"	f	class:PLAYER
+getx	S3GAME.H	/^int Tree::getx()$/;"	f	class:Tree
+gety	S3GAME.H	/^int Tree::gety()$/;"	f	class:Tree
+gfill	S3GAME.H	/^	int c,woc, goc, wic, pic, gic, wfill, pfill, gfill; \/\/ for plotter function$/;"	m	class:House
+gic	S3GAME.H	/^	int c,woc, goc, wic, pic, gic, wfill, pfill, gfill; \/\/ for plotter function$/;"	m	class:House
+goal	s3goalc.h	/^}goal;$/;"	v	typeref:class:Goal
+goal	unusedSourceFiles/S3GOALS.H	/^} goal, t_goal;$/;"	v	typeref:class:goals
+goalbeftut	s3goalc.h	/^	int goalbeftut;$/;"	m	class:Goal
+goalcheck	s3goalc.h	/^void Goal::goalcheck()$/;"	f	class:Goal
+goalcheck	unusedSourceFiles/S3GOALS.H	/^void goals::goalcheck()$/;"	f	class:goals
+goaldisplayed	S3GAME.H	/^int goaldisplayed = 0;$/;"	v
+goalload	s3goalc.h	/^void Goal::goalload()$/;"	f	class:Goal
+goals	unusedSourceFiles/S3GOALS.H	/^	goals()$/;"	f	class:goals
+goals	unusedSourceFiles/S3GOALS.H	/^class goals{$/;"	c
+goals_display	S3GAME.H	/^void goals_display()$/;"	f
+goc	S3GAME.H	/^	int c,woc, goc, wic, pic, gic, wfill, pfill, gfill; \/\/ for plotter function$/;"	m	class:House
+houseBuiltCount	S3GAME.H	/^int houseBuiltCount;$/;"	v
+houseCount	S3GAME.H	/^int houseCount =0 , liveHouseCount = 0;$/;"	v
+houseInteract	S3GAME.H	/^void House::houseInteract(House *houses, int n, char k)$/;"	f	class:House
+id	S3GAME.H	/^	int id;$/;"	m	class:PLAYER
+id	additionalToolsSource/PLAYER.cpp	/^	int id;$/;"	m	struct:PLAYER	file:
+id	additionalToolsSource/playread.cpp	/^	int id;$/;"	m	struct:PLAYER	file:
+image_index	additionalToolsSource/writegoals.cpp	/^	int image_index;$/;"	m	struct:Goaldata	file:
+image_index	s3goalc.h	/^	int image_index;$/;"	m	struct:Goaldata
+image_index	unusedSourceFiles/S3GOALS.H	/^	int image_index;$/;"	m	class:goals
+in	S3TOOLS.H	/^union REGS in, out;$/;"	v	typeref:union:REGS
+in	additionalToolsSource/S3PORT.H	/^union REGS in, out;$/;"	v	typeref:union:REGS
+index	S3GAME.H	/^	int index, locked;$/;"	m	class:Puzzle
+index	additionalToolsSource/PLAYER.cpp	/^	int index;$/;"	m	struct:PLAYER	file:
+index	additionalToolsSource/playread.cpp	/^	int index;$/;"	m	struct:PLAYER	file:
+industry	S3GAME.H	/^} industry ;$/;"	v	typeref:class:Industry
+industryIncome	S3GAME.H	/^		int industryIncome , industry_x ,industry_y ;$/;"	m	class:Industry
+industryInteract	S3GAME.H	/^void Industry::industryInteract()$/;"	f	class:Industry
+industry_x	S3GAME.H	/^		int industryIncome , industry_x ,industry_y ;$/;"	m	class:Industry
+industry_y	S3GAME.H	/^		int industryIncome , industry_x ,industry_y ;$/;"	m	class:Industry
+initmouse	S3TOOLS.H	/^void initmouse()$/;"	f
+initmouse	additionalToolsSource/S3PORT.H	/^void initmouse()$/;"	f
+insertGoalToFile	additionalToolsSource/writegoals.cpp	/^void insertGoalToFile(Goaldata g, int n)$/;"	f
+interact	S3GAME.H	/^int interact = 1;$/;"	v
+interact	S3GAME.H	/^void Tree::interact( int n)$/;"	f	class:Tree
+inttochar	S3TOOLS.H	/^char *inttochar(int n){$/;"	f
+inttochar	additionalToolsSource/S3PORT.H	/^char *inttochar(int n){$/;"	f
+keyboardInput	S3TOOLS.H	/^char keyboardInput(char nk)$/;"	f
+keyboardInput	additionalToolsSource/S3PORT.H	/^char keyboardInput(char nk)$/;"	f
+level	S3GAME.H	/^	int level;$/;"	m	class:House
+limit	S3GAME.H	/^	int limit;$/;"	m	class:Puzzle
+linePattern	S3GAME.H	/^int linePattern[] = {1,0};$/;"	v
+list	S3GAME.H	/^	char list [15];$/;"	m	class:Puzzle
+liveHouseCount	S3GAME.H	/^int houseCount =0 , liveHouseCount = 0;$/;"	v
+liveTreeCount	S3GAME.H	/^int liveTreeCount = 0;$/;"	v
+loadGoalIndex	s3goalma.h	/^		int loadGoalIndex(int n)$/;"	f	class:FILE_OPERATIONS
+loadHouse	s3goalma.h	/^		void loadHouse (House *h, int n)$/;"	f	class:FILE_OPERATIONS
+loadLayout	s3goalma.h	/^		void loadLayout(House *h, Road *r, Tree *t, int n)$/;"	f	class:FILE_OPERATIONS
+loadPlayer	s3goalma.h	/^		PLAYER loadPlayer(int n)$/;"	f	class:FILE_OPERATIONS
+loadRoad	s3goalma.h	/^		void loadRoad (Road *roads, int n)$/;"	f	class:FILE_OPERATIONS
+loadTrees	s3goalma.h	/^		void loadTrees (Tree *t, int n)$/;"	f	class:FILE_OPERATIONS
+locked	S3GAME.H	/^	int index, locked;$/;"	m	class:Puzzle
+log	s3goalc.h	/^void log(char* t)$/;"	f
+main	additionalToolsSource/PLAYER.cpp	/^void main()$/;"	f
+main	additionalToolsSource/playread.cpp	/^void main()$/;"	f
+main	additionalToolsSource/writegoals.cpp	/^void main()$/;"	f
+mainRoad	S3GAME.H	/^Road mainRoad[6];$/;"	v
+map_houses	S3GAME.H	/^House map_houses[30] = {$/;"	v
+map_trees	S3GAME.H	/^} map_trees[30];$/;"	v	typeref:class:Tree
+maxTimer	S3GAME.H	/^	int x, y, regenerateTimer, waterToCollect, canCollect, maxTimer;$/;"	m	class:Well
+maxXp	S3GAME.H	/^	int maxXp;$/;"	m	class:PLAYER
+maxXp	additionalToolsSource/PLAYER.cpp	/^	int maxXp;$/;"	m	struct:PLAYER	file:
+maxXp	additionalToolsSource/playread.cpp	/^	int maxXp;$/;"	m	struct:PLAYER	file:
+mc	S3GAME.H	/^int mx, my, mc, mmx = 0, mmy = 0, mmc = 1; \/\/ Mouse control$/;"	v
+menudisplay	S3GAME.H	/^int menudisplay = 0;$/;"	v
+message	additionalToolsSource/writegoals.cpp	/^	char message[10][80];$/;"	m	struct:Goaldata	file:
+message	s3goalc.h	/^	char message[10][80];$/;"	m	struct:Goaldata
+message	unusedSourceFiles/S3GOALS.H	/^	char message[10][80];$/;"	m	class:goals
+messageDisplay	S3GAME.H	/^int messageDisplay = 0;$/;"	v
+message_length	additionalToolsSource/writegoals.cpp	/^	int message_length;$/;"	m	struct:Goaldata	file:
+message_length	s3goalc.h	/^	int message_length;$/;"	m	struct:Goaldata
+message_length	unusedSourceFiles/S3GOALS.H	/^	int message_length;$/;"	m	class:goals
+messagebox	S3GAME.H	/^void messagebox(char message[][80] , int color, int n, int image_index)$/;"	f
+miniColorBack	S3GAME.H	/^char miniMessage[80], miniColorBack, miniColorBorder, miniColorFont;$/;"	v
+miniColorBorder	S3GAME.H	/^char miniMessage[80], miniColorBack, miniColorBorder, miniColorFont;$/;"	v
+miniColorFont	S3GAME.H	/^char miniMessage[80], miniColorBack, miniColorBorder, miniColorFont;$/;"	v
+miniMessage	S3GAME.H	/^char miniMessage[80], miniColorBack, miniColorBorder, miniColorFont;$/;"	v
+miniMessageDisplay	S3GAME.H	/^int miniMessageDisplay, miniMessageTimer;$/;"	v
+miniMessageTimer	S3GAME.H	/^int miniMessageDisplay, miniMessageTimer;$/;"	v
+mmc	S3GAME.H	/^int mx, my, mc, mmx = 0, mmy = 0, mmc = 1; \/\/ Mouse control$/;"	v
+mmx	S3GAME.H	/^int mx, my, mc, mmx = 0, mmy = 0, mmc = 1; \/\/ Mouse control$/;"	v
+mmy	S3GAME.H	/^int mx, my, mc, mmx = 0, mmy = 0, mmc = 1; \/\/ Mouse control$/;"	v
+money	S3GAME.H	/^	unsigned long money,wood,produce,water;$/;"	m	class:PLAYER
+money	additionalToolsSource/PLAYER.cpp	/^	unsigned long money,wood,produce,water;$/;"	m	struct:PLAYER	file:
+money	additionalToolsSource/playread.cpp	/^	unsigned long money,wood,produce,water;$/;"	m	struct:PLAYER	file:
+mousereset	S3TOOLS.H	/^void mousereset()$/;"	f
+mousereset	additionalToolsSource/S3PORT.H	/^void mousereset()$/;"	f
+mousestatus	S3TOOLS.H	/^void mousestatus()$/;"	f
+mousestatus	additionalToolsSource/S3PORT.H	/^void mousestatus()$/;"	f
+moveflag	S3GAME.H	/^int moveflag = 0;$/;"	v
+movemodeend	S3GAME.H	/^int movemodeend = 0;$/;"	v
+mx	S3GAME.H	/^int mx, my, mc, mmx = 0, mmy = 0, mmc = 1; \/\/ Mouse control$/;"	v
+my	S3GAME.H	/^int mx, my, mc, mmx = 0, mmy = 0, mmc = 1; \/\/ Mouse control$/;"	v
+n	S3GAME.H	/^	int n; \/\/ number of road segments \/\/ to faciliate drawing$/;"	m	class:Road
+name	S3GAME.H	/^	char name[20];$/;"	m	class:House
+nextGoal	s3goalc.h	/^void Goal::nextGoal()$/;"	f	class:Goal
+nextGoalIndex	unusedSourceFiles/S3GOALS.H	/^int goals::nextGoalIndex()$/;"	f	class:goals
+nextgoalindex	unusedSourceFiles/S3GOALS.H	/^	int nextgoalindex;$/;"	m	class:goals
+nhouses	S3GAME.H	/^	int nhouses;$/;"	m	class:PLAYER
+nhouses	S3GAME.H	/^int nhouses = 8;$/;"	v
+noOfPlayers	s3goalma.h	/^		int noOfPlayers()$/;"	f	class:FILE_OPERATIONS
+ntrees	S3GAME.H	/^int ntrees = 15;$/;"	v
+obj	S3GAME.H	/^}obj;$/;"	v	typeref:class:House
+originX	S3GAME.H	/^int originX = 0, originY = +1000; \/\/ will be used for dragging$/;"	v
+originY	S3GAME.H	/^int originX = 0, originY = +1000; \/\/ will be used for dragging$/;"	v
+out	S3TOOLS.H	/^union REGS in, out;$/;"	v	typeref:union:
+out	additionalToolsSource/S3PORT.H	/^union REGS in, out;$/;"	v	typeref:union:
+outtextVer	S3GAME.H	/^void outtextVer(int x, int y, char m[])$/;"	f
+outtextcenter	S3TOOLS.H	/^void outtextcenter(int y, char *t)$/;"	f
+pfill	S3GAME.H	/^	int c,woc, goc, wic, pic, gic, wfill, pfill, gfill; \/\/ for plotter function$/;"	m	class:House
+pic	S3GAME.H	/^	int c,woc, goc, wic, pic, gic, wfill, pfill, gfill; \/\/ for plotter function$/;"	m	class:House
+pillarStatus	S3GAME.H	/^int pillarStatus = 0;$/;"	v
+player	S3GAME.H	/^}player;$/;"	v	typeref:class:PLAYER
+playerLevel	S3GAME.H	/^	int playerLevel;$/;"	m	class:PLAYER
+playerLevel	additionalToolsSource/PLAYER.cpp	/^	int playerLevel;$/;"	m	struct:PLAYER	file:
+playerLevel	additionalToolsSource/playread.cpp	/^	int playerLevel;$/;"	m	struct:PLAYER	file:
+plotter	S3GAME.H	/^void plotter(int x,int y,int d,int c,int woc,int goc,int wic,int pic,int gic,int wfill,int pfill,int gfill)$/;"	f
+pop	S3GAME.H	/^char Puzzle::pop ()$/;"	f	class:Puzzle
+population	S3GAME.H	/^	int population;$/;"	m	class:House
+population	S3GAME.H	/^long int population = 50;$/;"	v
+print	additionalToolsSource/writegoals.cpp	/^void print(char *t)$/;"	f
+printAllGoals	additionalToolsSource/writegoals.cpp	/^void printAllGoals()$/;"	f
+produce	S3GAME.H	/^	unsigned long money,wood,produce,water;$/;"	m	class:PLAYER
+produce	additionalToolsSource/PLAYER.cpp	/^	unsigned long money,wood,produce,water;$/;"	m	struct:PLAYER	file:
+produce	additionalToolsSource/playread.cpp	/^	unsigned long money,wood,produce,water;$/;"	m	struct:PLAYER	file:
+puzzleCheck	S3GAME.H	/^	int puzzleCheck()$/;"	f	class:Puzzle
+puzzleInteract	S3GAME.H	/^void Puzzle::puzzleInteract(char k)$/;"	f	class:Puzzle
+puzzleStatus	S3GAME.H	/^	int puzzleStatus;$/;"	m	class:Puzzle
+r	S3GAME.H	/^	int r[16], g[16], b[16];$/;"	m	struct:customPalette
+recover	S3GAME.H	/^	unsigned int recover;$/;"	m	class:Tree
+regenerateTimer	S3GAME.H	/^	int x, y, regenerateTimer, waterToCollect, canCollect, maxTimer;$/;"	m	class:Well
+removeGoal	additionalToolsSource/writegoals.cpp	/^void removeGoal(int n)$/;"	f
+rentTimer	S3GAME.H	/^	int rentToCollect, rentTimer;$/;"	m	class:House
+rentToCollect	S3GAME.H	/^	int rentToCollect, rentTimer;$/;"	m	class:House
+replaceGoalInFile	additionalToolsSource/writegoals.cpp	/^void replaceGoalInFile(Goaldata g, int n)$/;"	f
+resetPuzzleInterface	S3GAME.H	/^	void resetPuzzleInterface()$/;"	f	class:Puzzle
+retut	s3goalc.h	/^void Goal::retut()$/;"	f	class:Goal
+retut	unusedSourceFiles/S3GOALS.H	/^void goals::retut()$/;"	f	class:goals
+rlevel	S3GAME.H	/^	int & rlevel()$/;"	f	class:House
+rlist	S3GAME.H	/^	char  rlist[4][15];$/;"	m	class:Puzzle
+rpopulation	S3GAME.H	/^	int & rpopulation ()$/;"	f	class:House
+saveRoad	s3goalma.h	/^		void saveRoad (Road *roads, int n)$/;"	f	class:FILE_OPERATIONS
+scrollAnimation	S3GAME.H	/^int scrollAnimation(int frame, int h)$/;"	f
+scselection	S3GAME.H	/^	int selection , choice , scselection ;$/;"	m	class:Puzzle
+selection	S3GAME.H	/^	int selection , choice , scselection ;$/;"	m	class:Puzzle
+setCutStatus	S3GAME.H	/^void Tree::setCutStatus(int c)$/;"	f	class:Tree
+setDetailDisplay	S3GAME.H	/^void setDetailDisplay (char a[], char b[])$/;"	f
+setGoalIndex	s3goalc.h	/^void Goal::setGoalIndex(int n)$/;"	f	class:Goal
+setGoalIndex	unusedSourceFiles/S3GOALS.H	/^void goals::setGoalIndex(int a)$/;"	f	class:goals
+setIndex	S3GAME.H	/^	void setIndex()$/;"	f	class:Puzzle
+setMiniBox	S3GAME.H	/^void setMiniBox(char  text[], int colorBorder , int colorIn , int fontColor  )$/;"	f
+setPositions	S3GAME.H	/^	void setPositions(int a, int b)$/;"	f	class:Tree
+setPositions	S3GAME.H	/^	void setPositions(int xx, int yy)$/;"	f	class:House
+setProperties	S3GAME.H	/^	void setProperties(int xx, int yy, int s, int nn, int d, int stf, int stc, int f, int c, int bf, int sbf)$/;"	f	class:Road
+setPuzzleStatus	S3GAME.H	/^	void setPuzzleStatus(int x)$/;"	f	class:PLAYER
+setWalls	S3GAME.H	/^	void setWalls(int x)$/;"	f	class:PLAYER
+setcurrXp	S3GAME.H	/^	void setcurrXp(int a)$/;"	f	class:PLAYER
+setecoMeter	S3GAME.H	/^	void setecoMeter(int x)$/;"	f	class:PLAYER
+setid	S3GAME.H	/^	void setid(int i)$/;"	f	class:PLAYER
+setmoney	S3GAME.H	/^	void setmoney(int a)$/;"	f	class:PLAYER
+setnhouses	S3GAME.H	/^	void setnhouses(int i)$/;"	f	class:PLAYER
+setproduce	S3GAME.H	/^	void setproduce(int a)$/;"	f	class:PLAYER
+setwater	S3GAME.H	/^	void setwater(int a)$/;"	f	class:PLAYER
+setwood	S3GAME.H	/^	void setwood(int a)$/;"	f	class:PLAYER
+sflag	S3GAME.H	/^	int sflag;$/;"	m	class:Puzzle
+showDetail	S3GAME.H	/^int showDetail = 0;$/;"	v
+showMiniBox	S3GAME.H	/^void showMiniBox()$/;"	f
+show_ID	S3GAME.H	/^int PLAYER::show_ID()$/;"	f	class:PLAYER
+size	S3GAME.H	/^	int size;$/;"	m	class:Road
+stringSearch	S3TOOLS.H	/^int stringSearch(char list[20][15], char *str)$/;"	f
+string_copy	S3TOOLS.H	/^void string_copy(char* strDest, char*strSrc, int n)$/;"	f
+string_copy	additionalToolsSource/S3PORT.H	/^void string_copy(char* strDest, char*strSrc, int n)$/;"	f
+stripeBorderFill	S3GAME.H	/^	int borderFill, stripeBorderFill;$/;"	m	class:Road
+stripeColor	S3GAME.H	/^	int stripeFill, stripeColor, fill, color;$/;"	m	class:Road
+stripeFill	S3GAME.H	/^	int stripeFill, stripeColor, fill, color;$/;"	m	class:Road
+t_goal	unusedSourceFiles/S3GOALS.H	/^} goal, t_goal;$/;"	v	typeref:class:goals
+tcircle	S3TOOLS.H	/^void tcircle ( int x , int y , int r , int t )$/;"	f
+terrH	S3GAME.H	/^int terrW = 3000, terrH = 3000; \/\/ terrain size$/;"	v
+terrW	S3GAME.H	/^int terrW = 3000, terrH = 3000; \/\/ terrain size$/;"	v
+tf	unusedSourceFiles/S3GOALS.H	/^	int tf;$/;"	m	class:goals
+timer	S3GAME.H	/^	int timer, timerFlag,  timerMax;$/;"	m	class:House
+timerFlag	S3GAME.H	/^	int timer, timerFlag,  timerMax;$/;"	m	class:House
+timerMax	S3GAME.H	/^	int timer, timerFlag,  timerMax;$/;"	m	class:House
+title	additionalToolsSource/writegoals.cpp	/^	char title[40];$/;"	m	struct:Goaldata	file:
+title	s3goalc.h	/^	char title[40];$/;"	m	struct:Goaldata
+title	unusedSourceFiles/S3GOALS.H	/^	char title[40];$/;"	m	class:goals
+toDegrees	S3TOOLS.H	/^double toDegrees(double rad)$/;"	f
+toDegrees	additionalToolsSource/S3PORT.H	/^double toDegrees(double rad)$/;"	f
+toRadians	S3TOOLS.H	/^double toRadians(double deg)$/;"	f
+toRadians	additionalToolsSource/S3PORT.H	/^double toRadians(double deg)$/;"	f
+treeCount	S3GAME.H	/^int treeCount = 0;$/;"	v
+treeCutCount	S3GAME.H	/^int treeCutCount = 0;$/;"	v
+tsprint	S3GAME.H	/^void tsprint()$/;"	f
+tsstr	S3GAME.H	/^char tsstr[80] = "Troubleshooting test";$/;"	v
+tsval	S3GAME.H	/^int tsval=0;$/;"	v
+tune	S3TOOLS.H	/^void tune(double a, int b)$/;"	f
+tune	additionalToolsSource/S3PORT.H	/^void tune(double a, int b)$/;"	f
+tutorial_begins_on	unusedSourceFiles/S3GOALS.H	/^	int tutorial_begins_on;$/;"	m	class:goals
+tutorial_ends_on	unusedSourceFiles/S3GOALS.H	/^	int tutorial_ends_on;$/;"	m	class:goals
+updation	s3goalma.h	/^		void updation (PLAYER *a,House *b, Tree *c, Road *r, int n)$/;"	f	class:FILE_OPERATIONS
+userIcon	S3GAME.H	/^	int userIcon[10][10];$/;"	m	class:PLAYER
+userIcon	additionalToolsSource/PLAYER.cpp	/^	int userIcon[10][10];$/;"	m	struct:PLAYER	file:
+userIcon	additionalToolsSource/playread.cpp	/^	int userIcon[10][10];$/;"	m	struct:PLAYER	file:
+userName	S3GAME.H	/^	char userName[80];$/;"	m	class:PLAYER
+userName	additionalToolsSource/PLAYER.cpp	/^	char userName[80];$/;"	m	struct:PLAYER	file:
+userName	additionalToolsSource/playread.cpp	/^	char userName[80];$/;"	m	struct:PLAYER	file:
+viewGoalFromFile	additionalToolsSource/writegoals.cpp	/^Goaldata viewGoalFromFile(int n)$/;"	f
+wallPlaced	S3GAME.H	/^int wallPlaced = 0;$/;"	v
+walls	S3GAME.H	/^	int walls;$/;"	m	class:PLAYER
+water	S3GAME.H	/^	unsigned long money,wood,produce,water;$/;"	m	class:PLAYER
+water	additionalToolsSource/PLAYER.cpp	/^	unsigned long money,wood,produce,water;$/;"	m	struct:PLAYER	file:
+water	additionalToolsSource/playread.cpp	/^	unsigned long money,wood,produce,water;$/;"	m	struct:PLAYER	file:
+waterToCollect	S3GAME.H	/^	int x, y, regenerateTimer, waterToCollect, canCollect, maxTimer;$/;"	m	class:Well
+well	S3GAME.H	/^}well;$/;"	v	typeref:class:Well
+wellInteract	S3GAME.H	/^void Well :: wellInteract()$/;"	f	class:Well
+wfill	S3GAME.H	/^	int c,woc, goc, wic, pic, gic, wfill, pfill, gfill; \/\/ for plotter function$/;"	m	class:House
+wic	S3GAME.H	/^	int c,woc, goc, wic, pic, gic, wfill, pfill, gfill; \/\/ for plotter function$/;"	m	class:House
+woc	S3GAME.H	/^	int c,woc, goc, wic, pic, gic, wfill, pfill, gfill; \/\/ for plotter function$/;"	m	class:House
+wood	S3GAME.H	/^	unsigned long money,wood,produce,water;$/;"	m	class:PLAYER
+wood	additionalToolsSource/PLAYER.cpp	/^	unsigned long money,wood,produce,water;$/;"	m	struct:PLAYER	file:
+wood	additionalToolsSource/playread.cpp	/^	unsigned long money,wood,produce,water;$/;"	m	struct:PLAYER	file:
+x	S3GAME.H	/^	int x, y, regenerateTimer, waterToCollect, canCollect, maxTimer;$/;"	m	class:Well
+x	S3GAME.H	/^	int x,y,direction;$/;"	m	class:House
+x	S3GAME.H	/^	int x,y;$/;"	m	class:Tree
+x	S3GAME.H	/^	int x;$/;"	m	class:Road
+y	S3GAME.H	/^	int x, y, regenerateTimer, waterToCollect, canCollect, maxTimer;$/;"	m	class:Well
+y	S3GAME.H	/^	int x,y,direction;$/;"	m	class:House
+y	S3GAME.H	/^	int x,y;$/;"	m	class:Tree
+y	S3GAME.H	/^	int y;$/;"	m	class:Road
