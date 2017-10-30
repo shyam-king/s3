@@ -17,6 +17,8 @@ struct Goaldata
 	char message[10][80];
 	int message_length;
 	int image_index;
+	char goalObjective[40]; 
+	char postGoalCommand[40];
 } ;
 
 //Write to the file
@@ -44,10 +46,27 @@ Goaldata viewGoalFromFile(int n)
 //To edit the already existing goal in the file
 void replaceGoalInFile(Goaldata g, int n)
 {
-	ofstream file("GOALDATA.DAT", ios::binary | ios::ate);	
-	file.seekp(sizeof(g) * n);
-	file.write((char*)&g, sizeof(g));
-	file.close();
+	ifstream fin("GOALDATA.DAT", ios::binary);
+	ofstream fout("TEMP.DAT", ios::binary);
+
+	Goaldata t;
+	int i = 0;
+	while (fin.read((char*)&t, sizeof(t)))
+	{
+		if (i!= n)
+			fout.write((char*)&t, sizeof(t));
+		else
+			fout.write((char*)&g, sizeof(g));
+
+		i++;
+	}
+
+	fout.close();
+	fin.close();
+
+	remove("GOALDATA.DAT");
+	rename("TEMP.DAT", "GOALDATA.DAT");
+
 }
 
 //To insert a goal
@@ -58,17 +77,13 @@ void insertGoalToFile(Goaldata g, int n)
 
 	Goaldata t;
 
-	for (int i = 0; i < n; i++)
-	{
-		originalFile.read((char*)&t, sizeof(t));
-		duplicate.write((char*)&t, sizeof(t));
-	}
-
-	duplicate.write((char*)&g, sizeof(g));
-
+	int i = 0;
 	while(originalFile.read((char*)&t, sizeof(t)))
 	{
+		if (i == n)
+			duplicate.write((char*)&g, sizeof(g));
 		duplicate.write((char*)&t, sizeof(t));
+		i++;
 	}
 
 	originalFile.close();
@@ -109,7 +124,7 @@ void removeGoal(int n)
 //to print all the goals
 void printAllGoals()
 {
-	ifstream file("GOALDATA.DAT");
+	ifstream file("GOALDATA.DAT", ios::binary);
 	Goaldata g;
 	clrscr();
 	int ind = 0;
@@ -123,9 +138,12 @@ void printAllGoals()
 		for(int i = 0; i < g.message_length; i++)
 			puts(g.message[i]);
 		cout << g.message_length << endl;
-		cout << g.image_index;
+		cout << g.image_index << endl;
+		cout << g.goalObjective << endl;
+		cout << g.postGoalCommand;
 		k = getch();
 	}
+	file.close();
 }
 
 //to print at the center of the screen
@@ -139,6 +157,7 @@ void main()
 	clrscr();
 	Goaldata g;
 	int i;
+	int x;
 	char uc;
 	do
 	{
@@ -167,6 +186,10 @@ void main()
 					gets(g.message[i]);
 				cout << "Enter image index:";
 				cin >> g.image_index;
+				cout << "Enter goal objective:";
+				gets(g.goalObjective);
+				cout << "Enter goal command:";
+				gets(g.postGoalCommand);
 
 				addGoalToFile(g);
 				break;
@@ -180,6 +203,10 @@ void main()
 					gets(g.message[i]);
 				cout << "Enter image index:";
 				cin >> g.image_index;
+				cout << "Enter goal objective:";
+				gets(g.goalObjective);
+				cout << "Enter goal command:";
+				gets(g.postGoalCommand);
 				cout << "Enter position:";
 				cin >> i;
 
@@ -194,20 +221,24 @@ void main()
 					puts(g.message[i]);
 				cout << g.message_length << endl;
 				cout << g.image_index;
+				cout << endl << g.goalObjective << endl;
+				cout << g.postGoalCommand;
 				break;
 			case 4:
 				printAllGoals();
 				break;
 			case 5:
 				cout << "Enter position:";
-				cin >> i;
+				cin >> x;
 
 				cout << "ORIGINAL ENTRY:\n";
-				g = viewGoalFromFile(i);
+				g = viewGoalFromFile(x);
 				puts(g.title);
 				for(i = 0; i < g.message_length; i++)
 					puts(g.message[i]);
 				cout << g.image_index;
+				cout << endl << g.goalObjective << endl;
+				cout << g.postGoalCommand;
 				cout << endl;
 
 				cout << "Enter title:";
@@ -219,7 +250,11 @@ void main()
 					gets(g.message[i]);
 				cout << "Enter image index:";
 				cin >> g.image_index;
-				replaceGoalInFile(g,  i);
+				cout << "Enter goal objective:";
+				gets(g.goalObjective);
+				cout << "Enter goal command:";
+				gets(g.postGoalCommand);
+				replaceGoalInFile(g,  x);
 				break;
 
 			case 6:
@@ -233,7 +268,5 @@ void main()
 		cout << "\nPRESS (Y/y) TO RESTART..";
 		uc = tolower(getch());
 
-
 	}while(uc == 'y');
-	getch();
 }

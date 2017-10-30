@@ -29,6 +29,7 @@ const char NOKEY = '0';
 union REGS in, out;
 
 /////////////////////////FUNCTION PROTOTYPES//////////////////////
+void strSplit(char *src, char dest[][20], char symbol);
 char *inttochar(int);
 void outtextcenter(int y, char*);
 void drawtarc(int, int, int, int, int, int);
@@ -378,6 +379,23 @@ int stringSearch(char list[20][15], char *str)
 void outtextcenter(int y, char *t)
 {
 	outtextxy(getmaxx()/2 - textwidth(t)/2, y, t);
+}
+
+void strSplit(char *src, char dest[][20], char symbol)
+{
+	int i = 0, j = 0;
+	for (; *src; src++)
+	{
+		if (*src == symbol)
+		{
+			dest[i][j] = 0;
+			i++;
+			j = 0;
+		}
+		else
+			dest[i][j++] = *src;
+	}
+			dest[i][j] = 0; // closing the last string
 }
 
 #endif

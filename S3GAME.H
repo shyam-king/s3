@@ -273,9 +273,11 @@ class PLAYER : public Puzzle
 	int walls;
 	int ecoMeter;
 	public:
+	int wellEnabled;
 	PLAYER ()
 	{
 		puzzleStatus = 0;
+		wellEnabled = 0;
 		ecoMeter = 100;
 		maxXp=100;
 		walls = 0;
@@ -1426,7 +1428,7 @@ void Well :: wellInteract()
 	//when clicked on the well
 	if (EDITMODE == CREATE_MODE && mx >= originX + well.x - 100 && my >= originY + well.y - 25 && mx <= originX + well.x + 100 && my <= originY + well.y + 100 && mc == 1 && mmc != 1)
 	{
-		if  (goal.currentGoalIndex() < 24 || !well.canCollect)
+		if  (!(player.wellEnabled) || !well.canCollect)
 		{
 			setMiniBox("Well is empty right now.", WHITE, RED, WHITE);
 		}
@@ -1448,7 +1450,7 @@ void Well :: wellInteract()
 		setMiniBox("Cannot remove a well.", WHITE, RED, WHITE);
 	}
 
-	if (goal.currentGoalIndex() >= 24) // to enable the well implementation
+	if (player.wellEnabled) // to enable the well implementation
 	{
 		if (!well.canCollect && well.regenerateTimer) well.regenerateTimer --;
 		if (!well.regenerateTimer && !well.canCollect)
@@ -1802,8 +1804,7 @@ void gameNew()
 			goals_display();
 			animate = 0;
 		}
-		sprintf(tsstr, "%d,%d",    getmaxx()/2-originX,   getmaxy()/2-originY);
-		tsval = player.getPuzzleStatus();
+		tsval = goal.currentGoalIndex(); 
 		tsprint();
 
 		if (EDITMODE == SCRAMBLE_MODE)
@@ -3265,6 +3266,7 @@ void goals_display()
 
 	if (!goaldisplayed)
 	{
+		sprintf(tsstr, "%s", goal.rGoalObjective());
 		char goalmessage[11][80];
 		strcpy(goalmessage[0], goal.getTitle());
 		for (int i = 0; i < goal.getMessageLength(); i++)
@@ -3611,7 +3613,6 @@ void gameReset()
 	houseCount = 0;
 	goaldisplayed = 0;
 	goal.setGoalIndex(0);
-
 
 	mainRoad[0].setProperties(
 			-300+150-150,-3000/2+300-75+150,

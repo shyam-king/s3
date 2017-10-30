@@ -18,31 +18,30 @@ struct Goaldata
 	char message[10][80];
 	int message_length;
 	int image_index;
+	char goalObjective[40]; 
+	char postGoalCommand[40];
 } ;
 
 
 Goaldata Loadgoal ( int n )
 {
-	ifstream fin ( "Goaldata.dat" ) ;
+	ifstream fin ("GOALDATA.DAT", ios::binary);
 	Goaldata Goal ;
-	char * S = (char*)&Goal;
 	fin.seekg ( n*sizeof(Goal)) ;
-	for ( int i = 0 ; i < sizeof(Goaldata) ; i++ )
-	{
+	fin.read((char*)&Goal, sizeof(Goal));
+	fin.close();
 
-		fin.get (*S) ;
-		S++ ;
-	}
 	return Goal ;
 }
-
-
 
 class Goal
 {
 	Goaldata currgoal;
 	int currgoalindex;
+	int tf = 0;
 	int goalbeftut;
+	char splitObjective[5][20];
+	char splitCommand[5][20];
 
 	public:
 
@@ -63,11 +62,18 @@ class Goal
 	void setGoalIndex(int);
 	void nextGoal();
 
+	char *rGoalObjective()
+	{
+		return currgoal.goalObjective;
+	}
+
 }goal;
 
 void Goal::goalload()
 {
 	currgoal = Loadgoal(currgoalindex);	
+	strSplit(currgoal.goalObjective, splitObjective, ':');
+	strSplit(currgoal.postGoalCommand, splitCommand, ':');
 }
 
 void Goal::retut()
@@ -75,6 +81,8 @@ void Goal::retut()
 	goalbeftut = currgoalindex;
 	currgoalindex = 0;
 	currgoal = Loadgoal(0);
+	strSplit(currgoal.goalObjective, splitObjective, ':');
+	strSplit(currgoal.postGoalCommand, splitCommand, ':');
 	goaldisplayed = 0;
 }
 
@@ -108,6 +116,8 @@ void Goal::setGoalIndex(int n)
 {
 	currgoalindex = n;
 	currgoal =  Loadgoal(n);
+	strSplit(currgoal.goalObjective, splitObjective, ':');
+	strSplit(currgoal.postGoalCommand, splitCommand, ':');
 	goaldisplayed = 0;
 }
 
@@ -115,188 +125,172 @@ void Goal::nextGoal()
 {
 	currgoalindex++;
 	currgoal = Loadgoal(currgoalindex);
+	strSplit(currgoal.goalObjective, splitObjective, ':');
+	strSplit(currgoal.postGoalCommand, splitCommand, ':');
 	goaldisplayed = 0;
 }
 
 void Goal::goalcheck()
 {
-	int i;
-	static int tf;
-	switch (currgoalindex)
+	static int completionFlag = 0; // the target
+
+	//the target
+	if (strcmp(splitObjective[0], "enter") == 0)
 	{
-		case 0: 
-			if (goaldisplayed) 
-				nextGoal();
-			break;
-		case 1:
-			if (menudisplay) 
-				nextGoal();                             
-			break;
-		case 10:
-			if (EDITMODE == CREATE_MODE) 
-			{ 
-				nextGoal();
-				tf = houseBuiltCount;
-			} break;
-		case 11:
-			if (houseBuiltCount - tf >= 1)
-			{
-				nextGoal();          
-			}
-
-			break;
-		case 12:
-			if (EDITMODE == REMOVE_MODE) 
-			{
-				nextGoal();
-				tf = treeCutCount;
-			}
-			break;
-		case 13:
-			if (treeCutCount - tf >= 1)
-			{
-				nextGoal();             
-			}
-
-			break;
-		case 14:
-			if (goaldisplayed) {
-				originX = +200 -industry.industry_x;
-				originY = +200 -industry.industry_y;
-
-				nextGoal();         
-
-				strcpy(tsstr, "Goal passed from panning!");
-				tsval = 2;
-			}
-			break;
-		case 15:
-			strcpy(tsstr, "It should work!");
-			if (goaldisplayed) 
-			{
-				nextGoal();          
-				tf = treeCutCount;
-			}
-			break;
-		case 16:
-			sprintf(tsstr, "%d %d", tf, treeCutCount);
-
-			if (treeCutCount - tf >= 5)
-			{
-				nextGoal();
-				goaldisplayed = 0;
-			}
-
-			break;
-		case 17:
-			if (industry.industryIncome > 0) 
-			{
-				nextGoal();
-			} 
-			break;
-		case 18:
-			//panning towards the boat
-			{
-				if (goaldisplayed) {
-					originX = +200-boat.boat_x;
-					originY = +200 -boat.boat_y;
-					nextGoal();
-
-				} // next part
-			}
-			break;
-		case 19:
-			if (boatIncome > 0) 
-			{
-				nextGoal();
-			}
-			break;
-		case 20:
-			if (goaldisplayed)
-			{
-
-				tf = houseBuiltCount;
-				nextGoal();
-
-				/*for (i = 0; i < nhouses; i++)
-				  if (map_houses[i].level) liveHouseCount++;
-				  houseCount = liveHouseCount;*/
-			}
-			break;
-		case 21:
-
-			if (houseBuiltCount - tf >= 3)
-			{
-				nextGoal();
-				tf = treeCutCount;
-			}
-			break;
-		case 22:
-
-			if (player.getecoMeter() <= 40 || treeCutCount - tf >= 2)
-			{
-				nextGoal();
-			}
-			break;
-		case 23:
-			if (goaldisplayed)
-			{
-				tf = treeCutCount;
-				nextGoal();
-			}
-			break;
-		case 24:
-			if (treeCutCount - tf <= -5)
-			{
-				nextGoal();
-				goaldisplayed = 0;
-			}
-
-			break;
-		case 25:
-			if (goaldisplayed)
-			{
-				nextGoal();
-			}
-			break;
-		case 26:
-			if (player.getplayerLevel() == 2)
-			{
-				player.setmoney(player.getmoney()+ 2000);
-				player.setwood(player.getwood()+ 2000);
-				player.setwater(player.getwater()+ 25);
-
-				nextGoal();
-			}
-			break;
-		case 27:
-			if (goaldisplayed)
-			{
-				nextGoal();
-			}
-			break;
-		case 28:
-			if (goaldisplayed)
-			{
-				nextGoal();
-			}
-			break;
-		default:
-			if (currgoalindex >= 2 && currgoalindex <= 8)
-			{
-				if(goaldisplayed)
-					nextGoal();
-			}
-			else if (currgoalindex  == 9)
-			{
-				if(goaldisplayed)
-					if(goalbeftut != -1)
-						setGoalIndex(goalbeftut);
-					else
-						nextGoal();
-			}
+		if (goaldisplayed)
+			completionFlag = 1;
+	}
+	else if (strcmp(splitObjective[0], "menu") == 0)
+	{
+		if (strcmp(splitObjective[1], "open") == 0 && menudisplay) completionFlag = 1;
+		else if (strcmp(splitObjective[1], "create") == 0 && EDITMODE == CREATE_MODE) completionFlag =  1;
+		else if (strcmp(splitObjective[1], "remove") == 0 && EDITMODE == REMOVE_MODE) completionFlag =  1;
+		else if (strcmp(splitObjective[1], "move") == 0 && EDITMODE == MOVE_MODE) completionFlag =  1;
+	}
+	else if (strcmp(splitObjective[0], "check") == 0)
+	{
+		if (strcmp(splitObjective[1], "inc?") == 0)
+		{
+			if (strcmp(splitObjective[2], "ch") == 0 && houseBuiltCount - tf >= atoi(splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "ct") == 0 && treeCutCount - tf >= atoi(splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "ii") == 0 && industry.industryIncome - tf >= atoi(splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "bi") == 0 && boatIncome - tf >= atoi(splitObjective[3])) completionFlag = 1;
+		}
+		else if (strcmp(splitObjective[1], "dec?") == 0)
+		{
+			if (strcmp(splitObjective[2], "ch") == 0 &&  tf - houseBuiltCount >= atoi(splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "ct") == 0 &&  tf - treeCutCount >= atoi(splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "ii") == 0 &&  tf - industry.industryIncome >= atoi(splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "ii") == 0 &&  tf - boatIncome >= atoi(splitObjective[3])) completionFlag = 1;
+		}
+		else if (strcmp(splitObjective[1], "wall") == 0 && player.getWalls() == atoi(splitCommand[2])) completionFlag = 1;
+		else if (strcmp(splitObjective[1], "money") == 0 ) 
+		{
+			if (strcmp(splitObjective[2], "<") == 0 && player.getmoney() < atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], ">") == 0 && player.getmoney() > atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "=") == 0 && player.getmoney() == atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], ">=") == 0 && player.getmoney() >= atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "<=") == 0 && player.getmoney() <= atol (splitObjective[3])) completionFlag = 1;
+		}
+		else if (strcmp(splitObjective[1], "water") == 0 ) 
+		{
+			if (strcmp(splitObjective[2], "<") == 0 && player.getwater() < atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], ">") == 0 && player.getwater() > atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "=") == 0 && player.getwater() == atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], ">=") == 0 && player.getwater() >= atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "<=") == 0 && player.getwater() <= atol (splitObjective[3])) completionFlag = 1;
+		}
+		else if (strcmp(splitObjective[1], "wood") == 0 ) 
+		{
+			if (strcmp(splitObjective[2], "<") == 0 && player.getwood() < atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], ">") == 0 && player.getwood() > atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "=") == 0 && player.getwood() == atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], ">=") == 0 && player.getwood() >= atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "<=") == 0 && player.getwood() <= atol (splitObjective[3])) completionFlag = 1;
+		}
+		else if (strcmp(splitObjective[1], "produce") == 0 ) 
+		{
+			if (strcmp(splitObjective[2], "<") == 0 && player.getproduce() < atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], ">") == 0 && player.getproduce() > atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "=") == 0 && player.getproduce() == atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], ">=") == 0 && player.getproduce() >= atol (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "<=") == 0 && player.getproduce() <= atol (splitObjective[3])) completionFlag = 1;
+		}
+		else if (strcmp(splitObjective[1], "eco") == 0 ) 
+		{
+			if (strcmp(splitObjective[2], "<") == 0 && player.getecoMeter() < atoi (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], ">") == 0 && player.getecoMeter() > atoi (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "=") == 0 && player.getecoMeter() == atoi (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], ">=") == 0 && player.getecoMeter() >= atoi (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "<=") == 0 && player.getecoMeter() <= atoi (splitObjective[3])) completionFlag = 1;
+		}
+		else if (strcmp(splitObjective[1], "level") == 0 && player.getplayerLevel() == atoi(splitObjective[2])) completionFlag = 1;
+		else if (strcmp(splitObjective[1], "puzzle") == 0 && player.getPuzzleStatus() == atoi(splitObjective[2])) completionFlag = 1;
 	}
 
+	//goalcompleted: execute post goal commands and proceed to the next goal
+	if (completionFlag)
+	{
+		int nflag = 1;
+
+		//executing post goal commands
+		if (strcmp(splitCommand[0], "null"))
+		{
+			if (strcmp(splitCommand[0], "set") == 0) // set a variable
+			{
+				if (strcmp(splitCommand[1], "tf") == 0)
+				{
+					if (strcmp(splitCommand[2],"ch") == 0) tf = houseBuiltCount;
+					else if (strcmp(splitCommand[2],"ct") == 0) tf = treeCutCount;
+					else if (strcmp(splitCommand[2],"ii") == 0) tf = industry.industryIncome;
+					else if (strcmp(splitCommand[2],"bi") == 0) tf = boatIncome;
+				}
+				else if (strcmp(splitCommand[1], "pos") == 0)
+				{
+					if (strcmp(splitCommand[2], "i") == 0)
+					{
+						originX = +200 -industry.industry_x;
+						originY = +200 -industry.industry_y;
+					}
+					else if (strcmp(splitCommand[2], "b") == 0)
+					{
+						originX = +200-boat.boat_x;
+						originY = +200 -boat.boat_y;
+					}
+					else if (strcmp(splitCommand[2], "z") == 0)
+					{
+						originX = +200-well.access(1);
+						originY = +200 -well.access(2);
+					}
+					else
+					{
+						originX = atoi(splitCommand[2]);
+						originY = atoi(splitCommand[3]);
+					}
+				}
+				else if (strcmp(splitCommand[1], "money") == 0)
+				{
+					if (strcmp(splitCommand[2], "=")) player.setmoney(atol(splitCommand[3]));
+					else if (strcmp(splitCommand[2], "+")) player.setmoney(player.getmoney() + atol(splitCommand[3]));
+					else if (strcmp(splitCommand[2], "-")) player.setmoney(player.getmoney() - atol(splitCommand[3]));
+				}
+				else if (strcmp(splitCommand[1], "water")== 0)
+				{
+					if (strcmp(splitCommand[2], "=")) player.setwater(atol(splitCommand[3]));
+					else if (strcmp(splitCommand[2], "+")) player.setwater(player.getwater() + atol(splitCommand[3]));
+					else if (strcmp(splitCommand[2], "-")) player.setwater(player.getwater() - atol(splitCommand[3]));
+				}
+				else if (strcmp(splitCommand[1], "produce")== 0)
+				{
+					if (strcmp(splitCommand[2], "=")) player.setproduce(atol(splitCommand[3]));
+					else if (strcmp(splitCommand[2], "+")) player.setproduce(player.getproduce() + atol(splitCommand[3]));
+					else if (strcmp(splitCommand[2], "-")) player.setwater(player.getproduce() - atol(splitCommand[3]));
+				}
+				else if (strcmp(splitCommand[1], "wood")== 0)
+				{
+					if (strcmp(splitCommand[2], "=")) player.setwood(atol(splitCommand[3]));
+					else if (strcmp(splitCommand[2], "+")) player.setwood(player.getwood() + atol(splitCommand[3]));
+					else if (strcmp(splitCommand[2], "-")) player.setwood(player.getwood() - atol(splitCommand[3]));
+				}
+				else if (strcmp(splitCommand[1], "well") == 0) player.wellEnabled = atoi(splitCommand[2]);
+			}
+			else if (strcmp(splitCommand[0], "award") == 0)
+			{
+				player.setmoney(player.getmoney() + atol(splitCommand[1]));
+				player.setwood(player.getwood() + atol(splitCommand[2]));
+				player.setproduce(player.getproduce() + atol(splitCommand[3]));
+				player.setwater(player.getwater() + atol(splitCommand[4]));
+			}
+			else if (strcmp(splitCommand[0], "end") == 0)
+				nflag = 0;
+		}
+
+		if (nflag)
+		{
+			completionFlag = 0;
+			nextGoal();
+		}
+	}
 }
 
 #endif
