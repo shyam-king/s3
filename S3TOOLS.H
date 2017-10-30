@@ -113,34 +113,26 @@ void displayAbout()
 	settextstyle(7,HORIZ_DIR,1);
 	setcolor(MAGENTA);
 
-
-	for(int i = 0; i < 3; i++)	
-	{
-		setcolor(MAGENTA);
-		cleardevice();
-		rectangle(5,5,635,475);
-		rectangle(10,10,630,470);
-		outtextxy(x,y   ,"Alas!!! Myth has finally turned into legend. The long");
-		outtextxy(x,y+30," lost radical city has been found. Thanks to the");
-		outtextxy(x,y+60,"hard work of an archaeologist humans can now ");
-		outtextxy(x,y+90,"really begin to understand that the ancient");
-		outtextxy(x,y+120,"civilisations were far more advanced than us. But....");
-		outtextxy(x,y+150,"Plato’s vision is now in ruins thanks to time and");
-		outtextxy(x,y+180,"nature. The archaeologist has outdone himself but ");
-		outtextxy(x,y+210,"society had other plans for him. The Legendary");
-		outtextxy(x,y+240,"ATLANTIS, the land of the most advanced");
-		outtextxy(x,y+270,"civilisation to have ever lived on Earth is now in the  ");
-		outtextxy(x,y+300,"hands of an archaeologist to develop and protect.");
-		outtextxy(x,y+330,"Can he protect the city from further disasters? Is");
-		outtextxy(x,y+360,"he really capable of that much stress and planning.");
-		outtextxy(x,y+390,"Can he really manage time and win over nature?");
-		setcolor(BLACK);
-		rectangle(5+i,5,635,475);
-		int blackout [] = { 5+i, 5 , 635 , 5 , 635 , 475 , 5+i , 475 } ;
-		fillpoly ( 4 , blackout ) ;
-	}	
+	int i = 0;
+	setcolor(MAGENTA);
+	cleardevice();
+	rectangle(5,5,635,475);
+	rectangle(10,10,630,470);
+	outtextxy(x,y   ,"Alas!!! Myth has finally turned into legend. The long");
+	outtextxy(x,y+30," lost radical city has been found. Thanks to the");
+	outtextxy(x,y+60,"hard work of an archaeologist humans can now ");
+	outtextxy(x,y+90,"really begin to understand that the ancient");
+	outtextxy(x,y+120,"civilisations were far more advanced than us. But....");
+	outtextxy(x,y+150,"Plato’s vision is now in ruins thanks to time and");
+	outtextxy(x,y+180,"nature. The archaeologist has outdone himself but ");
+	outtextxy(x,y+210,"society had other plans for him. The Legendary");
+	outtextxy(x,y+240,"ATLANTIS, the land of the most advanced");
+	outtextxy(x,y+270,"civilisation to have ever lived on Earth is now in the  ");
+	outtextxy(x,y+300,"hands of an archaeologist to develop and protect.");
+	outtextxy(x,y+330,"Can he protect the city from further disasters? Is");
+	outtextxy(x,y+360,"he really capable of that much stress and planning.");
+	outtextxy(x,y+390,"Can he really manage time and win over nature?");
 	getch();
-
 
 	cleardevice();
 	rectangle(5,5,635,475);
@@ -395,7 +387,7 @@ void strSplit(char *src, char dest[][20], char symbol)
 		else
 			dest[i][j++] = *src;
 	}
-			dest[i][j] = 0; // closing the last string
+	dest[i][j] = 0; // closing the last string
 }
 
 #endif
