@@ -3803,6 +3803,7 @@ void Puzzle::puzzleInteract(char k)
 	if (panimate) fillpoly(4,screen), panimate = 0;
 	rectangle(pad, pad, getmaxx() - pad, getmaxy());
 
+
 	//DISPLAYING THE LIST OF NAMES IN THE LEFT
 	settextstyle(7, HORIZ_DIR, 2);
 
