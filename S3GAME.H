@@ -67,7 +67,6 @@ int menudisplay = 0;
 // map_details
 int nhouses = 8;
 int ntrees = 15;
-int treeCutCount = 0;
 int houseBuiltCount;
 
 //misc flags
@@ -272,11 +271,13 @@ class PLAYER : public Puzzle
 	int nhouses;
 	int walls;
 	int ecoMeter;
+	int treeCutCount;
 	public:
 	int wellEnabled;
 	PLAYER ()
 	{
 		puzzleStatus = 0;
+		treeCutCount = 0;
 		wellEnabled = 0;
 		ecoMeter = 100;
 		maxXp=100;
@@ -295,6 +296,12 @@ class PLAYER : public Puzzle
 	{
 		return playerLevel;
 	}
+
+	int& getTreeCutCount()
+	{
+		return treeCutCount;
+	}
+
 	void setPuzzleStatus(int x)
 	{
 		puzzleStatus = x;
@@ -1375,9 +1382,8 @@ void Tree::interact( int n)
 				t[i].cutdown = 1;
 				player.setwood(player.getwood() + 100);
 				player.setcurrXp(1);
-				if (player.getecoMeter() > 0) player.setecoMeter(player.getecoMeter() - 5) ;
 				animate = 1;
-				treeCutCount ++;
+				player.getTreeCutCount() ++;
 
 				if (random(2) && player.getPuzzleStatus() < 4)
 				{
@@ -1406,8 +1412,7 @@ void Tree::interact( int n)
 					player.setcurrXp(2);
 					animate = 1;
 					player.setwater(player.getwater() - 5);
-					player.setecoMeter(player.getecoMeter() + 5);
-					treeCutCount --;
+					player.getTreeCutCount() --;
 				}
 				else if (player.getwater() < 5)
 				{
@@ -1804,7 +1809,7 @@ void gameNew()
 			goals_display();
 			animate = 0;
 		}
-		tsval = goal.currentGoalIndex(); 
+		tsval = player.getWalls();
 		tsprint();
 
 		if (EDITMODE == SCRAMBLE_MODE)
@@ -1935,7 +1940,22 @@ void gameNew()
 		}
 
 		goal.goalcheck();
+
+		//updating the ecoMeter
+		player.setecoMeter((ntrees - player.getTreeCutCount())*100.0f / ntrees);
+
 		if (player.getecoMeter() > 100 ) player.setecoMeter(100);
+
+		//displaying a warning message when ecometer is <= 25%
+		static int ecoDangerFlag = 1;
+		if (player.getecoMeter() > 25)
+			ecoDangerFlag = 1;
+
+		if (player.getecoMeter() <= 25 && ecoDangerFlag)
+		{
+			setMiniBox("Don\'t cut many trees. The ecosystem is in danger", WHITE, RED, WHITE);
+			ecoDangerFlag = 0;
+		}
 
 		//a blackout animation to show the ecoMeter has reached an abnormal value
 		//commented out because it did not give the desired output
@@ -2004,9 +2024,6 @@ void gameNew()
 		mmx = mx;
 		mmy = my;
 		mmc = mc;
-
-
-
 		delay(50);
 	}
 }
@@ -3248,13 +3265,13 @@ void messagebox(char message[][80] , int color, int n, int image_index)
 			drawDropIcon(getmaxx()/2 - 40/2, y + i * (textheight(message[i-1])+ 10), 2,2);
 			break;
 		case 11:
-			drawScrambleIcon(getmaxx()/2 - 40/2, y + i * (textheight(message[i-1] + 10)), 1,1);
+			drawScrambleIcon(getmaxx()/2 - 40/2, y + i * (textheight(message[i-1]) + 10), 1,1);
 			break;
 		case 12:
-			drawMoveIcon(getmaxx()/2 - 40/2, y + i * (textheight(message[i-1] + 10)), 2,2);
+			drawMoveIcon(getmaxx()/2 - 40/2, y + i * (textheight(message[i-1]) + 10), 2,2);
 			break;
 		case 13:
-			drawAddIcon(getmaxx()/2 - 40/2, y + i * (textheight(message[i-1] + 10)), 2,2);
+			drawAddIcon(getmaxx()/2 - 40/2, y + i * (textheight(message[i-1]) + 10), 2,2);
 			break;
 	};
 
@@ -4350,7 +4367,7 @@ void disHighScores()
 {
 	struct details { // stucture to store the deatils of all the players
 		char name[80];
-		long score;
+		float score;
 		int icon[10][10]; //100 bytes!? hope it works properly 
 	};
 
@@ -4422,7 +4439,7 @@ void disHighScores()
 				fillpoly(4, poly);
 			}
 
-		sprintf(m, "%s : %d", d[j].name, d[j].score);
+		sprintf(m, "%s : %0.0f", d[j].name, d[j].score);
 		setcolor(YELLOW);
 		settextstyle(7, HORIZ_DIR, 3);
 		outtextxy(x + 70, y + 2, m);

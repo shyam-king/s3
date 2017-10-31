@@ -153,18 +153,25 @@ void Goal::goalcheck()
 		if (strcmp(splitObjective[1], "inc?") == 0)
 		{
 			if (strcmp(splitObjective[2], "ch") == 0 && houseBuiltCount - tf >= atoi(splitObjective[3])) completionFlag = 1;
-			else if (strcmp(splitObjective[2], "ct") == 0 && treeCutCount - tf >= atoi(splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "ct") == 0 && player.getTreeCutCount() - tf >= atoi(splitObjective[3])) completionFlag = 1;
 			else if (strcmp(splitObjective[2], "ii") == 0 && industry.industryIncome - tf >= atoi(splitObjective[3])) completionFlag = 1;
 			else if (strcmp(splitObjective[2], "bi") == 0 && boatIncome - tf >= atoi(splitObjective[3])) completionFlag = 1;
 		}
 		else if (strcmp(splitObjective[1], "dec?") == 0)
 		{
 			if (strcmp(splitObjective[2], "ch") == 0 &&  tf - houseBuiltCount >= atoi(splitObjective[3])) completionFlag = 1;
-			else if (strcmp(splitObjective[2], "ct") == 0 &&  tf - treeCutCount >= atoi(splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "ct") == 0 &&  tf - player.getTreeCutCount() >= atoi(splitObjective[3])) completionFlag = 1;
 			else if (strcmp(splitObjective[2], "ii") == 0 &&  tf - industry.industryIncome >= atoi(splitObjective[3])) completionFlag = 1;
 			else if (strcmp(splitObjective[2], "ii") == 0 &&  tf - boatIncome >= atoi(splitObjective[3])) completionFlag = 1;
 		}
-		else if (strcmp(splitObjective[1], "wall") == 0 && player.getWalls() == atoi(splitCommand[2])) completionFlag = 1;
+		else if (strcmp(splitObjective[1], "wall") == 0 )
+		{
+			if (strcmp(splitObjective[2], "<") == 0 && player.getWalls() < atoi(splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], ">") == 0 && player.getWalls() > atoi (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "=") == 0 && player.getWalls() == atoi (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], ">=") == 0 && player.getWalls() >= atoi (splitObjective[3])) completionFlag = 1;
+			else if (strcmp(splitObjective[2], "<=") == 0 && player.getWalls() <= atoi (splitObjective[3])) completionFlag = 1;
+		}
 		else if (strcmp(splitObjective[1], "money") == 0 ) 
 		{
 			if (strcmp(splitObjective[2], "<") == 0 && player.getmoney() < atol (splitObjective[3])) completionFlag = 1;
@@ -222,7 +229,7 @@ void Goal::goalcheck()
 				if (strcmp(splitCommand[1], "tf") == 0)
 				{
 					if (strcmp(splitCommand[2],"ch") == 0) tf = houseBuiltCount;
-					else if (strcmp(splitCommand[2],"ct") == 0) tf = treeCutCount;
+					else if (strcmp(splitCommand[2],"ct") == 0) tf = player.getTreeCutCount();
 					else if (strcmp(splitCommand[2],"ii") == 0) tf = industry.industryIncome;
 					else if (strcmp(splitCommand[2],"bi") == 0) tf = boatIncome;
 				}
@@ -283,7 +290,9 @@ void Goal::goalcheck()
 				player.setwater(player.getwater() + atol(splitCommand[4]));
 			}
 			else if (strcmp(splitCommand[0], "end") == 0)
+			{
 				nflag = 0;
+			}
 		}
 
 		if (nflag)
