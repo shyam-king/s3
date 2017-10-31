@@ -38,7 +38,7 @@ class Goal
 {
 	Goaldata currgoal;
 	int currgoalindex;
-	int tf = 0;
+	int tf ;
 	int goalbeftut;
 	char splitObjective[5][20];
 	char splitCommand[5][20];
@@ -48,6 +48,7 @@ class Goal
 	Goal()
 	{
 		goalbeftut = -1;
+		tf = 0;
 	}
 
 	void goalcheck();

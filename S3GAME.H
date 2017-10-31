@@ -120,7 +120,7 @@ class Road{      // will be used for the buildRoad function
 
 		borderFill = bf;
 
-		stripeBorderFill - sbf;
+		stripeBorderFill = sbf;
 	}
 
 	void draw(int origx, int origy, int i, int stripeFlag = 1);
