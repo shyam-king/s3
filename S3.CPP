@@ -164,4 +164,5 @@ while (!kbhit())
 		 }
 		 j++;
 		}
+		getch(); // may stop the pressed key from proceeding to the menu...
 }
