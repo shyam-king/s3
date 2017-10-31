@@ -662,7 +662,7 @@ char Puzzle::pop ()
 
 //drawing functions
 void drawTerrain();
-int displayExit(int);
+int displayExit();
 void drawDetails(); // user details
 void plotter(int,int,int, int, int, int, int, int, int, int ,int , int); // the plot (empty) which is also used as roof
 int scrollAnimation(int, int); // the scroll
@@ -1900,7 +1900,7 @@ void gameNew()
 					animate = 1;
 				}
 			}
-			else if (mx >= 218 && mx <= 258  && my >= getmaxy()-43 && my <= getmaxy() && mc == 1 && mmc != 1 && EDITMODE == VIEW_MODE && (player.limit != 4 || player.sflag) && player.getPuzzleStatus() < 4)
+			else if (mx >= 218 && mx <= 258  && my >= getmaxy()-43 && my <= getmaxy() && mc == 1 && mmc != 1 && EDITMODE == VIEW_MODE &&  player.sflag && player.getPuzzleStatus() < 4)
 			{
 				EDITMODE = SCRAMBLE_MODE;
 				interact = 0;
@@ -3527,10 +3527,9 @@ int displayMenu()
 
 					else
 					{
-						logo = displayExit(1);
+						logo = displayExit();
 						if (!logo) 
 						{
-							exitAnimation();
 							cleardevice();
 							closegraph();
 							exit(0);
@@ -4432,8 +4431,17 @@ void disHighScores()
 	delete[] d;
 }
 
-void exitAnimation()
+//Exit sequence
+int displayExit()
 {
+	cleardevice();
+	int x = 175;
+	int y = 200;
+	int choice = 1; // 0 - YES || 1-NO
+	char k = NOKEY;
+	int usingMouse = 0, mmx = 0, mmy = 0, mmc = 1,mx, mc, my;
+
+	//appearing animation
 	cleardevice();
 	setlinestyle ( SOLID_LINE , 1 , 3 ) ;
 	for ( int i = 0 , j = 0 ; i < 5*25 ; i++ , j += 30 )
@@ -4464,50 +4472,10 @@ void exitAnimation()
 		setcolor (10) ;
 		if ( i <= 2*25 )
 			arc ( 240 , 450 , 0+j , 30+j , i ) ;
-		setcolor ( YELLOW ) ;
-		settextstyle ( 7 , HORIZ_DIR , 2 ) ;
-		outtextxy ( 100 , 300 , "THANK YOU FOR PLAYING..." ) ;
 		delay (25) ;
 	}
-	for ( i = 0 , j = 0 ; i < 5*25 ; i++ , j += 30 )
-	{
-		setcolor ( YELLOW ) ;
-		settextstyle ( 7 , HORIZ_DIR , 2 ) ;
-		outtextxy ( 100 , 300 , "THANK YOU FOR PLAYING..." ) ;
-		setcolor(BLACK);
-		if ( i <= 3*25 )
-			arc ( 420 , 60 , 0+j , 30+j , i ) ;
-		if ( i <= 2*25 )
-			arc ( 260 , 90 , 0+j , 30+j , i ) ;
-		if ( i <= 4*25 )
-			arc ( 600 , 135 , 0+j , 30+j , i ) ;
-		if ( i <= 3*25 )
-			arc ( 100 , 150 , 0+j , 30+j , i ) ;
-		if ( i <= 2*25 )
-			arc ( 540 , 300 , 0+j , 30+j , i ) ;
-		if ( i <= 3*25 )
-			arc ( 60 , 330 , 0+j , 30+j , i ) ;
-		arc ( 300 , 280 , 0+j , 30+j , i ) ;
-		if ( i <= 3*25 )
-			arc ( 450 , 425 , 0+j , 30+j , i ) ;
-		if ( i <= 2*25 )
-			arc ( 240 , 450 , 0+j , 30+j , i ) ;
-		delay (25) ;
-	}
-}
+	int flag = 0;
 
-//Exit sequence
-int displayExit(int t)
-{
-	cleardevice();
-	int x = 175;
-	int y = 200;
-	int choice = 1; // 0 - YES || 1-NO
-	char k = NOKEY;
-	int usingMouse = 0, mmx = 0, mmy = 0, mmc = 1,mx, mc, my;
-
-	int h = scrollAnimation(0,0);
-	scrollAnimation(1,h);
 	while(1)
 	{
 		mousestatus();
@@ -4518,15 +4486,11 @@ int displayExit(int t)
 		if (mmx == mx && mmy == my) usingMouse = 0;
 		else usingMouse = 1;
 
-		//cleardevice();
 		if (kbhit()) k = getch();
 		else k = NOKEY;
 		setcolor(YELLOW);
 		settextstyle(3,HORIZ_DIR,3);
-		if (t)
-			outtextcenter(y,"Do you want to exit?");
-		else
-			outtextcenter(y,"Are you sure about this?");
+		outtextcenter(y,"Do you want to exit?");
 
 		settextstyle(1,HORIZ_DIR,3);
 		if (choice == 0)
@@ -4547,14 +4511,13 @@ int displayExit(int t)
 		{
 			if (choice == 1)
 			{
-				return 1;
+				flag = 1;
+				break;
 			}
 			else
 			{
-				if (t)
-					return displayExit(t-1);
-				else
-					return 0;
+				flag = 0;
+				break;
 			}
 		}
 
@@ -4581,6 +4544,31 @@ int displayExit(int t)
 
 	}
 
+	//reverse animation
+	for ( i = 0 , j = 0 ; i < 5*25 ; i++ , j += 30 )
+	{
+		setcolor(BLACK);
+		if ( i <= 3*25 )
+			arc ( 420 , 60 , 0+j , 30+j , i ) ;
+		if ( i <= 2*25 )
+			arc ( 260 , 90 , 0+j , 30+j , i ) ;
+		if ( i <= 4*25 )
+			arc ( 600 , 135 , 0+j , 30+j , i ) ;
+		if ( i <= 3*25 )
+			arc ( 100 , 150 , 0+j , 30+j , i ) ;
+		if ( i <= 2*25 )
+			arc ( 540 , 300 , 0+j , 30+j , i ) ;
+		if ( i <= 3*25 )
+			arc ( 60 , 330 , 0+j , 30+j , i ) ;
+		arc ( 300 , 280 , 0+j , 30+j , i ) ;
+		if ( i <= 3*25 )
+			arc ( 450 , 425 , 0+j , 30+j , i ) ;
+		if ( i <= 2*25 )
+			arc ( 240 , 450 , 0+j , 30+j , i ) ;
+		delay (25) ;
+	}
+
+	return flag;
 }
 
 #endif
